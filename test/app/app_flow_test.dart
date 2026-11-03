@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tiyn_app/app/app.dart';
-import 'package:tiyn_app/app/router/router.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/auth/data/user.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
+
+import '../helpers/pump_app.dart';
 
 class _Auth extends AuthController {
   _Auth(this._user);
@@ -46,20 +45,14 @@ Future<String> _pump(
   required User? user,
   required List<FamilyMember> family,
 }) async {
-  await tester.pumpWidget(
-    ProviderScope(
-      retry: (_, _) => null,
-      overrides: [
-        authControllerProvider.overrideWith(() => _Auth(user)),
-        familyControllerProvider.overrideWith(() => _Family(family)),
-      ],
-      child: const TiynApp(),
-    ),
+  await pumpApp(
+    tester,
+    overrides: [
+      authControllerProvider.overrideWith(() => _Auth(user)),
+      familyControllerProvider.overrideWith(() => _Family(family)),
+    ],
   );
-  await tester.pumpAndSettle();
-  final router = ProviderScope.containerOf(tester.element(find.byType(TiynApp)))
-      .read(routerProvider);
-  return router.state.matchedLocation;
+  return routerOf(tester).state.matchedLocation;
 }
 
 void main() {
@@ -106,4 +99,21 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Coming soon'), findsOneWidget);
   });
+
+  for (final (locale, text) in const [
+    ('ru', 'Продолжить через Google'),
+    ('kk', 'Google арқылы жалғастыру'),
+  ]) {
+    testWidgets('sign-in is shown in $locale', (tester) async {
+      await pumpApp(
+        tester,
+        overrides: [
+          authControllerProvider.overrideWith(() => _Auth(null)),
+          familyControllerProvider.overrideWith(() => _Family(const [])),
+        ],
+        locale: Locale(locale),
+      );
+      expect(find.text(text), findsOneWidget);
+    });
+  }
 }

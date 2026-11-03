@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
+import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class JoinTeenScreen extends ConsumerStatefulWidget {
   const JoinTeenScreen({super.key});
@@ -26,9 +28,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
   Future<void> _join() async {
     final code = _code.text.trim();
     if (code.length < _codeLength) {
-      setState(
-        () => _error = 'That code is too short. It has 6 letters or numbers.',
-      );
+      setState(() => _error = AppLocalizations.of(context).joinCodeTooShort);
       return;
     }
     setState(() {
@@ -38,12 +38,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
     try {
       await ref.read(familyControllerProvider.notifier).join(code);
     } on ApiException catch (e) {
-      _error = switch (e.code) {
-        'invalid_join_code' =>
-          'We could not find that code. Check it and try again.',
-        'network_error' => 'No connection. Check your network.',
-        _ => 'Could not connect (${e.code}).',
-      };
+      if (mounted) _error = apiErrorMessage(AppLocalizations.of(context), e);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -52,6 +47,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -60,14 +56,14 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                "Enter your parent's code",
+                l10n.joinTitle,
                 style: text.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Ask your mom or dad for the 6-letter code from their Tiyn app.',
+                l10n.joinSubtitle,
                 style: text.bodyMedium?.copyWith(
                   color: Palette.muted,
                   height: 1.5,
@@ -75,7 +71,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
               ),
               const SizedBox(height: 32),
               Text(
-                'Code',
+                l10n.joinCodeLabel,
                 style: text.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 8),
@@ -133,7 +129,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
                           color: Colors.white,
                         ),
                       )
-                    : const Text('Connect'),
+                    : Text(l10n.joinConnect),
               ),
               const SizedBox(height: 24),
               Container(
@@ -146,7 +142,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
-                  'You can connect to more than one parent. Each of them can give you tasks.',
+                  l10n.joinMultiParentInfo,
                   style: text.bodyMedium?.copyWith(
                     color: Palette.infoText,
                     height: 1.5,

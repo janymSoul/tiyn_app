@@ -6,6 +6,7 @@ import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/app_card.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
+import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class ParentCodeScreen extends ConsumerWidget {
   const ParentCodeScreen({
@@ -20,6 +21,7 @@ class ParentCodeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final text = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     final family = ref.watch(familyControllerProvider);
     return Scaffold(
       body: SafeArea(
@@ -31,14 +33,14 @@ class ParentCodeScreen extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(24, 48, 24, 32),
             children: [
               Text(
-                'Connect your teen',
+                l10n.parentCodeTitle,
                 style: text.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                'Ask your teen to open Tiyn, choose Teen, and type this code. Then you can give them tasks.',
+                l10n.parentCodeSubtitle,
                 style: text.bodyMedium?.copyWith(
                   color: Palette.muted,
                   height: 1.5,
@@ -57,7 +59,7 @@ class ParentCodeScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     Text(
-                      'Your code',
+                      l10n.parentCodeYourCode,
                       style: text.bodyMedium?.copyWith(color: Palette.muted),
                     ),
                     const SizedBox(height: 6),
@@ -70,7 +72,7 @@ class ParentCodeScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'It never changes. Share it only with your family.',
+                      l10n.parentCodeNeverChanges,
                       textAlign: TextAlign.center,
                       style: text.bodySmall?.copyWith(color: Palette.muted),
                     ),
@@ -84,10 +86,10 @@ class ParentCodeScreen extends ConsumerWidget {
                     child: FilledButton(
                       onPressed: () => SharePlus.instance.share(
                         ShareParams(
-                          text: 'Join me on Tiyn. My family code is $joinCode',
+                          text: l10n.parentCodeShareMessage(joinCode),
                         ),
                       ),
-                      child: const Text('Send code'),
+                      child: Text(l10n.parentCodeSend),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -97,18 +99,18 @@ class ParentCodeScreen extends ConsumerWidget {
                         await Clipboard.setData(ClipboardData(text: joinCode));
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Code copied')),
+                            SnackBar(content: Text(l10n.parentCodeCopied)),
                           );
                         }
                       },
-                      child: const Text('Copy'),
+                      child: Text(l10n.parentCodeCopy),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 32),
               Text(
-                'Linked teens',
+                l10n.parentLinkedTeens,
                 style: text.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
@@ -120,8 +122,8 @@ class ParentCodeScreen extends ConsumerWidget {
                 error: (e, _) => AppCard(
                   child: Text(
                     e is ApiException
-                        ? 'Could not load your teens (${e.code}). Pull down to retry.'
-                        : 'Could not load your teens. Pull down to retry.',
+                        ? l10n.parentTeensLoadFailedCode(e.code)
+                        : l10n.parentTeensLoadFailed,
                     style: text.bodyMedium?.copyWith(
                       color: Palette.warn,
                       height: 1.5,
@@ -146,7 +148,7 @@ class ParentCodeScreen extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: Text(
-                                'Nobody yet. Pull down to refresh once your teen enters the code.',
+                                l10n.parentNoTeensYet,
                                 style: text.bodyMedium?.copyWith(
                                   color: Palette.muted,
                                   height: 1.5,
@@ -191,7 +193,7 @@ class ParentCodeScreen extends ConsumerWidget {
                       ),
               ),
               const SizedBox(height: 24),
-              TextButton(onPressed: onSignOut, child: const Text('Sign out')),
+              TextButton(onPressed: onSignOut, child: Text(l10n.actionSignOut)),
             ],
           ),
         ),

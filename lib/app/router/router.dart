@@ -13,6 +13,7 @@ import 'package:tiyn_app/features/family/presentation/parent_code_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_shell.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_home_placeholder.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_shell.dart';
+import 'package:tiyn_app/l10n/app_localizations.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier<int>(0);
@@ -20,8 +21,8 @@ final routerProvider = Provider<GoRouter>((ref) {
   ref.listen(familyControllerProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
 
-  GoRoute tab(String path, Widget Function() build) =>
-      GoRoute(path: path, builder: (_, _) => build());
+  GoRoute tab(String path, Widget Function(BuildContext) build) =>
+      GoRoute(path: path, builder: (context, _) => build(context));
 
   return GoRouter(
     refreshListenable: refresh,
@@ -63,7 +64,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               tab(
                 Routes.teenHome,
-                () => Consumer(
+                (_) => Consumer(
                   builder: (context, ref, _) {
                     final user = ref.watch(authControllerProvider).value;
                     final parents =
@@ -83,20 +84,29 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               tab(
                 Routes.teenProgress,
-                () => const PlaceholderTab(title: 'Progress'),
+                (context) => PlaceholderTab(
+                  title: AppLocalizations.of(context).navProgress,
+                ),
               ),
             ],
           ),
           StatefulShellBranch(
             routes: [
-              tab(Routes.teenGoals, () => const PlaceholderTab(title: 'Goals')),
+              tab(
+                Routes.teenGoals,
+                (context) => PlaceholderTab(
+                  title: AppLocalizations.of(context).navGoals,
+                ),
+              ),
             ],
           ),
           StatefulShellBranch(
             routes: [
               tab(
                 Routes.teenActivity,
-                () => const PlaceholderTab(title: 'Activity'),
+                (context) => PlaceholderTab(
+                  title: AppLocalizations.of(context).navActivity,
+                ),
               ),
             ],
           ),
@@ -109,7 +119,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               tab(
                 Routes.parentHome,
-                () => Consumer(
+                (_) => Consumer(
                   builder: (context, ref, _) {
                     final user = ref.watch(authControllerProvider).value;
                     return ParentCodeScreen(
@@ -126,7 +136,9 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               tab(
                 Routes.parentReview,
-                () => const PlaceholderTab(title: 'To check'),
+                (context) => PlaceholderTab(
+                  title: AppLocalizations.of(context).navToCheck,
+                ),
               ),
             ],
           ),
@@ -134,7 +146,9 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               tab(
                 Routes.parentActivity,
-                () => const PlaceholderTab(title: 'Activity'),
+                (context) => PlaceholderTab(
+                  title: AppLocalizations.of(context).navActivity,
+                ),
               ),
             ],
           ),

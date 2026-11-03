@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/coin_badge.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
+import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
@@ -21,7 +23,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
   Widget build(BuildContext context) {
     final auth = ref.watch(authControllerProvider);
     final busy = auth.isLoading;
-    final error = auth.hasError ? _message(auth.error!) : null;
+    final l10n = AppLocalizations.of(context);
+    final error = auth.hasError ? _message(l10n, auth.error!) : null;
     final text = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -52,7 +55,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'Earn it. Save it. Get paid for chores and good grades.',
+                        l10n.signInTagline,
                         textAlign: TextAlign.center,
                         style: text.bodyLarge?.copyWith(
                           color: Palette.onNavyMuted,
@@ -79,7 +82,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'I am a',
+                    l10n.signInRoleQuestion,
                     style: text.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -89,8 +92,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     children: [
                       Expanded(
                         child: _RoleCard(
-                          title: 'Teen',
-                          subtitle: 'I do chores and earn',
+                          title: l10n.roleTeen,
+                          subtitle: l10n.roleTeenSubtitle,
                           selected: _role == Role.teen,
                           onTap: busy
                               ? null
@@ -100,8 +103,8 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: _RoleCard(
-                          title: 'Parent',
-                          subtitle: 'I set tasks and approve',
+                          title: l10n.roleParent,
+                          subtitle: l10n.roleParentSubtitle,
                           selected: _role == Role.parent,
                           onTap: busy
                               ? null
@@ -125,18 +128,18 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               color: Colors.white,
                             ),
                           )
-                        : const Row(
+                        : Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _GoogleG(),
-                              SizedBox(width: 10),
-                              Text('Continue with Google'),
+                              const _GoogleG(),
+                              const SizedBox(width: 10),
+                              Text(l10n.signInContinueWithGoogle),
                             ],
                           ),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    error ?? "Your role is saved on first sign-in and can't be changed later.",
+                    error ?? l10n.signInRoleNote,
                     textAlign: TextAlign.center,
                     style: text.bodySmall?.copyWith(
                       color: error == null ? Palette.muted : Palette.warn,
@@ -155,21 +158,14 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     );
   }
 
-  String _message(Object error) {
-    if (error is ApiException) {
-      return switch (error.code) {
-        'invalid_identity' => 'Google sign-in was rejected. Try again.',
-        'identity_provider_unavailable' =>
-          'Google is unavailable right now. Try again later.',
-        'network_error' => 'No connection. Check your network.',
-        _ => 'Sign-in failed (${error.code}).',
-      };
+  String _message(AppLocalizations l10n, Object error) {
+    if (error is GoogleSignInException) {
+      return error.code == GoogleSignInExceptionCode.canceled
+          ? l10n.signInCancelled
+          : l10n.signInFailed;
     }
-    if (error is GoogleSignInException &&
-        error.code == GoogleSignInExceptionCode.canceled) {
-      return 'Sign-in was cancelled.';
-    }
-    return 'Sign-in failed. $error';
+    if (error is ApiException) return apiErrorMessage(l10n, error);
+    return l10n.signInFailed;
   }
 }
 

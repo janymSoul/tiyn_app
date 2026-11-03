@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class ParentShell extends StatelessWidget {
   const ParentShell({super.key, required this.navigationShell});
@@ -8,6 +9,7 @@ class ParentShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
@@ -16,12 +18,18 @@ class ParentShell extends StatelessWidget {
           index,
           initialLocation: index == navigationShell.currentIndex,
         ),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.task_alt), label: 'To check'),
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.receipt_long_outlined),
-            label: 'Activity',
+            icon: const Icon(Icons.home_outlined),
+            label: l10n.navHome,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.task_alt),
+            label: l10n.navToCheck,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.receipt_long_outlined),
+            label: l10n.navActivity,
           ),
         ],
       ),

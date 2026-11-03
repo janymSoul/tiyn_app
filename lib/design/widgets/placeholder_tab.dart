@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiyn_app/design/tokens.dart';
+import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class PlaceholderTab extends StatelessWidget {
   const PlaceholderTab({super.key, required this.title});
@@ -25,7 +26,7 @@ class PlaceholderTab extends StatelessWidget {
               const Spacer(),
               Center(
                 child: Text(
-                  'Coming soon',
+                  AppLocalizations.of(context).comingSoon,
                   style: text.bodyLarge?.copyWith(color: Palette.muted),
                 ),
               ),

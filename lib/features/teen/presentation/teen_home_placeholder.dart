@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/coin_badge.dart';
+import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class TeenHomePlaceholder extends StatelessWidget {
   const TeenHomePlaceholder({
@@ -17,6 +18,7 @@ class TeenHomePlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -26,7 +28,7 @@ class TeenHomePlaceholder extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Hi, $displayName',
+                  l10n.teenGreeting(displayName),
                   style: text.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
@@ -34,11 +36,11 @@ class TeenHomePlaceholder extends StatelessWidget {
               const CoinBadge(size: 180, glyph: '0 ₸'),
               const SizedBox(height: 24),
               Text(
-                'Connected to ${parentNames.join(', ')}',
+                l10n.teenConnectedTo(parentNames.join(', ')),
                 style: text.bodyMedium?.copyWith(color: Palette.muted),
               ),
               const Spacer(),
-              TextButton(onPressed: onSignOut, child: const Text('Sign out')),
+              TextButton(onPressed: onSignOut, child: Text(l10n.actionSignOut)),
             ],
           ),
         ),

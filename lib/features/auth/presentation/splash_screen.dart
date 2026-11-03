@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/coin_badge.dart';
+import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key, this.hasError = false, this.onRetry});
@@ -11,6 +12,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Palette.navy,
       body: Center(
@@ -23,7 +25,7 @@ class SplashScreen extends StatelessWidget {
               const SizedBox(height: 32),
               if (hasError) ...[
                 Text(
-                  'Could not load. Check your connection and try again.',
+                  l10n.splashLoadFailed,
                   textAlign: TextAlign.center,
                   style: text.bodyLarge?.copyWith(
                     color: Palette.onNavyMuted,
@@ -37,7 +39,7 @@ class SplashScreen extends StatelessWidget {
                     backgroundColor: Palette.gold,
                     foregroundColor: Palette.navy,
                   ),
-                  child: const Text('Try again'),
+                  child: Text(l10n.actionTryAgain),
                 ),
               ] else
                 const CircularProgressIndicator(color: Palette.gold),

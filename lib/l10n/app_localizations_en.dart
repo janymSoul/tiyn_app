@@ -1,0 +1,184 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get appTitle => 'tiyn';
+
+  @override
+  String get actionSignOut => 'Sign out';
+
+  @override
+  String get actionTryAgain => 'Try again';
+
+  @override
+  String get comingSoon => 'Coming soon';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navProgress => 'Progress';
+
+  @override
+  String get navGoals => 'Goals';
+
+  @override
+  String get navActivity => 'Activity';
+
+  @override
+  String get navToCheck => 'To check';
+
+  @override
+  String get signInTagline =>
+      'Earn it. Save it. Get paid for chores and good grades.';
+
+  @override
+  String get signInRoleQuestion => 'I am a';
+
+  @override
+  String get roleTeen => 'Teen';
+
+  @override
+  String get roleTeenSubtitle => 'I do chores and earn';
+
+  @override
+  String get roleParent => 'Parent';
+
+  @override
+  String get roleParentSubtitle => 'I set tasks and approve';
+
+  @override
+  String get signInContinueWithGoogle => 'Continue with Google';
+
+  @override
+  String get signInRoleNote =>
+      'Your role is saved on first sign-in and can\'t be changed later.';
+
+  @override
+  String get signInCancelled => 'Sign-in was cancelled.';
+
+  @override
+  String get signInFailed => 'Sign-in failed. Try again.';
+
+  @override
+  String get errorNoConnection => 'No connection. Check your network.';
+
+  @override
+  String get errorTimeout => 'The server took too long to answer. Try again.';
+
+  @override
+  String get errorUnauthenticated => 'Your session has ended. Sign in again.';
+
+  @override
+  String get errorForbidden => 'You can\'t do that.';
+
+  @override
+  String get errorServer =>
+      'Something went wrong on our side. Try again later.';
+
+  @override
+  String get errorInvalidIdentity => 'Google sign-in was rejected. Try again.';
+
+  @override
+  String get errorIdentityUnavailable =>
+      'Google is unavailable right now. Try again later.';
+
+  @override
+  String get errorInvalidJoinCode =>
+      'We could not find that code. Check it and try again.';
+
+  @override
+  String get errorConflict => 'That conflicts with data that already exists.';
+
+  @override
+  String errorUnknown(String code) {
+    return 'Something went wrong ($code).';
+  }
+
+  @override
+  String get splashLoadFailed =>
+      'Could not load. Check your connection and try again.';
+
+  @override
+  String get joinTitle => 'Enter your parent\'s code';
+
+  @override
+  String get joinSubtitle =>
+      'Ask your mom or dad for the 6-letter code from their Tiyn app.';
+
+  @override
+  String get joinCodeLabel => 'Code';
+
+  @override
+  String get joinCodeTooShort =>
+      'That code is too short. It has 6 letters or numbers.';
+
+  @override
+  String get joinConnect => 'Connect';
+
+  @override
+  String get joinMultiParentInfo =>
+      'You can connect to more than one parent. Each of them can give you tasks.';
+
+  @override
+  String get parentCodeTitle => 'Connect your teen';
+
+  @override
+  String get parentCodeSubtitle =>
+      'Ask your teen to open Tiyn, choose Teen, and type this code. Then you can give them tasks.';
+
+  @override
+  String get parentCodeYourCode => 'Your code';
+
+  @override
+  String get parentCodeNeverChanges =>
+      'It never changes. Share it only with your family.';
+
+  @override
+  String get parentCodeSend => 'Send code';
+
+  @override
+  String get parentCodeCopy => 'Copy';
+
+  @override
+  String get parentCodeCopied => 'Code copied';
+
+  @override
+  String parentCodeShareMessage(String code) {
+    return 'Join me on Tiyn. My family code is $code';
+  }
+
+  @override
+  String get parentLinkedTeens => 'Linked teens';
+
+  @override
+  String get parentTeensLoadFailed =>
+      'Could not load your teens. Pull down to retry.';
+
+  @override
+  String parentTeensLoadFailedCode(String code) {
+    return 'Could not load your teens ($code). Pull down to retry.';
+  }
+
+  @override
+  String get parentNoTeensYet =>
+      'Nobody yet. Pull down to refresh once your teen enters the code.';
+
+  @override
+  String teenGreeting(String name) {
+    return 'Hi, $name';
+  }
+
+  @override
+  String teenConnectedTo(String names) {
+    return 'Connected to $names';
+  }
+}

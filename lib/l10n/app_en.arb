@@ -1,0 +1,88 @@
+{
+  "@@locale": "en",
+  "appTitle": "tiyn",
+  "actionSignOut": "Sign out",
+  "actionTryAgain": "Try again",
+  "comingSoon": "Coming soon",
+  "navHome": "Home",
+  "navProgress": "Progress",
+  "navGoals": "Goals",
+  "navActivity": "Activity",
+  "navToCheck": "To check",
+  "signInTagline": "Earn it. Save it. Get paid for chores and good grades.",
+  "signInRoleQuestion": "I am a",
+  "roleTeen": "Teen",
+  "roleTeenSubtitle": "I do chores and earn",
+  "roleParent": "Parent",
+  "roleParentSubtitle": "I set tasks and approve",
+  "signInContinueWithGoogle": "Continue with Google",
+  "signInRoleNote": "Your role is saved on first sign-in and can't be changed later.",
+  "signInCancelled": "Sign-in was cancelled.",
+  "signInFailed": "Sign-in failed. Try again.",
+  "errorNoConnection": "No connection. Check your network.",
+  "errorTimeout": "The server took too long to answer. Try again.",
+  "errorUnauthenticated": "Your session has ended. Sign in again.",
+  "errorForbidden": "You can't do that.",
+  "errorServer": "Something went wrong on our side. Try again later.",
+  "errorInvalidIdentity": "Google sign-in was rejected. Try again.",
+  "errorIdentityUnavailable": "Google is unavailable right now. Try again later.",
+  "errorInvalidJoinCode": "We could not find that code. Check it and try again.",
+  "errorConflict": "That conflicts with data that already exists.",
+  "errorUnknown": "Something went wrong ({code}).",
+  "@errorUnknown": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "splashLoadFailed": "Could not load. Check your connection and try again.",
+  "joinTitle": "Enter your parent's code",
+  "joinSubtitle": "Ask your mom or dad for the 6-letter code from their Tiyn app.",
+  "joinCodeLabel": "Code",
+  "joinCodeTooShort": "That code is too short. It has 6 letters or numbers.",
+  "joinConnect": "Connect",
+  "joinMultiParentInfo": "You can connect to more than one parent. Each of them can give you tasks.",
+  "parentCodeTitle": "Connect your teen",
+  "parentCodeSubtitle": "Ask your teen to open Tiyn, choose Teen, and type this code. Then you can give them tasks.",
+  "parentCodeYourCode": "Your code",
+  "parentCodeNeverChanges": "It never changes. Share it only with your family.",
+  "parentCodeSend": "Send code",
+  "parentCodeCopy": "Copy",
+  "parentCodeCopied": "Code copied",
+  "parentCodeShareMessage": "Join me on Tiyn. My family code is {code}",
+  "@parentCodeShareMessage": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "parentLinkedTeens": "Linked teens",
+  "parentTeensLoadFailed": "Could not load your teens. Pull down to retry.",
+  "parentTeensLoadFailedCode": "Could not load your teens ({code}). Pull down to retry.",
+  "@parentTeensLoadFailedCode": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "parentNoTeensYet": "Nobody yet. Pull down to refresh once your teen enters the code.",
+  "teenGreeting": "Hi, {name}",
+  "@teenGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "teenConnectedTo": "Connected to {names}",
+  "@teenConnectedTo": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  }
+}
