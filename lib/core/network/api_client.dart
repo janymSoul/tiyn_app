@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
 import 'package:tiyn_app/core/storage/token_storage.dart';
@@ -125,6 +126,8 @@ class ApiClient {
       return decode(data is String && data.isEmpty ? null : data);
     } on DioException catch (e) {
       throw ApiException.fromDio(e);
+    } on CheckedFromJsonException {
+      throw const ApiException(code: 'invalid_response');
     }
   }
 }

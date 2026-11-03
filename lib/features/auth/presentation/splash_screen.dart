@@ -22,7 +22,7 @@ class SplashScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CoinBadge(size: 132, glyph: '₸', ring: Palette.ringOnNavy),
-              const SizedBox(height: 32),
+              const SizedBox(height: Space.s32),
               if (hasError) ...[
                 Text(
                   l10n.splashLoadFailed,
@@ -32,7 +32,7 @@ class SplashScreen extends StatelessWidget {
                     height: 1.5,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: Space.s16),
                 FilledButton(
                   onPressed: onRetry,
                   style: FilledButton.styleFrom(

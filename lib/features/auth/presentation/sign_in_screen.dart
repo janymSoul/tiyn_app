@@ -5,6 +5,7 @@ import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/tokens.dart';
+import 'package:tiyn_app/design/widgets/busy_button.dart';
 import 'package:tiyn_app/design/widgets/coin_badge.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
@@ -35,7 +36,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             child: SafeArea(
               bottom: false,
               child: Center(
-                child: Padding(
+                child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -45,7 +46,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                         glyph: '₸',
                         ring: Palette.ringOnNavy,
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: Space.s28),
                       Text(
                         'tiyn',
                         style: text.displaySmall?.copyWith(
@@ -72,7 +73,9 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             width: double.infinity,
             decoration: const BoxDecoration(
               color: Palette.background,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(Radii.sheet),
+              ),
             ),
             padding: const EdgeInsets.fromLTRB(24, 28, 24, 16),
             child: SafeArea(
@@ -87,7 +90,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Space.s16),
                   Row(
                     children: [
                       Expanded(
@@ -100,7 +103,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                               : () => setState(() => _role = Role.teen),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: Space.s12),
                       Expanded(
                         child: _RoleCard(
                           title: l10n.roleParent,
@@ -113,31 +116,26 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  FilledButton(
-                    onPressed: busy
-                        ? null
-                        : () => ref
-                              .read(authControllerProvider.notifier)
-                              .signIn(_role),
-                    child: busy
-                        ? const SizedBox.square(
-                            dimension: 22,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const _GoogleG(),
-                              const SizedBox(width: 10),
-                              Text(l10n.signInContinueWithGoogle),
-                            ],
+                  const SizedBox(height: Space.s16),
+                  BusyButton(
+                    busy: busy,
+                    onPressed: () =>
+                        ref.read(authControllerProvider.notifier).signIn(_role),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const _GoogleG(),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Text(
+                            l10n.signInContinueWithGoogle,
+                            textAlign: TextAlign.center,
                           ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: Space.s16),
                   Text(
                     error ?? l10n.signInRoleNote,
                     textAlign: TextAlign.center,
@@ -190,13 +188,13 @@ class _RoleCard extends StatelessWidget {
       selected: selected,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(Radii.card),
         child: Container(
           constraints: const BoxConstraints(minHeight: 76),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(Radii.card),
             border: Border.all(
               color: selected ? Palette.navy : Palette.border,
               width: 2,

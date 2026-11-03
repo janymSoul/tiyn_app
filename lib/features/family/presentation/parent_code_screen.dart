@@ -38,7 +38,7 @@ class ParentCodeScreen extends ConsumerWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: Space.s8),
               Text(
                 l10n.parentCodeSubtitle,
                 style: text.bodyMedium?.copyWith(
@@ -46,15 +46,12 @@ class ParentCodeScreen extends ConsumerWidget {
                   height: 1.5,
                 ),
               ),
-              const SizedBox(height: 32),
-              Container(
+              const SizedBox(height: Space.s32),
+              AppCard(
+                large: true,
                 padding: const EdgeInsets.symmetric(
-                  vertical: 28,
-                  horizontal: 16,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  vertical: Space.s28,
+                  horizontal: Space.s16,
                 ),
                 child: Column(
                   children: [
@@ -79,7 +76,7 @@ class ParentCodeScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: Space.s16),
               Row(
                 children: [
                   Expanded(
@@ -92,7 +89,7 @@ class ParentCodeScreen extends ConsumerWidget {
                       child: Text(l10n.parentCodeSend),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: Space.s12),
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () async {
@@ -108,12 +105,12 @@ class ParentCodeScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: Space.s32),
               Text(
                 l10n.parentLinkedTeens,
                 style: text.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: Space.s8),
               family.when(
                 loading: () => const Padding(
                   padding: EdgeInsets.all(24),
@@ -145,7 +142,7 @@ class ParentCodeScreen extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: Space.s12),
                             Expanded(
                               child: Text(
                                 l10n.parentNoTeensYet,
@@ -178,7 +175,7 @@ class ParentCodeScreen extends ConsumerWidget {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 12),
+                                    const SizedBox(width: Space.s12),
                                     Text(
                                       m.displayName,
                                       style: text.titleMedium?.copyWith(
@@ -192,7 +189,7 @@ class ParentCodeScreen extends ConsumerWidget {
                         ],
                       ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: Space.s24),
               TextButton(onPressed: onSignOut, child: Text(l10n.actionSignOut)),
             ],
           ),

@@ -6,6 +6,7 @@ import 'package:tiyn_app/core/network/api_client.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
 import 'package:tiyn_app/core/network/json.dart';
+import 'package:tiyn_app/features/auth/data/user.dart';
 
 import '../../helpers/fake_http.dart';
 import '../../helpers/fakes.dart';
@@ -42,6 +43,16 @@ void main() {
     final api = _client(FakeAdapter((_, _) async => jsonBody([1])));
     expect(
       api.get('/me', decode: asMap),
+      throwsA(
+        isA<ApiException>().having((e) => e.code, 'code', 'invalid_response'),
+      ),
+    );
+  });
+
+  test('a model failing checked fromJson is invalid_response', () async {
+    final api = _client(FakeAdapter((_, _) async => jsonBody({'id': 1})));
+    expect(
+      api.get('/me', decode: (j) => User.fromJson(asMap(j))),
       throwsA(
         isA<ApiException>().having((e) => e.code, 'code', 'invalid_response'),
       ),

@@ -34,7 +34,7 @@ class TeenHomePlaceholder extends StatelessWidget {
                   style: text.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: Space.s24),
               CoinBadge(
                 size: 180,
                 glyph: formatMoney(
@@ -42,7 +42,7 @@ class TeenHomePlaceholder extends StatelessWidget {
                   locale: Localizations.localeOf(context).languageCode,
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: Space.s24),
               Text(
                 l10n.teenConnectedTo(parentNames.join(', ')),
                 style: text.bodyMedium?.copyWith(color: Palette.muted),

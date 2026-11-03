@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
+import 'package:tiyn_app/design/widgets/busy_button.dart';
+import 'package:tiyn_app/design/widgets/info_banner.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
@@ -61,7 +63,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: Space.s8),
               Text(
                 l10n.joinSubtitle,
                 style: text.bodyMedium?.copyWith(
@@ -69,12 +71,12 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
                   height: 1.5,
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: Space.s32),
               Text(
                 l10n.joinCodeLabel,
                 style: text.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: Space.s8),
               TextField(
                 controller: _code,
                 enabled: !_busy,
@@ -109,7 +111,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
                 onSubmitted: (_) => _join(),
               ),
               if (_error != null) ...[
-                const SizedBox(height: 8),
+                const SizedBox(height: Space.s8),
                 Text(
                   _error!,
                   style: text.bodySmall?.copyWith(
@@ -118,37 +120,14 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
                   ),
                 ),
               ],
-              const SizedBox(height: 24),
-              FilledButton(
-                onPressed: _busy ? null : _join,
-                child: _busy
-                    ? const SizedBox.square(
-                        dimension: 22,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Text(l10n.joinConnect),
+              const SizedBox(height: Space.s24),
+              BusyButton(
+                busy: _busy,
+                onPressed: _join,
+                child: Text(l10n.joinConnect),
               ),
-              const SizedBox(height: 24),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 14,
-                ),
-                decoration: BoxDecoration(
-                  color: Palette.infoWash,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Text(
-                  l10n.joinMultiParentInfo,
-                  style: text.bodyMedium?.copyWith(
-                    color: Palette.infoText,
-                    height: 1.5,
-                  ),
-                ),
-              ),
+              const SizedBox(height: Space.s24),
+              InfoBanner(l10n.joinMultiParentInfo),
             ],
           ),
         ),

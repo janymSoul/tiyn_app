@@ -1,9 +1,11 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonEnum(valueField: 'wire')
 enum Role {
-  parent,
-  teen;
+  parent('PARENT'),
+  teen('TEEN');
 
-  String get wire => name.toUpperCase();
+  const Role(this.wire);
 
-  static Role fromWire(String value) =>
-      Role.values.firstWhere((r) => r.wire == value);
+  final String wire;
 }

@@ -1,19 +1,17 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tiyn_app/core/session/role.dart';
 
-class FamilyMember {
-  const FamilyMember({
-    required this.id,
-    required this.role,
-    required this.displayName,
-  });
+part 'family_member.freezed.dart';
+part 'family_member.g.dart';
 
-  final String id;
-  final Role role;
-  final String displayName;
+@freezed
+abstract class FamilyMember with _$FamilyMember {
+  const factory FamilyMember({
+    required String id,
+    required Role role,
+    required String displayName,
+  }) = _FamilyMember;
 
-  factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
-    id: json['id'] as String,
-    role: Role.fromWire(json['role'] as String),
-    displayName: json['displayName'] as String,
-  );
+  factory FamilyMember.fromJson(Map<String, Object?> json) =>
+      _$FamilyMemberFromJson(json);
 }

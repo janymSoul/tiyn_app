@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tiyn_app/app/app.dart';
 import 'package:tiyn_app/app/router/router.dart';
 
@@ -11,6 +12,8 @@ Future<void> pumpApp(
   List<Override> overrides = const [],
   Locale locale = const Locale('en'),
 }) async {
+  // Bundled Rubik only; tests must never reach the network for fonts.
+  GoogleFonts.config.allowRuntimeFetching = false;
   await tester.pumpWidget(
     ProviderScope(
       retry: (_, _) => null,
