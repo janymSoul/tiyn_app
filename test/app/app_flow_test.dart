@@ -116,4 +116,16 @@ void main() {
       expect(find.text(text), findsOneWidget);
     });
   }
+
+  testWidgets('teen tabs: target icon for goals, filled icon when selected', (
+    tester,
+  ) async {
+    await _pump(tester, user: _teen, family: const [_parentMember]);
+
+    expect(find.byIcon(Icons.track_changes), findsOneWidget);
+    expect(find.byIcon(Icons.flag_outlined), findsNothing);
+    expect(find.byIcon(Icons.home), findsOneWidget);
+    expect(find.byIcon(Icons.home_outlined), findsNothing);
+    expect(find.byIcon(Icons.receipt_long_outlined), findsOneWidget);
+  });
 }

@@ -253,36 +253,46 @@ class _RoleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final radius = BorderRadius.circular(Radii.card);
+    // One semantics node reads "Title. Subtitle" once; the visible texts
+    // below are excluded so a screen reader doesn't repeat them.
     return Semantics(
+      inMutuallyExclusiveGroup: true,
+      checked: selected,
       button: true,
-      selected: selected,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(Radii.card),
-        child: Container(
-          constraints: const BoxConstraints(minHeight: 76),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(Radii.card),
-            border: Border.all(
-              color: selected ? Palette.navy : Palette.border,
-              width: 2,
-            ),
+      enabled: onTap != null,
+      label: '$title. $subtitle',
+      onTap: onTap,
+      excludeSemantics: true,
+      child: Material(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: radius,
+          side: BorderSide(
+            color: selected ? Palette.navy : Palette.border,
+            width: 2,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                subtitle,
-                style: text.bodySmall?.copyWith(color: Palette.muted),
-              ),
-            ],
+        ),
+        child: InkWell(
+          onTap: onTap,
+          customBorder: RoundedRectangleBorder(borderRadius: radius),
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 76),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: text.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: text.bodySmall?.copyWith(color: Palette.muted),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -295,20 +305,21 @@ class _GoogleG extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 24,
-      height: 24,
-      alignment: Alignment.center,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      ),
-      child: const Text(
-        'G',
-        style: TextStyle(
-          color: Palette.navy,
-          fontWeight: FontWeight.w700,
-          fontSize: 14,
+    // The button label already says "Continue with Google".
+    return ExcludeSemantics(
+      child: Container(
+        width: 24,
+        height: 24,
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+        child: Image.asset(
+          'assets/images/google_g.png',
+          width: 18,
+          height: 18,
+          filterQuality: FilterQuality.medium,
         ),
       ),
     );

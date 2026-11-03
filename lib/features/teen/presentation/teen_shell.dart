@@ -21,6 +21,7 @@ class TeenShell extends StatelessWidget {
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
             label: l10n.navHome,
           ),
           NavigationDestination(
@@ -28,11 +29,12 @@ class TeenShell extends StatelessWidget {
             label: l10n.navProgress,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.flag_outlined),
+            icon: const Icon(Icons.track_changes),
             label: l10n.navGoals,
           ),
           NavigationDestination(
             icon: const Icon(Icons.receipt_long_outlined),
+            selectedIcon: const Icon(Icons.receipt_long),
             label: l10n.navActivity,
           ),
         ],

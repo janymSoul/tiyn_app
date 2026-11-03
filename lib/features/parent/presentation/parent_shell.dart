@@ -21,6 +21,7 @@ class ParentShell extends StatelessWidget {
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
             label: l10n.navHome,
           ),
           NavigationDestination(
@@ -29,6 +30,7 @@ class ParentShell extends StatelessWidget {
           ),
           NavigationDestination(
             icon: const Icon(Icons.receipt_long_outlined),
+            selectedIcon: const Icon(Icons.receipt_long),
             label: l10n.navActivity,
           ),
         ],
