@@ -1,4 +1,5 @@
 import 'package:tiyn_app/core/network/api_client.dart';
+import 'package:tiyn_app/core/network/json.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 
@@ -7,23 +8,24 @@ class FamilyRepository {
 
   final ApiClient _api;
 
-  Future<List<FamilyMember>> members() async {
-    final json = await _api.getJson('/family');
-    return (json['members'] as List)
-        .map((m) => FamilyMember.fromJson(m as Map<String, dynamic>))
-        .toList();
-  }
+  Future<List<FamilyMember>> members() => _api.get(
+    '/family',
+    decode: (json) =>
+        asList(asMap(json)['members'])
+            .map((m) => FamilyMember.fromJson(asMap(m)))
+            .toList(),
+  );
 
-  Future<FamilyMember> join(String code) async {
-    final json = await _api.postJson(
-      '/links/join',
-      body: {'code': code.trim()},
-    );
-    final parent = json['parent'] as Map<String, dynamic>;
-    return FamilyMember(
-      id: parent['id'] as String,
-      role: Role.parent,
-      displayName: parent['displayName'] as String,
-    );
-  }
+  Future<FamilyMember> join(String code) => _api.post(
+    '/links/join',
+    body: {'code': code.trim()},
+    decode: (json) {
+      final parent = asMap(asMap(json)['parent']);
+      return FamilyMember(
+        id: parent['id'] as String,
+        role: Role.parent,
+        displayName: parent['displayName'] as String,
+      );
+    },
+  );
 }

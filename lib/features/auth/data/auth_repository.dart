@@ -1,4 +1,5 @@
 import 'package:tiyn_app/core/network/api_client.dart';
+import 'package:tiyn_app/core/network/json.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/core/storage/token_storage.dart';
 import 'package:tiyn_app/features/auth/data/google_identity.dart';
@@ -17,19 +18,27 @@ class AuthRepository {
 
   Future<bool> hasToken() async => await _tokens.read() != null;
 
-  Future<User> me() async => User.fromJson(await _api.getJson('/me'));
+  Future<User> me() =>
+      _api.get('/me', decode: (json) => User.fromJson(asMap(json)));
 
   Future<User> signInWithGoogle({required Role role}) async {
     return signInWithIdToken(await _google.idToken(), role: role);
   }
 
   Future<User> signInWithIdToken(String idToken, {required Role role}) async {
-    final json = await _api.postJson(
+    final session = await _api.post(
       '/auth/google',
       body: {'idToken': idToken, 'role': role.wire},
+      decode: (json) {
+        final map = asMap(json);
+        return (
+          token: map['token'] as String,
+          user: User.fromJson(asMap(map['user'])),
+        );
+      },
     );
-    await _tokens.write(json['token'] as String);
-    return User.fromJson(json['user'] as Map<String, dynamic>);
+    await _tokens.write(session.token);
+    return session.user;
   }
 
   Future<void> signOut() async {
