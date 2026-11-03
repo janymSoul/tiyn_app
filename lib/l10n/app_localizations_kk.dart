@@ -113,10 +113,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get joinCodeLabel => 'Код';
 
   @override
-  String get joinCodeTooShort =>
-      'Код тым қысқа. Ол 6 әріп немесе саннан тұрады.';
-
-  @override
   String get joinConnect => 'Қосылу';
 
   @override

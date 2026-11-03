@@ -114,9 +114,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get joinCodeLabel => 'Код';
 
   @override
-  String get joinCodeTooShort => 'Код слишком короткий. В нём 6 букв или цифр.';
-
-  @override
   String get joinConnect => 'Подключиться';
 
   @override

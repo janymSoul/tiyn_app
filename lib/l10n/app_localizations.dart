@@ -286,12 +286,6 @@ abstract class AppLocalizations {
   /// **'Code'**
   String get joinCodeLabel;
 
-  /// No description provided for @joinCodeTooShort.
-  ///
-  /// In en, this message translates to:
-  /// **'That code is too short. It has 6 letters or numbers.'**
-  String get joinCodeTooShort;
-
   /// No description provided for @joinConnect.
   ///
   /// In en, this message translates to:

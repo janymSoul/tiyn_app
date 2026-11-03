@@ -7,6 +7,7 @@ import 'package:tiyn_app/design/widgets/busy_button.dart';
 import 'package:tiyn_app/design/widgets/info_banner.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
+import 'package:tiyn_app/features/family/presentation/join_code_formatter.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class JoinTeenScreen extends ConsumerStatefulWidget {
@@ -17,10 +18,10 @@ class JoinTeenScreen extends ConsumerStatefulWidget {
 }
 
 class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
-  static const _codeLength = 6;
   final _code = TextEditingController();
   bool _busy = false;
   String? _error;
+  String? _autoSubmitted;
 
   @override
   void dispose() {
@@ -29,11 +30,8 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
   }
 
   Future<void> _join() async {
-    final code = _code.text.trim();
-    if (code.length < _codeLength) {
-      setState(() => _error = AppLocalizations.of(context).joinCodeTooShort);
-      return;
-    }
+    final code = _code.text;
+    if (code.length != joinCodeLength || _busy) return;
     setState(() {
       _busy = true;
       _error = null;
@@ -44,6 +42,16 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
       if (mounted) _error = apiErrorMessage(AppLocalizations.of(context), e);
     } finally {
       if (mounted) setState(() => _busy = false);
+    }
+  }
+
+  void _onChanged(String value) {
+    setState(() => _error = null);
+    // Submit once per distinct full code; after an error the user edits or
+    // taps the button.
+    if (value.length == joinCodeLength && value != _autoSubmitted) {
+      _autoSubmitted = value;
+      _join();
     }
   }
 
@@ -84,13 +92,16 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
                 autofocus: true,
                 textAlign: TextAlign.center,
                 textCapitalization: TextCapitalization.characters,
-                maxLength: _codeLength,
+                autocorrect: false,
+                enableSuggestions: false,
+                keyboardType: TextInputType.visiblePassword,
+                autofillHints: const [],
+                inputFormatters: [JoinCodeFormatter()],
                 style: text.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w700,
                   letterSpacing: 4,
                 ),
                 decoration: InputDecoration(
-                  counterText: '',
                   filled: true,
                   fillColor: Colors.white,
                   contentPadding: const EdgeInsets.symmetric(vertical: 16),
@@ -107,8 +118,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
                     borderSide: const BorderSide(color: Palette.navy, width: 2),
                   ),
                 ),
-                onChanged: (_) =>
-                    _error == null ? null : setState(() => _error = null),
+                onChanged: _onChanged,
                 onSubmitted: (_) => _join(),
               ),
               if (_error != null) ...[
@@ -124,7 +134,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
               const SizedBox(height: Space.s24),
               BusyButton(
                 busy: _busy,
-                onPressed: _join,
+                onPressed: _code.text.length == joinCodeLength ? _join : null,
                 child: Text(l10n.joinConnect),
               ),
               const SizedBox(height: Space.s24),

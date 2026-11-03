@@ -112,10 +112,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get joinCodeLabel => 'Code';
 
   @override
-  String get joinCodeTooShort =>
-      'That code is too short. It has 6 letters or numbers.';
-
-  @override
   String get joinConnect => 'Connect';
 
   @override

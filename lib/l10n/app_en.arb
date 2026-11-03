@@ -38,7 +38,6 @@
   "joinTitle": "Enter your parent's code",
   "joinSubtitle": "Ask your mom or dad for the 6-letter code from their Tiyn app.",
   "joinCodeLabel": "Code",
-  "joinCodeTooShort": "That code is too short. It has 6 letters or numbers.",
   "joinConnect": "Connect",
   "joinMultiParentInfo": "You can connect to more than one parent. Each of them can give you tasks.",
   "joinWrongAccountHint": "Wrong account? Sign out and use another Google account.",
