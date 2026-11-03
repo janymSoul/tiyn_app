@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,50 +7,11 @@ import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
 import 'package:tiyn_app/core/network/json.dart';
 
+import '../../helpers/fake_http.dart';
 import '../../helpers/fakes.dart';
 
-typedef _Handler = Future<ResponseBody> Function(
-  RequestOptions options,
-  String body,
-);
-
-class _FakeAdapter implements HttpClientAdapter {
-  _FakeAdapter(this.handler);
-
-  final _Handler handler;
-  final requests = <RequestOptions>[];
-
-  @override
-  Future<ResponseBody> fetch(
-    RequestOptions options,
-    Stream<Uint8List>? requestStream,
-    Future<void>? cancelFuture,
-  ) async {
-    requests.add(options);
-    final body = requestStream == null
-        ? ''
-        : latin1.decode(
-            (await requestStream.toList()).expand((c) => c).toList(),
-          );
-    return handler(options, body);
-  }
-
-  @override
-  void close({bool force = false}) {}
-}
-
-ResponseBody _json(Object? body, {int status = 200}) => ResponseBody.fromString(
-  jsonEncode(body),
-  status,
-  headers: {
-    Headers.contentTypeHeader: ['application/json'],
-  },
-);
-
-ResponseBody _empty(int status) => ResponseBody.fromString('', status);
-
 ApiClient _client(
-  _FakeAdapter adapter, {
+  FakeAdapter adapter, {
   String? token,
   void Function()? onUnauthorized,
 }) {
@@ -67,19 +27,19 @@ ApiClient _client(
 
 void main() {
   test('decodes an object body', () async {
-    final api = _client(_FakeAdapter((_, _) async => _json({'id': '1'})));
+    final api = _client(FakeAdapter((_, _) async => jsonBody({'id': '1'})));
     final id = await api.get('/me', decode: (j) => asMap(j)['id']);
     expect(id, '1');
   });
 
   test('decodes an array body', () async {
-    final api = _client(_FakeAdapter((_, _) async => _json([1, 2, 3])));
+    final api = _client(FakeAdapter((_, _) async => jsonBody([1, 2, 3])));
     final list = await api.get('/tasks', decode: asList);
     expect(list, [1, 2, 3]);
   });
 
   test('a wrong body shape is invalid_response', () async {
-    final api = _client(_FakeAdapter((_, _) async => _json([1])));
+    final api = _client(FakeAdapter((_, _) async => jsonBody([1])));
     expect(
       api.get('/me', decode: asMap),
       throwsA(
@@ -89,7 +49,7 @@ void main() {
   });
 
   test('204 passes null to decode', () async {
-    final api = _client(_FakeAdapter((_, _) async => _empty(204)));
+    final api = _client(FakeAdapter((_, _) async => emptyBody(204)));
     final seen = <Object?>[];
     await api.post('/x', decode: (j) => seen.add(j));
     expect(seen, [null]);
@@ -97,8 +57,8 @@ void main() {
 
   test('backend error code and status become ApiException', () async {
     final api = _client(
-      _FakeAdapter(
-        (_, _) async => _json({'error': 'invalid_join_code'}, status: 422),
+      FakeAdapter(
+        (_, _) async => jsonBody({'error': 'invalid_join_code'}, status: 422),
       ),
     );
     expect(
@@ -113,7 +73,7 @@ void main() {
 
   test('connection error is network_error', () async {
     final api = _client(
-      _FakeAdapter(
+      FakeAdapter(
         (o, _) async => throw DioException.connectionError(
           requestOptions: o,
           reason: 'offline',
@@ -130,7 +90,7 @@ void main() {
 
   test('receive timeout is timeout', () async {
     final api = _client(
-      _FakeAdapter(
+      FakeAdapter(
         (o, _) async => throw DioException.receiveTimeout(
           timeout: const Duration(seconds: 20),
           requestOptions: o,
@@ -144,7 +104,7 @@ void main() {
   });
 
   test('sends Idempotency-Key only when given', () async {
-    final adapter = _FakeAdapter((_, _) async => _empty(204));
+    final adapter = FakeAdapter((_, _) async => emptyBody(204));
     final api = _client(adapter);
     final key = IdempotencyKey.generate();
     await api.postNoContent('/a', idempotencyKey: key);
@@ -156,8 +116,8 @@ void main() {
   test('401 with a token calls onUnauthorized once', () async {
     var calls = 0;
     final api = _client(
-      _FakeAdapter(
-        (_, _) async => _json({'error': 'unauthenticated'}, status: 401),
+      FakeAdapter(
+        (_, _) async => jsonBody({'error': 'unauthenticated'}, status: 401),
       ),
       token: 'jwt',
       onUnauthorized: () => calls++,
@@ -172,8 +132,8 @@ void main() {
   test('401 without a token does not call onUnauthorized', () async {
     var calls = 0;
     final api = _client(
-      _FakeAdapter(
-        (_, _) async => _json({'error': 'invalid_identity'}, status: 401),
+      FakeAdapter(
+        (_, _) async => jsonBody({'error': 'invalid_identity'}, status: 401),
       ),
       onUnauthorized: () => calls++,
     );
@@ -187,7 +147,7 @@ void main() {
   });
 
   test('adds the bearer token when present', () async {
-    final adapter = _FakeAdapter((_, _) async => _json({}));
+    final adapter = FakeAdapter((_, _) async => jsonBody({}));
     await _client(adapter, token: 'jwt').get('/me', decode: (_) {});
     expect(adapter.requests.single.headers['Authorization'], 'Bearer jwt');
   });
@@ -195,9 +155,9 @@ void main() {
   test('multipart request carries a file part with its content type', () async {
     String? body;
     final api = _client(
-      _FakeAdapter((_, b) async {
+      FakeAdapter((_, b) async {
         body = b;
-        return _json({'ok': true});
+        return jsonBody({'ok': true});
       }),
     );
     await api.postMultipart(
@@ -215,7 +175,7 @@ void main() {
   });
 
   test('put and delete succeed on 204', () async {
-    final adapter = _FakeAdapter((_, _) async => _empty(204));
+    final adapter = FakeAdapter((_, _) async => emptyBody(204));
     final api = _client(adapter);
     await api.put('/devices', body: {'t': 1});
     await api.delete('/links/1');

@@ -7,6 +7,7 @@ void main() {
   final config = AppConfig.fromEnvironment();
   runApp(
     ProviderScope(
+      retry: (_, _) => null,
       overrides: [appConfigProvider.overrideWithValue(config)],
       child: const TiynApp(),
     ),

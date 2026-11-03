@@ -1,29 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiyn_app/app/config.dart';
-import 'package:tiyn_app/core/network/api_client.dart';
+import 'package:tiyn_app/app/providers.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/session/role.dart';
-import 'package:tiyn_app/core/storage/token_storage.dart';
+import 'package:tiyn_app/core/session/session_events.dart';
 import 'package:tiyn_app/features/auth/data/auth_repository.dart';
-import 'package:tiyn_app/features/auth/data/google_identity.dart';
 import 'package:tiyn_app/features/auth/data/user.dart';
-
-final tokenStorageProvider = Provider<TokenStorage>((_) => TokenStorage());
-
-final googleIdentityProvider = Provider<GoogleIdentity>(
-  (ref) => GoogleIdentity(
-    serverClientId: ref.watch(appConfigProvider).googleServerClientId,
-  ),
-);
-
-final apiClientProvider = Provider<ApiClient>((ref) {
-  return ApiClient(
-    baseUrl: ref.watch(appConfigProvider).apiBaseUrl,
-    tokens: ref.watch(tokenStorageProvider),
-    onUnauthorized: () =>
-        ref.read(authControllerProvider.notifier).sessionExpired(),
-  );
-});
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository(
@@ -36,6 +17,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 class AuthController extends AsyncNotifier<User?> {
   @override
   Future<User?> build() async {
+    ref.listen(sessionExpiredProvider, (_, _) => _onSessionExpired());
     final repository = ref.read(authRepositoryProvider);
     if (!await repository.hasToken()) return null;
     try {
@@ -61,12 +43,16 @@ class AuthController extends AsyncNotifier<User?> {
     state = const AsyncData(null);
   }
 
-  void sessionExpired() {
-    ref.read(tokenStorageProvider).clear();
+  Future<void> _onSessionExpired() async {
+    await ref.read(tokenStorageProvider).clear();
     state = const AsyncData(null);
   }
 }
 
 final authControllerProvider = AsyncNotifierProvider<AuthController, User?>(
   AuthController.new,
+);
+
+final currentUserIdProvider = Provider<String?>(
+  (ref) => ref.watch(authControllerProvider.select((s) => s.value?.id)),
 );
