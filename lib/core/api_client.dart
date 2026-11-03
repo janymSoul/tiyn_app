@@ -2,22 +2,25 @@ import 'package:dio/dio.dart';
 import 'package:uuid/uuid.dart';
 
 import 'api_error.dart';
-import 'config.dart';
 import 'token_storage.dart';
 
 typedef UnauthorizedHandler = void Function();
 
 class ApiClient {
-  ApiClient({required this._tokens, required this._onUnauthorized, Dio? dio})
-    : _dio =
-          dio ??
-          Dio(
-            BaseOptions(
-              baseUrl: AppConfig.apiBaseUrl,
-              connectTimeout: const Duration(seconds: 10),
-              receiveTimeout: const Duration(seconds: 20),
-            ),
-          ) {
+  ApiClient({
+    required Uri baseUrl,
+    required this._tokens,
+    required this._onUnauthorized,
+    Dio? dio,
+  }) : _dio =
+           dio ??
+           Dio(
+             BaseOptions(
+               baseUrl: baseUrl.toString(),
+               connectTimeout: const Duration(seconds: 10),
+               receiveTimeout: const Duration(seconds: 20),
+             ),
+           ) {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {

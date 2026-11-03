@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/config.dart';
 import '../../core/api_client.dart';
 import '../../core/api_error.dart';
 import '../../core/token_storage.dart';
@@ -10,11 +11,14 @@ import 'user.dart';
 final tokenStorageProvider = Provider<TokenStorage>((_) => TokenStorage());
 
 final googleIdentityProvider = Provider<GoogleIdentity>(
-  (_) => GoogleIdentity(),
+  (ref) => GoogleIdentity(
+    serverClientId: ref.watch(appConfigProvider).googleServerClientId,
+  ),
 );
 
 final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient(
+    baseUrl: ref.watch(appConfigProvider).apiBaseUrl,
     tokens: ref.watch(tokenStorageProvider),
     onUnauthorized: () =>
         ref.read(authControllerProvider.notifier).sessionExpired(),

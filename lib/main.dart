@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'app/config.dart';
 import 'core/theme.dart';
 import 'router.dart';
 
 void main() {
-  runApp(const ProviderScope(child: TiynApp()));
+  final config = AppConfig.fromEnvironment();
+  runApp(
+    ProviderScope(
+      overrides: [appConfigProvider.overrideWithValue(config)],
+      child: const TiynApp(),
+    ),
+  );
 }
 
 class TiynApp extends ConsumerWidget {
