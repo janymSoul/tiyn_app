@@ -161,7 +161,7 @@ The app ID is final: **`kz.tiyn.app`**. Flavors:
 | Flavor | applicationId | App label | API |
 |---|---|---|---|
 | `dev` | `kz.tiyn.app.dev` | `tiyn dev` | local backend, cleartext allowed |
-| `staging` | `kz.tiyn.app.staging` | `tiyn staging` | `https://api-staging.tiyn.dev` |
+| `staging` | `kz.tiyn.app` (shared with prod for the MVP, no suffix) | `tiyn staging` | `https://api-staging.tiyn.dev` |
 | `prod` | `kz.tiyn.app` | `tiyn` | (placeholder; no prod backend exists yet) |
 
 1. **`android/app/build.gradle.kts`:**
@@ -178,7 +178,6 @@ The app ID is final: **`kz.tiyn.app`**. Flavors:
          }
          create("staging") {
              dimension = "env"
-             applicationIdSuffix = ".staging"
              resValue("string", "app_name", "tiyn staging")
          }
          create("prod") {
@@ -210,7 +209,7 @@ flutter build apk --release --flavor prod  --dart-define-from-file=env/prod.json
 ```
 (Create the `env/` files from step 4 first, or do steps 3 and 4 together and commit them separately.) Check the package name with `aapt dump badging` or `apkanalyzer` if one is available. Commit `build(android): kz.tiyn.app with dev/staging/prod flavors`.
 
-> **Note for the user:** renaming the package breaks Google sign-in on Android until an Android OAuth client exists for `kz.tiyn.app.dev` / `kz.tiyn.app.staging` with the debug key's SHA-1 (see "Human tasks"). That's expected. Don't work around it in code.
+> **Note for the user:** renaming the package breaks Google sign-in on Android until an Android OAuth client exists for `kz.tiyn.app.dev` and `kz.tiyn.app` (staging shares the prod ID for the MVP) with the debug key's SHA-1 (see "Human tasks"). That's expected. Don't work around it in code.
 
 ---
 
@@ -634,7 +633,7 @@ You can't run GitHub Actions locally. Run every command from the workflow locall
 These block Phase 1 (push, signed builds, distribution) and make sign-in work again after the package rename:
 
 1. **GitHub repo** for the app (e.g. `janymSoul/tiyn_app`); add it as the remote and push.
-2. **Firebase projects:** `tiyn-staging` (dev + staging) and `tiyn-prod`. Register the Android apps `kz.tiyn.app.dev`, `kz.tiyn.app.staging` and `kz.tiyn.app`. The Firebase project's name doesn't need to match the app ID; the registered **package name** must.
+2. **Firebase projects:** `tiyn-staging` (dev + staging) and `tiyn-prod`. Register the Android apps `kz.tiyn.app.dev` and `kz.tiyn.app` (staging shares the prod ID for the MVP). The Firebase project's name doesn't need to match the app ID; the registered **package name** must.
 3. **Google OAuth Android clients** for each package, with the SHA-1 of: your debug key (`./gradlew signingReport`), the upload key (step 4 below), and later the **Play App Signing** key (shown in Play Console after the first upload). Add every client ID to the backend's `GOOGLE_CLIENT_IDS` and put the **Web** client ID in `env/*.json` as `GOOGLE_SERVER_CLIENT_ID`.
 4. **Upload keystore:** `keytool -genkey -v -keystore upload.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload`. Store it and its passwords in a password manager. **Never commit it.** Enable Play App Signing.
 5. **Google Play Console** account ($25), the app created with ID `kz.tiyn.app`, and the internal testing track. The target audience includes under-13s, so read the **Families policy** before adding any analytics or crash-reporting SDK.

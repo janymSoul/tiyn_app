@@ -49,7 +49,6 @@ android {
         }
         create("staging") {
             dimension = "env"
-            applicationIdSuffix = ".staging"
             resValue("string", "app_name", "tiyn staging")
         }
         create("prod") {

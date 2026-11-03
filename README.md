@@ -8,6 +8,16 @@ Flutter app (Android first) for tasks and pocket money for teens and parents. Ba
 - Android SDK and an emulator or device
 - A Google OAuth client for the flavor's package (see `docs/plans/phase-0-foundation.md`, "Human tasks")
 
+## Flavors
+
+| Flavor | applicationId | Label | API |
+|---|---|---|---|
+| `dev` | `kz.tiyn.app.dev` | `tiyn dev` | local backend, `http://10.0.2.2:8080` |
+| `staging` | `kz.tiyn.app` | `tiyn staging` | `https://api-staging.tiyn.dev` |
+| `prod` | `kz.tiyn.app` | `tiyn` | `https://api.tiyn.dev` (placeholder) |
+
+`staging` shares the prod application ID for the MVP, so the two can't be installed side by side, and staging builds must never be uploaded to Google Play.
+
 ## Run
 
 Each flavor needs its `env/*.json` passed as dart-defines; the app refuses to start without them.
