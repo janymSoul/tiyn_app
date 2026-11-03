@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/auth/data/user.dart';
@@ -16,10 +17,13 @@ class _TestAuth extends AuthController {
 
 class _CountingRepository implements FamilyRepository {
   int calls = 0;
+  bool failing = false;
+  bool joinSucceeds = false;
 
   @override
   Future<List<FamilyMember>> members() async {
     calls++;
+    if (failing) throw const ApiException(code: 'network_error');
     return [
       FamilyMember(
         id: 'm$calls',
@@ -30,7 +34,10 @@ class _CountingRepository implements FamilyRepository {
   }
 
   @override
-  Future<FamilyMember> join(String code) => throw UnimplementedError();
+  Future<FamilyMember> join(String code) async {
+    if (!joinSucceeds) throw UnimplementedError();
+    return const FamilyMember(id: 'p', role: Role.parent, displayName: 'P');
+  }
 }
 
 User _user(String id) =>
@@ -83,5 +90,66 @@ void main() {
     auth().setUser(null);
     expect(await container.read(familyControllerProvider.future), isEmpty);
     expect(repository.calls, 1);
+  });
+
+  group('refresh', () {
+    Future<void> signedInWithData() async {
+      await container.read(authControllerProvider.future);
+      auth().setUser(_user('a'));
+      await container.read(familyControllerProvider.future);
+    }
+
+    test(
+      'a failed refresh keeps the previous data and shows no error',
+      () async {
+        await signedInWithData();
+        repository.failing = true;
+
+        await container.read(familyControllerProvider.notifier).refresh();
+
+        final state = container.read(familyControllerProvider);
+        expect(state.hasError, isFalse);
+        expect(state.value?.single.id, 'm1');
+        expect(repository.calls, 2);
+      },
+    );
+
+    test('a successful refresh replaces the data without a spinner', () async {
+      await signedInWithData();
+      final states = <AsyncValue<List<FamilyMember>>>[];
+      container.listen(familyControllerProvider, (_, next) => states.add(next));
+
+      await container.read(familyControllerProvider.notifier).refresh();
+
+      expect(states.single.value?.single.id, 'm2');
+      expect(states.any((s) => s.isLoading), isFalse);
+    });
+
+    test(
+      'a failed load with nothing to keep still reports the error',
+      () async {
+        repository.failing = true;
+        await container.read(authControllerProvider.future);
+        auth().setUser(_user('a'));
+        await expectLater(
+          container.read(familyControllerProvider.future),
+          throwsA(isA<ApiException>()),
+        );
+      },
+    );
+
+    test(
+      'join stays strict: a failed reload after joining is an error',
+      () async {
+        await signedInWithData();
+        repository
+          ..joinSucceeds = true
+          ..failing = true;
+
+        await container.read(familyControllerProvider.notifier).join('SXVPUR');
+
+        expect(container.read(familyControllerProvider).hasError, isTrue);
+      },
+    );
   });
 }

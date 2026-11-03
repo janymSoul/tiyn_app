@@ -16,13 +16,22 @@ class FamilyController extends AsyncNotifier<List<FamilyMember>> {
     return ref.read(familyRepositoryProvider).members();
   }
 
+  /// Reloads without a spinner. If the reload fails while a list is already
+  /// on screen, that list stays and nothing is surfaced.
   Future<void> refresh() async {
-    state = await AsyncValue.guard(ref.read(familyRepositoryProvider).members);
+    final previous = state.value;
+    final next = await AsyncValue.guard(
+      ref.read(familyRepositoryProvider).members,
+    );
+    if (next.hasError && previous != null) return;
+    state = next;
   }
 
   Future<void> join(String code) async {
     await ref.read(familyRepositoryProvider).join(code);
-    await refresh();
+    // Strict on purpose: the join succeeded, so a failed reload must show an
+    // error (with retry) instead of leaving the teen on the join screen.
+    state = await AsyncValue.guard(ref.read(familyRepositoryProvider).members);
   }
 }
 

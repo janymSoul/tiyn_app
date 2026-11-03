@@ -8,7 +8,7 @@ import 'package:tiyn_app/design/widgets/app_card.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
-class ParentCodeScreen extends ConsumerWidget {
+class ParentCodeScreen extends ConsumerStatefulWidget {
   const ParentCodeScreen({
     super.key,
     required this.joinCode,
@@ -19,7 +19,30 @@ class ParentCodeScreen extends ConsumerWidget {
   final VoidCallback onSignOut;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ParentCodeScreen> createState() => _ParentCodeScreenState();
+}
+
+class _ParentCodeScreenState extends ConsumerState<ParentCodeScreen> {
+  late final AppLifecycleListener _lifecycle;
+
+  @override
+  void initState() {
+    super.initState();
+    // The parent usually leaves the app to send the code and comes back once
+    // the teen has joined, so show the new teen without a manual pull.
+    _lifecycle = AppLifecycleListener(
+      onResume: () => ref.read(familyControllerProvider.notifier).refresh(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _lifecycle.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
     final family = ref.watch(familyControllerProvider);
@@ -61,7 +84,7 @@ class ParentCodeScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 6),
                     SelectableText(
-                      joinCode,
+                      widget.joinCode,
                       style: text.displaySmall?.copyWith(
                         fontWeight: FontWeight.w700,
                         letterSpacing: 5,
@@ -83,7 +106,7 @@ class ParentCodeScreen extends ConsumerWidget {
                     child: FilledButton(
                       onPressed: () => SharePlus.instance.share(
                         ShareParams(
-                          text: l10n.parentCodeShareMessage(joinCode),
+                          text: l10n.parentCodeShareMessage(widget.joinCode),
                         ),
                       ),
                       child: Text(l10n.parentCodeSend),
@@ -93,7 +116,9 @@ class ParentCodeScreen extends ConsumerWidget {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () async {
-                        await Clipboard.setData(ClipboardData(text: joinCode));
+                        await Clipboard.setData(
+                          ClipboardData(text: widget.joinCode),
+                        );
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text(l10n.parentCodeCopied)),
@@ -188,7 +213,10 @@ class ParentCodeScreen extends ConsumerWidget {
                       ),
               ),
               const SizedBox(height: Space.s24),
-              TextButton(onPressed: onSignOut, child: Text(l10n.actionSignOut)),
+              TextButton(
+                onPressed: widget.onSignOut,
+                child: Text(l10n.actionSignOut),
+              ),
             ],
           ),
         ),
