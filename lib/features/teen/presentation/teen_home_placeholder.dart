@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tiyn_app/core/money/money.dart';
-import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/coin_badge.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
@@ -35,13 +33,7 @@ class TeenHomePlaceholder extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: Space.s24),
-              CoinBadge(
-                size: 180,
-                glyph: formatMoney(
-                  Money.zero,
-                  locale: Localizations.localeOf(context).languageCode,
-                ),
-              ),
+              const CoinBadge(size: 180, glyph: '₸'),
               const SizedBox(height: Space.s24),
               Text(
                 l10n.teenConnectedTo(parentNames.join(', ')),

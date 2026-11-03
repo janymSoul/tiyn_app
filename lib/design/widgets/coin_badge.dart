@@ -24,12 +24,18 @@ class CoinBadge extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [BoxShadow(color: ring, spreadRadius: 5)],
       ),
-      child: Text(
-        glyph,
-        style: TextStyle(
-          fontSize: size * 0.42,
-          fontWeight: FontWeight.w700,
-          color: Palette.navy,
+      child: Padding(
+        padding: EdgeInsets.all(size * 0.14),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            glyph,
+            style: TextStyle(
+              fontSize: size * 0.42,
+              fontWeight: FontWeight.w700,
+              color: Palette.navy,
+            ),
+          ),
         ),
       ),
     );
