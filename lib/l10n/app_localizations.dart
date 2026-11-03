@@ -160,12 +160,6 @@ abstract class AppLocalizations {
   /// **'Earn it. Save it. Get paid for chores and good grades.'**
   String get signInTagline;
 
-  /// No description provided for @signInRoleQuestion.
-  ///
-  /// In en, this message translates to:
-  /// **'I am a'**
-  String get signInRoleQuestion;
-
   /// No description provided for @roleTeen.
   ///
   /// In en, this message translates to:
@@ -201,12 +195,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your role is saved on first sign-in and can\'t be changed later.'**
   String get signInRoleNote;
-
-  /// No description provided for @signInCancelled.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign-in was cancelled.'**
-  String get signInCancelled;
 
   /// No description provided for @signInFailed.
   ///
@@ -399,6 +387,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connected to {names}'**
   String teenConnectedTo(String names);
+
+  /// No description provided for @signInWelcomeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with your Google account'**
+  String get signInWelcomeNote;
+
+  /// No description provided for @signInRoleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who are you?'**
+  String get signInRoleTitle;
+
+  /// No description provided for @signInGoogleAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Google account: {email}'**
+  String signInGoogleAccount(String email);
+
+  /// No description provided for @actionContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get actionContinue;
+
+  /// No description provided for @signInUseAnotherAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different Google account'**
+  String get signInUseAnotherAccount;
+
+  /// No description provided for @signInExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in expired. Sign in again.'**
+  String get signInExpired;
 }
 
 class _AppLocalizationsDelegate

@@ -11,14 +11,12 @@
   "navActivity": "Белсенділік",
   "navToCheck": "Тексеруге",
   "signInTagline": "Тап, жина, үй шаруасы мен жақсы бағалар үшін ақша ал.",
-  "signInRoleQuestion": "Мен",
   "roleTeen": "Жасөспірім",
   "roleTeenSubtitle": "Мен тапсырма орындап, ақша табамын",
   "roleParent": "Ата-ана",
   "roleParentSubtitle": "Мен тапсырма беріп, растаймын",
   "signInContinueWithGoogle": "Google арқылы жалғастыру",
   "signInRoleNote": "Рөл алғашқы кіргенде сақталады және кейін өзгертілмейді.",
-  "signInCancelled": "Кіру тоқтатылды.",
   "signInFailed": "Кіру мүмкін болмады. Қайталап көріңіз.",
   "errorNoConnection": "Байланыс жоқ. Желіні тексеріңіз.",
   "errorTimeout": "Сервер ұзақ жауап бермеді. Қайталап көріңіз.",
@@ -50,5 +48,11 @@
   "parentTeensLoadFailedCode": "Жасөспірімдерді жүктеу мүмкін болмады ({code}). Қайталау үшін төмен тартыңыз.",
   "parentNoTeensYet": "Әзірге ешкім жоқ. Жасөспірім кодты енгізгенде жаңарту үшін төмен тартыңыз.",
   "teenGreeting": "Сәлем, {name}",
-  "teenConnectedTo": "Қосылған: {names}"
+  "teenConnectedTo": "Қосылған: {names}",
+  "signInWelcomeNote": "Google аккаунты арқылы кіріңіз",
+  "signInRoleTitle": "Сіз кімсіз?",
+  "signInGoogleAccount": "Google аккаунты: {email}",
+  "actionContinue": "Жалғастыру",
+  "signInUseAnotherAccount": "Басқа Google аккаунты",
+  "signInExpired": "Кіру мерзімі аяқталды, қайта кіріңіз"
 }

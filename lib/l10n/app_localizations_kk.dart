@@ -41,9 +41,6 @@ class AppLocalizationsKk extends AppLocalizations {
       'Тап, жина, үй шаруасы мен жақсы бағалар үшін ақша ал.';
 
   @override
-  String get signInRoleQuestion => 'Мен';
-
-  @override
   String get roleTeen => 'Жасөспірім';
 
   @override
@@ -61,9 +58,6 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get signInRoleNote =>
       'Рөл алғашқы кіргенде сақталады және кейін өзгертілмейді.';
-
-  @override
-  String get signInCancelled => 'Кіру тоқтатылды.';
 
   @override
   String get signInFailed => 'Кіру мүмкін болмады. Қайталап көріңіз.';
@@ -182,4 +176,24 @@ class AppLocalizationsKk extends AppLocalizations {
   String teenConnectedTo(String names) {
     return 'Қосылған: $names';
   }
+
+  @override
+  String get signInWelcomeNote => 'Google аккаунты арқылы кіріңіз';
+
+  @override
+  String get signInRoleTitle => 'Сіз кімсіз?';
+
+  @override
+  String signInGoogleAccount(String email) {
+    return 'Google аккаунты: $email';
+  }
+
+  @override
+  String get actionContinue => 'Жалғастыру';
+
+  @override
+  String get signInUseAnotherAccount => 'Басқа Google аккаунты';
+
+  @override
+  String get signInExpired => 'Кіру мерзімі аяқталды, қайта кіріңіз';
 }

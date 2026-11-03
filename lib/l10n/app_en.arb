@@ -10,14 +10,12 @@
   "navActivity": "Activity",
   "navToCheck": "To check",
   "signInTagline": "Earn it. Save it. Get paid for chores and good grades.",
-  "signInRoleQuestion": "I am a",
   "roleTeen": "Teen",
   "roleTeenSubtitle": "I do chores and earn",
   "roleParent": "Parent",
   "roleParentSubtitle": "I set tasks and approve",
   "signInContinueWithGoogle": "Continue with Google",
   "signInRoleNote": "Your role is saved on first sign-in and can't be changed later.",
-  "signInCancelled": "Sign-in was cancelled.",
   "signInFailed": "Sign-in failed. Try again.",
   "errorNoConnection": "No connection. Check your network.",
   "errorTimeout": "The server took too long to answer. Try again.",
@@ -84,5 +82,18 @@
         "type": "String"
       }
     }
-  }
+  },
+  "signInWelcomeNote": "Sign in with your Google account",
+  "signInRoleTitle": "Who are you?",
+  "signInGoogleAccount": "Google account: {email}",
+  "@signInGoogleAccount": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "actionContinue": "Continue",
+  "signInUseAnotherAccount": "Use a different Google account",
+  "signInExpired": "Sign-in expired. Sign in again."
 }

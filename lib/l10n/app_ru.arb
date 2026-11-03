@@ -10,14 +10,12 @@
   "navActivity": "Активность",
   "navToCheck": "На проверке",
   "signInTagline": "Зарабатывай, копи, получай деньги за дела и хорошие оценки.",
-  "signInRoleQuestion": "Я",
   "roleTeen": "Подросток",
   "roleTeenSubtitle": "Я делаю дела и зарабатываю",
   "roleParent": "Родитель",
   "roleParentSubtitle": "Я ставлю задачи и подтверждаю",
   "signInContinueWithGoogle": "Продолжить через Google",
   "signInRoleNote": "Роль сохраняется при первом входе и позже не меняется.",
-  "signInCancelled": "Вход отменён.",
   "signInFailed": "Не удалось войти. Попробуйте ещё раз.",
   "errorNoConnection": "Нет соединения. Проверьте сеть.",
   "errorTimeout": "Сервер долго не отвечает. Попробуйте ещё раз.",
@@ -49,5 +47,11 @@
   "parentTeensLoadFailedCode": "Не удалось загрузить подростков ({code}). Потяните вниз, чтобы повторить.",
   "parentNoTeensYet": "Пока никого. Потяните вниз, чтобы обновить, когда подросток введёт код.",
   "teenGreeting": "Привет, {name}",
-  "teenConnectedTo": "Подключено: {names}"
+  "teenConnectedTo": "Подключено: {names}",
+  "signInWelcomeNote": "Войдите через аккаунт Google",
+  "signInRoleTitle": "Кто вы?",
+  "signInGoogleAccount": "Аккаунт Google: {email}",
+  "actionContinue": "Продолжить",
+  "signInUseAnotherAccount": "Другой аккаунт Google",
+  "signInExpired": "Вход истёк, войдите снова"
 }

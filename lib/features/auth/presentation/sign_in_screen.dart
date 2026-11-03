@@ -7,25 +7,15 @@ import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/busy_button.dart';
 import 'package:tiyn_app/design/widgets/coin_badge.dart';
-import 'package:tiyn_app/features/auth/application/auth_controller.dart';
+import 'package:tiyn_app/features/auth/application/sign_in_controller.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
-class SignInScreen extends ConsumerStatefulWidget {
+class SignInScreen extends ConsumerWidget {
   const SignInScreen({super.key});
 
   @override
-  ConsumerState<SignInScreen> createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends ConsumerState<SignInScreen> {
-  Role _role = Role.teen;
-
-  @override
-  Widget build(BuildContext context) {
-    final auth = ref.watch(authControllerProvider);
-    final busy = auth.isLoading;
-    final l10n = AppLocalizations.of(context);
-    final error = auth.hasError ? _message(l10n, auth.error!) : null;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(signInControllerProvider);
     final text = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -56,7 +46,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        l10n.signInTagline,
+                        AppLocalizations.of(context).signInTagline,
                         textAlign: TextAlign.center,
                         style: text.bodyLarge?.copyWith(
                           color: Palette.onNavyMuted,
@@ -80,74 +70,18 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             padding: const EdgeInsets.fromLTRB(24, 28, 24, 16),
             child: SafeArea(
               top: false,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    l10n.signInRoleQuestion,
-                    style: text.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                child: switch (state) {
+                  ChoosingRole() => _RoleStep(
+                    key: const ValueKey('role'),
+                    state: state,
                   ),
-                  const SizedBox(height: Space.s16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _RoleCard(
-                          title: l10n.roleTeen,
-                          subtitle: l10n.roleTeenSubtitle,
-                          selected: _role == Role.teen,
-                          onTap: busy
-                              ? null
-                              : () => setState(() => _role = Role.teen),
-                        ),
-                      ),
-                      const SizedBox(width: Space.s12),
-                      Expanded(
-                        child: _RoleCard(
-                          title: l10n.roleParent,
-                          subtitle: l10n.roleParentSubtitle,
-                          selected: _role == Role.parent,
-                          onTap: busy
-                              ? null
-                              : () => setState(() => _role = Role.parent),
-                        ),
-                      ),
-                    ],
+                  Welcome() || Authenticating() => _WelcomeStep(
+                    key: const ValueKey('welcome'),
+                    state: state,
                   ),
-                  const SizedBox(height: Space.s16),
-                  BusyButton(
-                    busy: busy,
-                    onPressed: () =>
-                        ref.read(authControllerProvider.notifier).signIn(_role),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const _GoogleG(),
-                        const SizedBox(width: 10),
-                        Flexible(
-                          child: Text(
-                            l10n.signInContinueWithGoogle,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: Space.s16),
-                  Text(
-                    error ?? l10n.signInRoleNote,
-                    textAlign: TextAlign.center,
-                    style: text.bodySmall?.copyWith(
-                      color: error == null ? Palette.muted : Palette.warn,
-                      fontWeight: error == null
-                          ? FontWeight.w400
-                          : FontWeight.w500,
-                      height: 1.5,
-                    ),
-                  ),
-                ],
+                },
               ),
             ),
           ),
@@ -155,15 +89,151 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       ),
     );
   }
+}
 
-  String _message(AppLocalizations l10n, Object error) {
-    if (error is GoogleSignInException) {
-      return error.code == GoogleSignInExceptionCode.canceled
-          ? l10n.signInCancelled
-          : l10n.signInFailed;
-    }
-    if (error is ApiException) return apiErrorMessage(l10n, error);
-    return l10n.signInFailed;
+String _message(AppLocalizations l10n, Object error) {
+  if (error is SignInExpired) return l10n.signInExpired;
+  if (error is GoogleSignInException) return l10n.signInFailed;
+  if (error is ApiException) return apiErrorMessage(l10n, error);
+  return l10n.signInFailed;
+}
+
+class _WelcomeStep extends ConsumerWidget {
+  const _WelcomeStep({super.key, required this.state});
+
+  final SignInState state;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final error = switch (state) {
+      Welcome(:final error?) => _message(l10n, error),
+      _ => null,
+    };
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        BusyButton(
+          busy: state is Authenticating,
+          onPressed: () =>
+              ref.read(signInControllerProvider.notifier).continueWithGoogle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const _GoogleG(),
+              const SizedBox(width: 10),
+              Flexible(
+                child: Text(
+                  l10n.signInContinueWithGoogle,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: Space.s16),
+        Text(
+          error ?? l10n.signInWelcomeNote,
+          textAlign: TextAlign.center,
+          style: text.bodySmall?.copyWith(
+            color: error == null ? Palette.muted : Palette.warn,
+            fontWeight: error == null ? FontWeight.w400 : FontWeight.w500,
+            height: 1.5,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _RoleStep extends ConsumerWidget {
+  const _RoleStep({super.key, required this.state});
+
+  final ChoosingRole state;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final controller = ref.read(signInControllerProvider.notifier);
+    final error = state.error;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          l10n.signInRoleTitle,
+          style: text.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: Space.s4),
+        Text(
+          l10n.signInGoogleAccount(state.credential.email),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: text.bodySmall?.copyWith(color: Palette.muted),
+        ),
+        const SizedBox(height: Space.s16),
+        Row(
+          children: [
+            Expanded(
+              child: _RoleCard(
+                title: l10n.roleTeen,
+                subtitle: l10n.roleTeenSubtitle,
+                selected: state.selected == Role.teen,
+                onTap: state.sending
+                    ? null
+                    : () => controller.selectRole(Role.teen),
+              ),
+            ),
+            const SizedBox(width: Space.s12),
+            Expanded(
+              child: _RoleCard(
+                title: l10n.roleParent,
+                subtitle: l10n.roleParentSubtitle,
+                selected: state.selected == Role.parent,
+                onTap: state.sending
+                    ? null
+                    : () => controller.selectRole(Role.parent),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: Space.s16),
+        Text(
+          l10n.signInRoleNote,
+          textAlign: TextAlign.center,
+          style: text.bodySmall?.copyWith(
+            color: Palette.warn,
+            fontWeight: FontWeight.w500,
+            height: 1.5,
+          ),
+        ),
+        if (error != null) ...[
+          const SizedBox(height: Space.s8),
+          Text(
+            _message(l10n, error),
+            textAlign: TextAlign.center,
+            style: text.bodySmall?.copyWith(
+              color: Palette.warn,
+              fontWeight: FontWeight.w500,
+              height: 1.5,
+            ),
+          ),
+        ],
+        const SizedBox(height: Space.s12),
+        BusyButton(
+          busy: state.sending,
+          onPressed: state.selected == null ? null : controller.confirmRole,
+          child: Text(l10n.actionContinue),
+        ),
+        TextButton(
+          onPressed: state.sending ? null : controller.useAnotherAccount,
+          child: Text(l10n.signInUseAnotherAccount),
+        ),
+      ],
+    );
   }
 }
 

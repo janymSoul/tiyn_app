@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiyn_app/app/providers.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
-import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/core/session/session_events.dart';
 import 'package:tiyn_app/features/auth/data/auth_repository.dart';
 import 'package:tiyn_app/features/auth/data/user.dart';
@@ -31,12 +30,7 @@ class AuthController extends AsyncNotifier<User?> {
     }
   }
 
-  Future<void> signIn(Role role) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () => ref.read(authRepositoryProvider).signInWithGoogle(role: role),
-    );
-  }
+  void signedIn(User user) => state = AsyncData(user);
 
   Future<void> signOut() async {
     await ref.read(authRepositoryProvider).signOut();

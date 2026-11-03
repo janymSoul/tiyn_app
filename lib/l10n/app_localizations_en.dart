@@ -41,9 +41,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Earn it. Save it. Get paid for chores and good grades.';
 
   @override
-  String get signInRoleQuestion => 'I am a';
-
-  @override
   String get roleTeen => 'Teen';
 
   @override
@@ -61,9 +58,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get signInRoleNote =>
       'Your role is saved on first sign-in and can\'t be changed later.';
-
-  @override
-  String get signInCancelled => 'Sign-in was cancelled.';
 
   @override
   String get signInFailed => 'Sign-in failed. Try again.';
@@ -181,4 +175,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String teenConnectedTo(String names) {
     return 'Connected to $names';
   }
+
+  @override
+  String get signInWelcomeNote => 'Sign in with your Google account';
+
+  @override
+  String get signInRoleTitle => 'Who are you?';
+
+  @override
+  String signInGoogleAccount(String email) {
+    return 'Google account: $email';
+  }
+
+  @override
+  String get actionContinue => 'Continue';
+
+  @override
+  String get signInUseAnotherAccount => 'Use a different Google account';
+
+  @override
+  String get signInExpired => 'Sign-in expired. Sign in again.';
 }

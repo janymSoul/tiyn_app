@@ -17,12 +17,25 @@ class FakeTokenStorage implements TokenStorage {
 }
 
 class FakeGoogleIdentity implements GoogleIdentity {
+  FakeGoogleIdentity({
+    this.credential = (idToken: 'google-id-token', email: 'user@example.com'),
+    this.signInError,
+  });
+
+  GoogleCredential credential;
+  Object? signInError;
+  int signOutCalls = 0;
+
   @override
   String? get serverClientId => null;
 
   @override
-  Future<String> idToken() async => 'google-id-token';
+  Future<GoogleCredential> signIn() async {
+    final error = signInError;
+    if (error != null) throw error;
+    return credential;
+  }
 
   @override
-  Future<void> signOut() async {}
+  Future<void> signOut() async => signOutCalls++;
 }

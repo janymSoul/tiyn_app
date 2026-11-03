@@ -1,5 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 
+typedef GoogleCredential = ({String idToken, String email});
+
 class GoogleIdentity {
   GoogleIdentity({required this.serverClientId});
 
@@ -10,14 +12,14 @@ class GoogleIdentity {
     serverClientId: serverClientId,
   );
 
-  Future<String> idToken() async {
+  Future<GoogleCredential> signIn() async {
     await _init();
     final account = await GoogleSignIn.instance.authenticate();
     final token = account.authentication.idToken;
     if (token == null) {
       throw StateError('Google returned no ID token');
     }
-    return token;
+    return (idToken: token, email: account.email);
   }
 
   Future<void> signOut() async {

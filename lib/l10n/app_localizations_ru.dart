@@ -41,9 +41,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Зарабатывай, копи, получай деньги за дела и хорошие оценки.';
 
   @override
-  String get signInRoleQuestion => 'Я';
-
-  @override
   String get roleTeen => 'Подросток';
 
   @override
@@ -61,9 +58,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get signInRoleNote =>
       'Роль сохраняется при первом входе и позже не меняется.';
-
-  @override
-  String get signInCancelled => 'Вход отменён.';
 
   @override
   String get signInFailed => 'Не удалось войти. Попробуйте ещё раз.';
@@ -182,4 +176,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String teenConnectedTo(String names) {
     return 'Подключено: $names';
   }
+
+  @override
+  String get signInWelcomeNote => 'Войдите через аккаунт Google';
+
+  @override
+  String get signInRoleTitle => 'Кто вы?';
+
+  @override
+  String signInGoogleAccount(String email) {
+    return 'Аккаунт Google: $email';
+  }
+
+  @override
+  String get actionContinue => 'Продолжить';
+
+  @override
+  String get signInUseAnotherAccount => 'Другой аккаунт Google';
+
+  @override
+  String get signInExpired => 'Вход истёк, войдите снова';
 }
