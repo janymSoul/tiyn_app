@@ -1,4 +1,4 @@
-package kz.tiyn.tiyn_app
+package kz.tiyn.app
 
 import io.flutter.embedding.android.FlutterActivity
 
