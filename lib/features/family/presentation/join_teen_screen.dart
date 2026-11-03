@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/busy_button.dart';
@@ -38,7 +37,7 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
     });
     try {
       await ref.read(familyControllerProvider.notifier).join(code);
-    } on ApiException catch (e) {
+    } catch (e) {
       if (mounted) _error = apiErrorMessage(AppLocalizations.of(context), e);
     } finally {
       if (mounted) setState(() => _busy = false);

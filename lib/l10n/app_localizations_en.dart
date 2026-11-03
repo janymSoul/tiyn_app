@@ -93,9 +93,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorConflict => 'That conflicts with data that already exists.';
 
   @override
-  String errorUnknown(String code) {
-    return 'Something went wrong ($code).';
-  }
+  String get errorUnknown => 'Something went wrong. Try again.';
 
   @override
   String get splashLoadFailed =>
@@ -154,13 +152,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get parentLinkedTeens => 'Linked teens';
 
   @override
-  String get parentTeensLoadFailed =>
-      'Could not load your teens. Pull down to retry.';
-
-  @override
-  String parentTeensLoadFailedCode(String code) {
-    return 'Could not load your teens ($code). Pull down to retry.';
-  }
+  String get pullToRetry => 'Pull down to try again.';
 
   @override
   String get parentNoTeensYet =>

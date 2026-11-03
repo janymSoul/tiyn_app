@@ -259,8 +259,8 @@ abstract class AppLocalizations {
   /// No description provided for @errorUnknown.
   ///
   /// In en, this message translates to:
-  /// **'Something went wrong ({code}).'**
-  String errorUnknown(String code);
+  /// **'Something went wrong. Try again.'**
+  String get errorUnknown;
 
   /// No description provided for @splashLoadFailed.
   ///
@@ -358,17 +358,11 @@ abstract class AppLocalizations {
   /// **'Linked teens'**
   String get parentLinkedTeens;
 
-  /// No description provided for @parentTeensLoadFailed.
+  /// No description provided for @pullToRetry.
   ///
   /// In en, this message translates to:
-  /// **'Could not load your teens. Pull down to retry.'**
-  String get parentTeensLoadFailed;
-
-  /// No description provided for @parentTeensLoadFailedCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not load your teens ({code}). Pull down to retry.'**
-  String parentTeensLoadFailedCode(String code);
+  /// **'Pull down to try again.'**
+  String get pullToRetry;
 
   /// No description provided for @parentNoTeensYet.
   ///

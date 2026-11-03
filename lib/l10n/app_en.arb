@@ -26,14 +26,7 @@
   "errorIdentityUnavailable": "Google is unavailable right now. Try again later.",
   "errorInvalidJoinCode": "We could not find that code. Check it and try again.",
   "errorConflict": "That conflicts with data that already exists.",
-  "errorUnknown": "Something went wrong ({code}).",
-  "@errorUnknown": {
-    "placeholders": {
-      "code": {
-        "type": "String"
-      }
-    }
-  },
+  "errorUnknown": "Something went wrong. Try again.",
   "splashLoadFailed": "Could not load. Check your connection and try again.",
   "joinTitle": "Enter your parent's code",
   "joinSubtitle": "Ask your mom or dad for the 6-character code from their Tiyn app.",
@@ -57,15 +50,7 @@
     }
   },
   "parentLinkedTeens": "Linked teens",
-  "parentTeensLoadFailed": "Could not load your teens. Pull down to retry.",
-  "parentTeensLoadFailedCode": "Could not load your teens ({code}). Pull down to retry.",
-  "@parentTeensLoadFailedCode": {
-    "placeholders": {
-      "code": {
-        "type": "String"
-      }
-    }
-  },
+  "pullToRetry": "Pull down to try again.",
   "parentNoTeensYet": "Nobody yet. Pull down to refresh once your teen enters the code.",
   "teenGreeting": "Hi, {name}",
   "@teenGreeting": {

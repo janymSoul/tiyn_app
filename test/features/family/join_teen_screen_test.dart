@@ -90,4 +90,16 @@ void main() {
     await tester.pumpAndSettle();
     expect(family.joined, ['SXVPUR', 'SXVPUR']);
   });
+
+  testWidgets('an unexpected error shows a plain message, not silence', (
+    tester,
+  ) async {
+    await pumpJoin(tester);
+    family.failWith = StateError('boom');
+    await tester.enterText(find.byType(TextField), 'SXVPUR');
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Something went wrong'), findsOneWidget);
+    expect(find.textContaining('boom'), findsNothing);
+  });
 }

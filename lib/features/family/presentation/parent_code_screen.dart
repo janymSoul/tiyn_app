@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/app_card.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
@@ -118,9 +118,7 @@ class ParentCodeScreen extends ConsumerWidget {
                 ),
                 error: (e, _) => AppCard(
                   child: Text(
-                    e is ApiException
-                        ? l10n.parentTeensLoadFailedCode(e.code)
-                        : l10n.parentTeensLoadFailed,
+                    '${apiErrorMessage(l10n, e)} ${l10n.pullToRetry}',
                     style: text.bodyMedium?.copyWith(
                       color: Palette.warn,
                       height: 1.5,

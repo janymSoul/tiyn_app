@@ -94,9 +94,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get errorConflict => 'Бұл әрекет бар деректермен сәйкес келмейді.';
 
   @override
-  String errorUnknown(String code) {
-    return 'Бірдеңе дұрыс болмады ($code).';
-  }
+  String get errorUnknown => 'Бірдеңе дұрыс болмады. Қайталап көріңіз.';
 
   @override
   String get splashLoadFailed =>
@@ -155,13 +153,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get parentLinkedTeens => 'Қосылған жасөспірімдер';
 
   @override
-  String get parentTeensLoadFailed =>
-      'Жасөспірімдерді жүктеу мүмкін болмады. Қайталау үшін төмен тартыңыз.';
-
-  @override
-  String parentTeensLoadFailedCode(String code) {
-    return 'Жасөспірімдерді жүктеу мүмкін болмады ($code). Қайталау үшін төмен тартыңыз.';
-  }
+  String get pullToRetry => 'Қайталау үшін төмен тартыңыз.';
 
   @override
   String get parentNoTeensYet =>

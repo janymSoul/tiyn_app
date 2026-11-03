@@ -95,9 +95,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Это действие конфликтует с уже существующими данными.';
 
   @override
-  String errorUnknown(String code) {
-    return 'Что-то пошло не так ($code).';
-  }
+  String get errorUnknown => 'Что-то пошло не так. Попробуйте ещё раз.';
 
   @override
   String get splashLoadFailed =>
@@ -156,13 +154,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get parentLinkedTeens => 'Подключённые подростки';
 
   @override
-  String get parentTeensLoadFailed =>
-      'Не удалось загрузить подростков. Потяните вниз, чтобы повторить.';
-
-  @override
-  String parentTeensLoadFailedCode(String code) {
-    return 'Не удалось загрузить подростков ($code). Потяните вниз, чтобы повторить.';
-  }
+  String get pullToRetry => 'Потяните вниз, чтобы повторить.';
 
   @override
   String get parentNoTeensYet =>
