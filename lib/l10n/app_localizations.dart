@@ -277,7 +277,7 @@ abstract class AppLocalizations {
   /// No description provided for @joinSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Ask your mom or dad for the 6-letter code from their Tiyn app.'**
+  /// **'Ask your mom or dad for the 6-character code from their Tiyn app.'**
   String get joinSubtitle;
 
   /// No description provided for @joinCodeLabel.

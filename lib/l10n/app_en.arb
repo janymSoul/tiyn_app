@@ -36,7 +36,7 @@
   },
   "splashLoadFailed": "Could not load. Check your connection and try again.",
   "joinTitle": "Enter your parent's code",
-  "joinSubtitle": "Ask your mom or dad for the 6-letter code from their Tiyn app.",
+  "joinSubtitle": "Ask your mom or dad for the 6-character code from their Tiyn app.",
   "joinCodeLabel": "Code",
   "joinConnect": "Connect",
   "joinMultiParentInfo": "You can connect to more than one parent. Each of them can give you tasks.",

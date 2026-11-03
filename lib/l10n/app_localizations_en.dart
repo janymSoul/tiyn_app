@@ -106,7 +106,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get joinSubtitle =>
-      'Ask your mom or dad for the 6-letter code from their Tiyn app.';
+      'Ask your mom or dad for the 6-character code from their Tiyn app.';
 
   @override
   String get joinCodeLabel => 'Code';

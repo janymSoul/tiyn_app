@@ -104,11 +104,11 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось загрузить. Проверьте соединение и попробуйте снова.';
 
   @override
-  String get joinTitle => 'Введите код родителя';
+  String get joinTitle => 'Введи код родителя';
 
   @override
   String get joinSubtitle =>
-      'Попроси маму или папу показать 6-значный код в их приложении Tiyn.';
+      'Попроси маму или папу код из 6 символов из их приложения Tiyn.';
 
   @override
   String get joinCodeLabel => 'Код';
