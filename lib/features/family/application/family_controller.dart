@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../auth/auth_controller.dart';
-import 'family_member.dart';
-import 'family_repository.dart';
+import 'package:tiyn_app/features/auth/application/auth_controller.dart';
+import 'package:tiyn_app/features/family/data/family_member.dart';
+import 'package:tiyn_app/features/family/data/family_repository.dart';
 
 final familyRepositoryProvider = Provider<FamilyRepository>(
   (ref) => FamilyRepository(ref.watch(apiClientProvider)),

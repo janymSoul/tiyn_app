@@ -1,4 +1,4 @@
-import '../auth/user.dart';
+import 'package:tiyn_app/core/session/role.dart';
 
 class FamilyMember {
   const FamilyMember({

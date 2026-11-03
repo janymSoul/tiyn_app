@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tiyn_app/features/auth/auth_controller.dart';
-import 'package:tiyn_app/features/auth/user.dart';
-import 'package:tiyn_app/features/family/family_controller.dart';
-import 'package:tiyn_app/features/family/family_member.dart';
-import 'package:tiyn_app/main.dart';
+import 'package:tiyn_app/app/app.dart';
+import 'package:tiyn_app/core/session/role.dart';
+import 'package:tiyn_app/features/auth/application/auth_controller.dart';
+import 'package:tiyn_app/features/auth/data/user.dart';
+import 'package:tiyn_app/features/family/application/family_controller.dart';
+import 'package:tiyn_app/features/family/data/family_member.dart';
 
 class _SignedOut extends AuthController {
   @override

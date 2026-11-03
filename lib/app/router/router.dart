@@ -2,9 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'features/auth/auth_controller.dart';
-import 'features/auth/sign_in_screen.dart';
-import 'features/home/home_screens.dart';
+import 'package:tiyn_app/features/auth/application/auth_controller.dart';
+import 'package:tiyn_app/features/auth/presentation/sign_in_screen.dart';
+import 'package:tiyn_app/features/home/home_screens.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier<int>(0);

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'app/config.dart';
-import 'core/theme.dart';
-import 'router.dart';
+import 'package:tiyn_app/app/app.dart';
+import 'package:tiyn_app/app/config.dart';
 
 void main() {
   final config = AppConfig.fromEnvironment();
@@ -13,17 +11,4 @@ void main() {
       child: const TiynApp(),
     ),
   );
-}
-
-class TiynApp extends ConsumerWidget {
-  const TiynApp({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp.router(
-      title: 'tiyn',
-      theme: buildTheme(),
-      routerConfig: ref.watch(routerProvider),
-    );
-  }
 }

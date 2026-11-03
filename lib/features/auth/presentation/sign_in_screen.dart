@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import '../../core/api_error.dart';
-import '../../core/theme.dart';
-import 'auth_controller.dart';
-import 'user.dart';
+import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/core/session/role.dart';
+import 'package:tiyn_app/design/tokens.dart';
+import 'package:tiyn_app/design/widgets/coin_badge.dart';
+import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
   const SignInScreen({super.key});
@@ -245,41 +245,6 @@ class _GoogleG extends StatelessWidget {
           color: Palette.navy,
           fontWeight: FontWeight.w700,
           fontSize: 14,
-        ),
-      ),
-    );
-  }
-}
-
-class CoinBadge extends StatelessWidget {
-  const CoinBadge({
-    super.key,
-    required this.size,
-    required this.glyph,
-    this.ring = Palette.goldSoft,
-  });
-
-  final double size;
-  final String glyph;
-  final Color ring;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: Palette.gold,
-        shape: BoxShape.circle,
-        boxShadow: [BoxShadow(color: ring, spreadRadius: 5)],
-      ),
-      child: Text(
-        glyph,
-        style: TextStyle(
-          fontSize: size * 0.42,
-          fontWeight: FontWeight.w700,
-          color: Palette.navy,
         ),
       ),
     );

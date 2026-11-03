@@ -1,6 +1,6 @@
-import '../../core/api_client.dart';
-import '../auth/user.dart';
-import 'family_member.dart';
+import 'package:tiyn_app/core/network/api_client.dart';
+import 'package:tiyn_app/core/session/role.dart';
+import 'package:tiyn_app/features/family/data/family_member.dart';
 
 class FamilyRepository {
   FamilyRepository(this._api);

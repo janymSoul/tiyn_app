@@ -1,7 +1,8 @@
-import '../../core/api_client.dart';
-import '../../core/token_storage.dart';
-import 'google_identity.dart';
-import 'user.dart';
+import 'package:tiyn_app/core/network/api_client.dart';
+import 'package:tiyn_app/core/session/role.dart';
+import 'package:tiyn_app/core/storage/token_storage.dart';
+import 'package:tiyn_app/features/auth/data/google_identity.dart';
+import 'package:tiyn_app/features/auth/data/user.dart';
 
 class AuthRepository {
   AuthRepository({

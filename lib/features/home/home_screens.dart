@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../core/theme.dart';
-import '../auth/auth_controller.dart';
-import '../auth/sign_in_screen.dart';
-import '../auth/user.dart';
-import '../family/family_controller.dart';
-import '../family/join_teen_screen.dart';
-import '../family/parent_code_screen.dart';
+import 'package:tiyn_app/core/session/role.dart';
+import 'package:tiyn_app/design/tokens.dart';
+import 'package:tiyn_app/design/widgets/coin_badge.dart';
+import 'package:tiyn_app/features/auth/application/auth_controller.dart';
+import 'package:tiyn_app/features/auth/data/user.dart';
+import 'package:tiyn_app/features/family/application/family_controller.dart';
+import 'package:tiyn_app/features/family/presentation/join_teen_screen.dart';
+import 'package:tiyn_app/features/family/presentation/parent_code_screen.dart';
 
 class HomeShell extends ConsumerWidget {
   const HomeShell({super.key, required this.user});

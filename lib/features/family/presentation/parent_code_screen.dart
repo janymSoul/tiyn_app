@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-
-import '../../core/api_error.dart';
-import '../../core/theme.dart';
-import 'family_controller.dart';
+import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/design/tokens.dart';
+import 'package:tiyn_app/design/widgets/app_card.dart';
+import 'package:tiyn_app/features/family/application/family_controller.dart';
 
 class ParentCodeScreen extends ConsumerWidget {
   const ParentCodeScreen({super.key, required this.joinCode});
@@ -112,7 +112,7 @@ class ParentCodeScreen extends ConsumerWidget {
                   padding: EdgeInsets.all(24),
                   child: Center(child: CircularProgressIndicator()),
                 ),
-                error: (e, _) => _Panel(
+                error: (e, _) => AppCard(
                   child: Text(
                     e is ApiException
                         ? 'Could not load your teens (${e.code}). Pull down to retry.'
@@ -124,7 +124,7 @@ class ParentCodeScreen extends ConsumerWidget {
                   ),
                 ),
                 data: (members) => members.isEmpty
-                    ? _Panel(
+                    ? AppCard(
                         child: Row(
                           children: [
                             Container(
@@ -156,7 +156,7 @@ class ParentCodeScreen extends ConsumerWidget {
                           for (final m in members)
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8),
-                              child: _Panel(
+                              child: AppCard(
                                 child: Row(
                                   children: [
                                     CircleAvatar(
@@ -189,25 +189,6 @@ class ParentCodeScreen extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Panel extends StatelessWidget {
-  const _Panel({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: child,
     );
   }
 }

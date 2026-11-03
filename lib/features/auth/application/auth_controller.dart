@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../app/config.dart';
-import '../../core/api_client.dart';
-import '../../core/api_error.dart';
-import '../../core/token_storage.dart';
-import 'auth_repository.dart';
-import 'google_identity.dart';
-import 'user.dart';
+import 'package:tiyn_app/app/config.dart';
+import 'package:tiyn_app/core/network/api_client.dart';
+import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/core/session/role.dart';
+import 'package:tiyn_app/core/storage/token_storage.dart';
+import 'package:tiyn_app/features/auth/data/auth_repository.dart';
+import 'package:tiyn_app/features/auth/data/google_identity.dart';
+import 'package:tiyn_app/features/auth/data/user.dart';
 
 final tokenStorageProvider = Provider<TokenStorage>((_) => TokenStorage());
 

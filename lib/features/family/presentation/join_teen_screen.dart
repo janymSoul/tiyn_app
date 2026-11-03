@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../core/api_error.dart';
-import '../../core/theme.dart';
-import 'family_controller.dart';
+import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/design/tokens.dart';
+import 'package:tiyn_app/features/family/application/family_controller.dart';
 
 class JoinTeenScreen extends ConsumerStatefulWidget {
   const JoinTeenScreen({super.key});
