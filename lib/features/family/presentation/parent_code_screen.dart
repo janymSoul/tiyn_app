@@ -8,9 +8,14 @@ import 'package:tiyn_app/design/widgets/app_card.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 
 class ParentCodeScreen extends ConsumerWidget {
-  const ParentCodeScreen({super.key, required this.joinCode});
+  const ParentCodeScreen({
+    super.key,
+    required this.joinCode,
+    required this.onSignOut,
+  });
 
   final String joinCode;
+  final VoidCallback onSignOut;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -185,6 +190,8 @@ class ParentCodeScreen extends ConsumerWidget {
                         ],
                       ),
               ),
+              const SizedBox(height: 24),
+              TextButton(onPressed: onSignOut, child: const Text('Sign out')),
             ],
           ),
         ),
