@@ -5,6 +5,7 @@ import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/busy_button.dart';
 import 'package:tiyn_app/design/widgets/info_banner.dart';
+import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
@@ -128,6 +129,21 @@ class _JoinTeenScreenState extends ConsumerState<JoinTeenScreen> {
               ),
               const SizedBox(height: Space.s24),
               InfoBanner(l10n.joinMultiParentInfo),
+              const SizedBox(height: Space.s24),
+              TextButton(
+                onPressed: _busy
+                    ? null
+                    : () => ref.read(authControllerProvider.notifier).signOut(),
+                child: Text(l10n.actionSignOut),
+              ),
+              Text(
+                l10n.joinWrongAccountHint,
+                textAlign: TextAlign.center,
+                style: text.bodySmall?.copyWith(
+                  color: Palette.muted,
+                  height: 1.5,
+                ),
+              ),
             ],
           ),
         ),

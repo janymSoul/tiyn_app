@@ -43,12 +43,16 @@ final routerProvider = Provider<GoRouter>((ref) {
               return SplashScreen(
                 hasError: true,
                 onRetry: () => ref.invalidate(authControllerProvider),
+                onSignOut: () =>
+                    ref.read(authControllerProvider.notifier).signOut(),
               );
             }
             if (family.hasError && !family.isLoading) {
               return SplashScreen(
                 hasError: true,
                 onRetry: () => ref.invalidate(familyControllerProvider),
+                onSignOut: () =>
+                    ref.read(authControllerProvider.notifier).signOut(),
               );
             }
             return const SplashScreen();

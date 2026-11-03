@@ -304,6 +304,12 @@ abstract class AppLocalizations {
   /// **'You can connect to more than one parent. Each of them can give you tasks.'**
   String get joinMultiParentInfo;
 
+  /// No description provided for @joinWrongAccountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong account? Sign out and use another Google account.'**
+  String get joinWrongAccountHint;
+
   /// No description provided for @parentCodeTitle.
   ///
   /// In en, this message translates to:

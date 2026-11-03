@@ -123,6 +123,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'You can connect to more than one parent. Each of them can give you tasks.';
 
   @override
+  String get joinWrongAccountHint =>
+      'Wrong account? Sign out and use another Google account.';
+
+  @override
   String get parentCodeTitle => 'Connect your teen';
 
   @override

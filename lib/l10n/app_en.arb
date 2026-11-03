@@ -41,6 +41,7 @@
   "joinCodeTooShort": "That code is too short. It has 6 letters or numbers.",
   "joinConnect": "Connect",
   "joinMultiParentInfo": "You can connect to more than one parent. Each of them can give you tasks.",
+  "joinWrongAccountHint": "Wrong account? Sign out and use another Google account.",
   "parentCodeTitle": "Connect your teen",
   "parentCodeSubtitle": "Ask your teen to open Tiyn, choose Teen, and type this code. Then you can give them tasks.",
   "parentCodeYourCode": "Your code",

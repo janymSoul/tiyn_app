@@ -4,10 +4,16 @@ import 'package:tiyn_app/design/widgets/coin_badge.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key, this.hasError = false, this.onRetry});
+  const SplashScreen({
+    super.key,
+    this.hasError = false,
+    this.onRetry,
+    this.onSignOut,
+  });
 
   final bool hasError;
   final VoidCallback? onRetry;
+  final VoidCallback? onSignOut;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +47,12 @@ class SplashScreen extends StatelessWidget {
                   ),
                   child: Text(l10n.actionTryAgain),
                 ),
+                if (onSignOut != null)
+                  TextButton(
+                    onPressed: onSignOut,
+                    style: TextButton.styleFrom(foregroundColor: Colors.white),
+                    child: Text(l10n.actionSignOut),
+                  ),
               ] else
                 const CircularProgressIndicator(color: Palette.gold),
             ],

@@ -124,6 +124,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Можно подключиться к нескольким родителям. Каждый из них сможет давать тебе задания.';
 
   @override
+  String get joinWrongAccountHint =>
+      'Не тот аккаунт? Выйди и войди через другой аккаунт Google.';
+
+  @override
   String get parentCodeTitle => 'Подключите подростка';
 
   @override

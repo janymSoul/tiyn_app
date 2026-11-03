@@ -124,6 +124,10 @@ class AppLocalizationsKk extends AppLocalizations {
       'Бірнеше ата-анаға қосылуға болады. Олардың әрқайсысы саған тапсырма бере алады.';
 
   @override
+  String get joinWrongAccountHint =>
+      'Аккаунт қате ме? Шығып, басқа Google аккаунтымен кір.';
+
+  @override
   String get parentCodeTitle => 'Жасөспіріміңізді қосыңыз';
 
   @override
