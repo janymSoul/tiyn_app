@@ -26,6 +26,10 @@ class FakeGoogleIdentity implements GoogleIdentity {
   Object? signInError;
   int signOutCalls = 0;
 
+  /// When set, [signOut] does not finish until this completes.
+  Future<void>? signOutBlocker;
+  Object? signOutError;
+
   @override
   String? get serverClientId => null;
 
@@ -37,5 +41,10 @@ class FakeGoogleIdentity implements GoogleIdentity {
   }
 
   @override
-  Future<void> signOut() async => signOutCalls++;
+  Future<void> signOut() async {
+    signOutCalls++;
+    await signOutBlocker;
+    final error = signOutError;
+    if (error != null) throw error;
+  }
 }

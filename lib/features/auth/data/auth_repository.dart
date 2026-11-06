@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:tiyn_app/core/network/api_client.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/json.dart';
@@ -59,8 +61,12 @@ class AuthRepository {
     }
   }
 
+  /// Ends the local session right away. Google's own sign-out (which only
+  /// makes the account picker show up again next time) can take seconds on
+  /// Android, so it runs in the background and its failure is not the
+  /// user's problem.
   Future<void> signOut() async {
     await _tokens.clear();
-    await _google.signOut();
+    unawaited(_google.signOut().then((_) {}, onError: (Object _) {}));
   }
 }

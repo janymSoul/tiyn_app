@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,6 +24,7 @@ const _userJson = {
 ProviderContainer _container({
   required FakeTokenStorage tokens,
   required FakeHandler handler,
+  FakeGoogleIdentity? google,
 }) {
   final container = ProviderContainer(
     retry: (_, _) => null,
@@ -34,7 +37,7 @@ ProviderContainer _container({
         ),
       ),
       tokenStorageProvider.overrideWithValue(tokens),
-      googleIdentityProvider.overrideWithValue(FakeGoogleIdentity()),
+      googleIdentityProvider.overrideWithValue(google ?? FakeGoogleIdentity()),
       apiClientProvider.overrideWith(
         (ref) => ApiClient(
           baseUrl: Uri.parse('https://api.test'),
@@ -104,5 +107,48 @@ void main() {
 
     expect(container.read(authControllerProvider).value, isNull);
     expect(tokens.token, isNull);
+  });
+
+  group('signOut', () {
+    FakeHandler meHandler() =>
+        (_, _) async => jsonBody(_userJson);
+
+    test('does not wait for Google to finish signing out', () async {
+      final tokens = FakeTokenStorage('t');
+      final google = FakeGoogleIdentity()
+        ..signOutBlocker = Completer<void>().future; // never completes
+      final container = _container(
+        tokens: tokens,
+        handler: meHandler(),
+        google: google,
+      );
+      expect(await container.read(authControllerProvider.future), isNotNull);
+
+      await container
+          .read(authControllerProvider.notifier)
+          .signOut()
+          .timeout(const Duration(seconds: 1));
+
+      expect(container.read(authControllerProvider).value, isNull);
+      expect(tokens.token, isNull);
+      expect(google.signOutCalls, 1);
+    });
+
+    test('a failing Google sign-out does not surface or crash', () async {
+      final tokens = FakeTokenStorage('t');
+      final google = FakeGoogleIdentity()..signOutError = StateError('gms');
+      final container = _container(
+        tokens: tokens,
+        handler: meHandler(),
+        google: google,
+      );
+      await container.read(authControllerProvider.future);
+
+      await container.read(authControllerProvider.notifier).signOut();
+      await Future<void>.delayed(Duration.zero);
+
+      expect(container.read(authControllerProvider).value, isNull);
+      expect(tokens.token, isNull);
+    });
   });
 }
