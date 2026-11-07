@@ -2,6 +2,7 @@ import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/api_client.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
 import 'package:tiyn_app/core/network/json.dart';
+import 'package:tiyn_app/core/network/paged_list.dart';
 import 'package:tiyn_app/features/payouts/data/payout.dart';
 import 'package:tiyn_app/features/payouts/data/payout_state.dart';
 
@@ -24,11 +25,8 @@ class PayoutRepository {
     decode: _payout,
   );
 
-  Future<List<Payout>> list({PayoutState? state}) => _api.get(
-    '/payouts',
-    query: {'state': ?state?.wire},
-    decode: (json) => asList(json).map(_payout).toList(),
-  );
+  Future<List<Payout>> list({PayoutState? state}) => PagedListReader(_api)
+      .readAll('/payouts', query: {'state': ?state?.wire}, decodeItem: _payout);
 
   Future<Payout> get(String id) => _api.get('/payouts/$id', decode: _payout);
 

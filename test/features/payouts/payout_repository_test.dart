@@ -88,13 +88,57 @@ void main() {
       final r = s.adapter.requests.single;
       expect(r.method, 'GET');
       expect(r.path, '/payouts');
-      expect(r.queryParameters, isEmpty);
+      expect(r.queryParameters, {'limit': 100});
     });
 
     test('the state is sent as the wire value', () async {
       final s = _ok(<Object?>[]);
       await s.repository.list(state: PayoutState.requested);
-      expect(s.adapter.requests.single.queryParameters, {'state': 'REQUESTED'});
+      expect(s.adapter.requests.single.queryParameters, {
+        'state': 'REQUESTED',
+        'limit': 100,
+      });
+    });
+
+    test('envelope shape: items are parsed', () async {
+      final s = _ok({
+        'items': [_payout(id: 'a'), _payout(id: 'b')],
+      });
+      final list = await s.repository.list();
+      expect(list.map((p) => p.id), ['a', 'b']);
+      expect(s.adapter.requests, hasLength(1));
+    });
+
+    test('envelope with nextCursor: follows to the last page', () async {
+      var n = 0;
+      final adapter = FakeAdapter((_, _) async {
+        n++;
+        return jsonBody(
+          n == 1
+              ? {
+                  'items': [_payout(id: 'a')],
+                  'nextCursor': 'c1',
+                }
+              : {
+                  'items': [_payout(id: 'b')],
+                },
+        );
+      });
+      final api = ApiClient(
+        baseUrl: Uri.parse('https://api.test'),
+        tokens: FakeTokenStorage('token'),
+        onUnauthorized: () {},
+        dio: Dio(BaseOptions(baseUrl: 'https://api.test'))
+          ..httpClientAdapter = adapter,
+      );
+      final list = await PayoutRepository(api)
+          .list(state: PayoutState.requested);
+      expect(list.map((p) => p.id), ['a', 'b']);
+      expect(adapter.requests.last.queryParameters, {
+        'state': 'REQUESTED',
+        'limit': 100,
+        'cursor': 'c1',
+      });
     });
   });
 
