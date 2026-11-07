@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
 import 'package:tiyn_app/features/tasks/data/new_task.dart';
@@ -89,6 +91,9 @@ class FakeTaskRepository implements TaskRepository {
   int proofCalls = 0;
   int getCalls = 0;
 
+  /// While set and incomplete, `get` waits: lets a test see the loading state.
+  Completer<void>? getGate;
+
   /// Every approve / reject / redo, in order.
   final decisions =
       <({String action, String id, String? note, DateTime? deadline})>[];
@@ -99,6 +104,7 @@ class FakeTaskRepository implements TaskRepository {
   @override
   Future<Task> get(String id) async {
     getCalls++;
+    await getGate?.future;
     final failure = error;
     if (failure != null) throw failure;
     return tasks.firstWhere((t) => t.id == id);

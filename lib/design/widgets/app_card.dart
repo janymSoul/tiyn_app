@@ -35,10 +35,14 @@ class AppCard extends StatelessWidget {
       child: Material(
         color: Colors.white,
         borderRadius: radius,
-        child: InkWell(
-          borderRadius: radius,
-          onTap: onTap,
-          child: Padding(padding: padding, child: child),
+        // InkWell alone is tappable but is not announced as a button.
+        child: Semantics(
+          button: true,
+          child: InkWell(
+            borderRadius: radius,
+            onTap: onTap,
+            child: Padding(padding: padding, child: child),
+          ),
         ),
       ),
     );
