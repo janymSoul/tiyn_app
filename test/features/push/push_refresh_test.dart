@@ -4,25 +4,18 @@ import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/features/push/application/push_refresh.dart';
 
 void main() {
-  test(
-    'every type, in every role, refreshes something or is a known no-op',
-    () {
-      for (final role in Role.values) {
-        for (final type in [...PushType.values, null]) {
-          final targets = refreshTargets(type, role);
-          final knownNoOp =
-              role == Role.parent &&
-              (type == PushType.payoutRequested ||
-                  type == PushType.payoutCancelledByTeen);
-          expect(
-            targets.isNotEmpty || knownNoOp,
-            isTrue,
-            reason: '${role.name} ${type?.wire}',
-          );
-        }
+  test('every type, in every role, refreshes something', () {
+    for (final role in Role.values) {
+      for (final type in [...PushType.values, null]) {
+        final targets = refreshTargets(type, role);
+        expect(
+          targets.isNotEmpty,
+          isTrue,
+          reason: '${role.name} ${type?.wire}',
+        );
       }
-    },
-  );
+    }
+  });
 
   test('a teen task push refreshes the dashboard and that task', () {
     expect(refreshTargets(PushType.taskApproved, Role.teen), {
@@ -32,9 +25,42 @@ void main() {
   });
 
   test('money pushes refresh the teen dashboard', () {
-    for (final type in [PushType.penaltyApplied, PushType.payoutFulfilled]) {
-      expect(refreshTargets(type, Role.teen), {RefreshTarget.dashboard});
+    expect(refreshTargets(PushType.penaltyApplied, Role.teen), {
+      RefreshTarget.dashboard,
+    });
+  });
+
+  test('a teen payout outcome refreshes the dashboard and that payout', () {
+    for (final type in [
+      PushType.payoutFulfilled,
+      PushType.payoutDeclined,
+      PushType.payoutExpired,
+      PushType.payoutUnlinked,
+    ]) {
+      expect(refreshTargets(type, Role.teen), {
+        RefreshTarget.dashboard,
+        RefreshTarget.payoutDetail,
+      }, reason: type.wire);
     }
+  });
+
+  test('a parent payout push refreshes the requests and that payout', () {
+    for (final type in [
+      PushType.payoutRequested,
+      PushType.payoutCancelledByTeen,
+    ]) {
+      expect(refreshTargets(type, Role.parent), {
+        RefreshTarget.requestedPayouts,
+        RefreshTarget.payoutDetail,
+      }, reason: type.wire);
+    }
+  });
+
+  test('a parent unlink also refreshes the requests', () {
+    expect(
+      refreshTargets(PushType.familyUnlinked, Role.parent),
+      contains(RefreshTarget.requestedPayouts),
+    );
   });
 
   test(
@@ -65,6 +91,7 @@ void main() {
     expect(refreshTargets(null, Role.parent), {
       RefreshTarget.submittedTasks,
       RefreshTarget.assignedTasks,
+      RefreshTarget.requestedPayouts,
     });
     expect(refreshTargets(PushType.taskSubmitted, Role.teen), {
       RefreshTarget.dashboard,

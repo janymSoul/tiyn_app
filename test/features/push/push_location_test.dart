@@ -14,6 +14,18 @@ const _teenTaskTypes = {
   PushType.taskExpiredWithPenalty,
 };
 
+const _parentPayoutTypes = {
+  PushType.payoutRequested,
+  PushType.payoutCancelledByTeen,
+};
+
+const _teenPayoutTypes = {
+  PushType.payoutFulfilled,
+  PushType.payoutDeclined,
+  PushType.payoutExpired,
+  PushType.payoutUnlinked,
+};
+
 String _home(Role role) => role == Role.parent ? '/parent/home' : '/teen/home';
 
 void main() {
@@ -34,6 +46,68 @@ void main() {
           Role.teen,
         ),
         '/teen/home',
+      );
+    });
+  });
+
+  group('teen payouts', () {
+    for (final type in _teenPayoutTypes) {
+      test('${type.wire} opens the payout', () {
+        expect(
+          pushLocation(PushPayload(type: type, payoutId: 'po1'), Role.teen),
+          '/teen/home/payout/po1',
+        );
+      });
+    }
+
+    for (final type in _parentPayoutTypes) {
+      test('${type.wire} is meant for the parent: home', () {
+        expect(
+          pushLocation(PushPayload(type: type, payoutId: 'po1'), Role.teen),
+          '/teen/home',
+        );
+      });
+    }
+  });
+
+  group('parent payouts', () {
+    for (final type in _parentPayoutTypes) {
+      test('${type.wire} opens the payout', () {
+        expect(
+          pushLocation(PushPayload(type: type, payoutId: 'po1'), Role.parent),
+          '/parent/review/payout/po1',
+        );
+      });
+    }
+
+    for (final type in _teenPayoutTypes) {
+      test('${type.wire} is meant for the teen: home', () {
+        expect(
+          pushLocation(PushPayload(type: type, payoutId: 'po1'), Role.parent),
+          '/parent/home',
+        );
+      });
+    }
+
+    test('a blank or missing payoutId goes home', () {
+      for (final id in [null, '', '   ']) {
+        expect(
+          pushLocation(
+            PushPayload(type: PushType.payoutRequested, payoutId: id),
+            Role.parent,
+          ),
+          '/parent/home',
+        );
+      }
+    });
+
+    test('a taskId alone does not open a payout', () {
+      expect(
+        pushLocation(
+          const PushPayload(type: PushType.payoutRequested, taskId: 't1'),
+          Role.parent,
+        ),
+        '/parent/home',
       );
     });
   });
@@ -69,26 +143,27 @@ void main() {
           );
           final without = pushLocation(PushPayload(type: type), role);
           expect(without, _home(role), reason: 'no id -> home');
-          final opensTask =
-              (role == Role.teen && _teenTaskTypes.contains(type)) ||
-              (role == Role.parent && type == PushType.taskSubmitted);
-          expect(withIds, opensTask ? isNot(_home(role)) : _home(role));
+          final opens =
+              (role == Role.teen &&
+                  (_teenTaskTypes.contains(type) ||
+                      _teenPayoutTypes.contains(type))) ||
+              (role == Role.parent &&
+                  (type == PushType.taskSubmitted ||
+                      _parentPayoutTypes.contains(type)));
+          expect(withIds, opens ? isNot(_home(role)) : _home(role));
         });
       }
     }
   });
 
-  test('PAYOUT_*, PENALTY_APPLIED and FAMILY_* go to the role home', () {
+  test('PENALTY_APPLIED and FAMILY_* go to the role home', () {
     for (final role in Role.values) {
       for (final type in PushType.values.where(
-        (t) =>
-            t.wire.startsWith('PAYOUT_') ||
-            t.wire.startsWith('FAMILY_') ||
-            t == PushType.penaltyApplied,
+        (t) => t.wire.startsWith('FAMILY_') || t == PushType.penaltyApplied,
       )) {
         expect(
           pushLocation(
-            PushPayload(type: type, taskId: 't1', payoutId: 'p1'),
+            PushPayload(type: type, taskId: 't1', payoutId: 'po1'),
             role,
           ),
           _home(role),
@@ -115,5 +190,17 @@ void main() {
     );
     expect(Uri.parse(location).pathSegments.length, 4);
     expect(Uri.parse(location).path, startsWith('/teen/home/task/'));
+  });
+
+  test('a payout id that is not a plain id cannot build another route', () {
+    final location = pushLocation(
+      const PushPayload(
+        type: PushType.payoutRequested,
+        payoutId: '../../x?y#z',
+      ),
+      Role.parent,
+    );
+    expect(Uri.parse(location).path, startsWith('/parent/review/payout/'));
+    expect(Uri.parse(location).pathSegments.length, 4);
   });
 }
