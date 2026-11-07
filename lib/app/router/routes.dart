@@ -9,5 +9,7 @@ abstract final class Routes {
   static const teenActivity = '/teen/activity';
 
   static const parentHome = '/parent/home';
+  static String parentTeen(String id) => '$parentHome/teen/$id';
+  static const parentTeenPattern = 'teen/:id';
   static const parentReview = '/parent/review';
 }

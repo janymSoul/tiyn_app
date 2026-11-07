@@ -11,6 +11,7 @@ import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/presentation/join_teen_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_shell.dart';
+import 'package:tiyn_app/features/parent/presentation/teen_detail_screen.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_home_placeholder.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_shell.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
@@ -120,7 +121,19 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, _, shell) => ParentShell(navigationShell: shell),
         branches: [
           StatefulShellBranch(
-            routes: [tab(Routes.parentHome, (_) => const ParentHomeScreen())],
+            routes: [
+              GoRoute(
+                path: Routes.parentHome,
+                builder: (_, _) => const ParentHomeScreen(),
+                routes: [
+                  GoRoute(
+                    path: Routes.parentTeenPattern,
+                    builder: (_, state) =>
+                        TeenDetailScreen(teenId: state.pathParameters['id']!),
+                  ),
+                ],
+              ),
+            ],
           ),
           StatefulShellBranch(
             routes: [

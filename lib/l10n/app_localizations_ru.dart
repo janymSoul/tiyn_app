@@ -206,4 +206,72 @@ class AppLocalizationsRu extends AppLocalizations {
   String navBadgeWaiting(int count) {
     return 'Ожидают: $count';
   }
+
+  @override
+  String get taskStateAssigned => 'Нужно сделать';
+
+  @override
+  String get taskStateSubmitted => 'Ждёт проверки';
+
+  @override
+  String get taskStateApproved => 'Принято';
+
+  @override
+  String get taskStateRejected => 'Отклонено';
+
+  @override
+  String get taskStateCancelled => 'Отменено';
+
+  @override
+  String get taskStateExpired => 'Просрочено';
+
+  @override
+  String teenTabTasks(int count) {
+    return 'Задачи ($count)';
+  }
+
+  @override
+  String teenTabMilestones(int count) {
+    return 'Этапы ($count)';
+  }
+
+  @override
+  String teenFinished(int count) {
+    return 'Завершённые ($count)';
+  }
+
+  @override
+  String get teenNoTasks => 'Задач пока нет.';
+
+  @override
+  String get teenNoMilestones => 'Этапов пока нет.';
+
+  @override
+  String get teenNothingOpen => 'Сейчас ничего нет в работе.';
+
+  @override
+  String milestoneProgress(int done, int total) {
+    return 'Выполнено $done из $total';
+  }
+
+  @override
+  String get milestoneNoTasks => 'Задач пока нет';
+
+  @override
+  String deadlineToday(String time) {
+    return 'Срок: сегодня, $time';
+  }
+
+  @override
+  String deadlineTomorrow(String time) {
+    return 'Срок: завтра, $time';
+  }
+
+  @override
+  String deadlineOn(String date, String time) {
+    return 'Срок: $date, $time';
+  }
+
+  @override
+  String get actionBack => 'Назад';
 }

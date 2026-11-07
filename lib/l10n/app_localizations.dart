@@ -441,6 +441,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} waiting'**
   String navBadgeWaiting(int count);
+
+  /// No description provided for @taskStateAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'To do'**
+  String get taskStateAssigned;
+
+  /// No description provided for @taskStateSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for check'**
+  String get taskStateSubmitted;
+
+  /// No description provided for @taskStateApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get taskStateApproved;
+
+  /// No description provided for @taskStateRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get taskStateRejected;
+
+  /// No description provided for @taskStateCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get taskStateCancelled;
+
+  /// No description provided for @taskStateExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get taskStateExpired;
+
+  /// No description provided for @teenTabTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks ({count})'**
+  String teenTabTasks(int count);
+
+  /// No description provided for @teenTabMilestones.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones ({count})'**
+  String teenTabMilestones(int count);
+
+  /// No description provided for @teenFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished ({count})'**
+  String teenFinished(int count);
+
+  /// No description provided for @teenNoTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks yet.'**
+  String get teenNoTasks;
+
+  /// No description provided for @teenNoMilestones.
+  ///
+  /// In en, this message translates to:
+  /// **'No milestones yet.'**
+  String get teenNoMilestones;
+
+  /// No description provided for @teenNothingOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing open right now.'**
+  String get teenNothingOpen;
+
+  /// No description provided for @milestoneProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} done'**
+  String milestoneProgress(int done, int total);
+
+  /// No description provided for @milestoneNoTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks yet'**
+  String get milestoneNoTasks;
+
+  /// No description provided for @deadlineToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today, {time}'**
+  String deadlineToday(String time);
+
+  /// No description provided for @deadlineTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Due tomorrow, {time}'**
+  String deadlineTomorrow(String time);
+
+  /// No description provided for @deadlineOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Due {date}, {time}'**
+  String deadlineOn(String date, String time);
+
+  /// No description provided for @actionBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get actionBack;
 }
 
 class _AppLocalizationsDelegate

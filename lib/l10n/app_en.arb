@@ -105,5 +105,78 @@
         "type": "int"
       }
     }
-  }
+  },
+  "taskStateAssigned": "To do",
+  "taskStateSubmitted": "Waiting for check",
+  "taskStateApproved": "Approved",
+  "taskStateRejected": "Rejected",
+  "taskStateCancelled": "Cancelled",
+  "taskStateExpired": "Expired",
+  "teenTabTasks": "Tasks ({count})",
+  "@teenTabTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "teenTabMilestones": "Milestones ({count})",
+  "@teenTabMilestones": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "teenFinished": "Finished ({count})",
+  "@teenFinished": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "teenNoTasks": "No tasks yet.",
+  "teenNoMilestones": "No milestones yet.",
+  "teenNothingOpen": "Nothing open right now.",
+  "milestoneProgress": "{done} of {total} done",
+  "@milestoneProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "milestoneNoTasks": "No tasks yet",
+  "deadlineToday": "Due today, {time}",
+  "@deadlineToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "deadlineTomorrow": "Due tomorrow, {time}",
+  "@deadlineTomorrow": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "deadlineOn": "Due {date}, {time}",
+  "@deadlineOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "actionBack": "Back"
 }

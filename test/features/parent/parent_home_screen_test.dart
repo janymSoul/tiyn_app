@@ -1,47 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
-import 'package:tiyn_app/core/session/role.dart';
-import 'package:tiyn_app/features/auth/application/auth_controller.dart';
-import 'package:tiyn_app/features/auth/data/user.dart';
-import 'package:tiyn_app/features/family/application/family_controller.dart';
-import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
 
 import '../../helpers/fake_family.dart';
 import '../../helpers/fake_tasks.dart';
+import '../../helpers/parent_harness.dart';
 import '../../helpers/pump_app.dart';
-
-class _Auth extends AuthController {
-  @override
-  Future<User?> build() async => const User(
-    id: 'parent1',
-    role: Role.parent,
-    displayName: 'Aigerim',
-    joinCode: 'SXVPUR',
-  );
-}
-
-class _Setup {
-  _Setup({List<FamilyMemberSeed> teens = const []})
-    : family = FakeFamilyRepository([
-        for (final t in teens) teenMember(t.id, t.name),
-      ]),
-      taskRepository = FakeTaskRepository();
-
-  final FakeFamilyRepository family;
-  final FakeTaskRepository taskRepository;
-
-  List<Override> get overrides => [
-    authControllerProvider.overrideWith(_Auth.new),
-    familyRepositoryProvider.overrideWithValue(family),
-    taskRepositoryProvider.overrideWithValue(taskRepository),
-  ];
-}
-
-typedef FamilyMemberSeed = ({String id, String name});
 
 const _dana = (id: 'teen1', name: 'Dana');
 const _aibek = (id: 'teen2', name: 'Aibek');
@@ -70,8 +36,8 @@ void main() {
     testWidgets('shows each teen with a status, to-check first', (
       tester,
     ) async {
-      final s = _Setup(teens: [_madina, _dana, _aibek]);
-      s.taskRepository.tasks = [
+      final s = ParentHarness(teens: [_madina, _dana, _aibek]);
+      s.tasks.tasks = [
         fakeTask(id: 's1', teenId: 'teen3', state: TaskState.submitted),
         fakeTask(id: 's2', teenId: 'teen3', state: TaskState.submitted),
         fakeTask(id: 'a1', teenId: 'teen2'),
@@ -93,18 +59,18 @@ void main() {
     testWidgets('asks for the two filtered lists, never the full history', (
       tester,
     ) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
 
-      expect(s.taskRepository.requests, hasLength(2));
-      expect(s.taskRepository.callsFor(TaskState.submitted), 1);
-      expect(s.taskRepository.callsFor(TaskState.assigned), 1);
-      expect(s.taskRepository.callsFor(null), 0);
-      expect(s.taskRepository.requests.every((r) => r.teenId == null), isTrue);
+      expect(s.tasks.requests, hasLength(2));
+      expect(s.tasks.callsFor(TaskState.submitted), 1);
+      expect(s.tasks.callsFor(TaskState.assigned), 1);
+      expect(s.tasks.callsFor(null), 0);
+      expect(s.tasks.requests.every((r) => r.teenId == null), isTrue);
     });
 
     testWidgets('a teen without tasks says nothing is active', (tester) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
       expect(find.text('Nothing active'), findsOneWidget);
     });
@@ -112,16 +78,16 @@ void main() {
     testWidgets('a failed task load explains itself and retries', (
       tester,
     ) async {
-      final s = _Setup(teens: [_dana]);
-      s.taskRepository.error = const ApiException(code: 'network_error');
+      final s = ParentHarness(teens: [_dana]);
+      s.tasks.error = const ApiException(code: 'network_error');
       await pumpApp(tester, overrides: s.overrides);
 
       expect(find.text('Dana'), findsOneWidget);
       expect(find.text('No connection. Check your network.'), findsOneWidget);
       expect(find.text('Nothing active'), findsNothing);
 
-      s.taskRepository.error = null;
-      s.taskRepository.tasks = [fakeTask(teenId: 'teen1')];
+      s.tasks.error = null;
+      s.tasks.tasks = [fakeTask(teenId: 'teen1')];
       await tester.tap(find.text('Try again'));
       await tester.pumpAndSettle();
       expect(find.text('1 active'), findsOneWidget);
@@ -131,7 +97,7 @@ void main() {
     testWidgets('a failed family load shows an error with retry', (
       tester,
     ) async {
-      final s = _Setup();
+      final s = ParentHarness();
       s.family.error = const ApiException(code: 'network_error');
       await pumpApp(tester, overrides: s.overrides);
       expect(find.text('No connection. Check your network.'), findsOneWidget);
@@ -145,12 +111,12 @@ void main() {
     });
 
     testWidgets('a failed pull-to-refresh keeps the list', (tester) async {
-      final s = _Setup(teens: [_dana]);
-      s.taskRepository.tasks = [fakeTask(teenId: 'teen1')];
+      final s = ParentHarness(teens: [_dana]);
+      s.tasks.tasks = [fakeTask(teenId: 'teen1')];
       await pumpApp(tester, overrides: s.overrides);
       expect(find.text('1 active'), findsOneWidget);
 
-      s.taskRepository.error = const ApiException(code: 'network_error');
+      s.tasks.error = const ApiException(code: 'network_error');
       s.family.error = const ApiException(code: 'network_error');
       await _pullToRefresh(tester);
 
@@ -160,11 +126,9 @@ void main() {
     });
 
     testWidgets('pull-to-refresh shows new data', (tester) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
-      s.taskRepository.tasks = [
-        fakeTask(teenId: 'teen1', state: TaskState.submitted),
-      ];
+      s.tasks.tasks = [fakeTask(teenId: 'teen1', state: TaskState.submitted)];
       await _pullToRefresh(tester);
       expect(find.text('1 to check'), findsOneWidget);
     });
@@ -172,7 +136,7 @@ void main() {
 
   group('nobody linked yet', () {
     testWidgets('the code is the page', (tester) async {
-      final s = _Setup();
+      final s = ParentHarness();
       await pumpApp(tester, overrides: s.overrides);
 
       expect(find.text('Connect your teen'), findsOneWidget);
@@ -185,7 +149,7 @@ void main() {
     testWidgets('a teen who joins meanwhile shows up on resume', (
       tester,
     ) async {
-      final s = _Setup();
+      final s = ParentHarness();
       await pumpApp(tester, overrides: s.overrides);
       expect(s.family.calls, 1);
 
@@ -203,7 +167,7 @@ void main() {
 
   group('add teen sheet', () {
     testWidgets('the code is off the page until Add is tapped', (tester) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
       expect(find.text('SXVPUR'), findsNothing);
 
@@ -217,7 +181,7 @@ void main() {
     });
 
     testWidgets('Copy puts the code on the clipboard', (tester) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       String? copied;
       tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
         SystemChannels.platform,
@@ -248,51 +212,49 @@ void main() {
     testWidgets('on resume: one refetch of family and both lists', (
       tester,
     ) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
-      expect((s.family.calls, s.taskRepository.calls), (1, 2));
+      expect((s.family.calls, s.tasks.calls), (1, 2));
 
-      s.taskRepository.tasks = [
-        fakeTask(teenId: 'teen1', state: TaskState.submitted),
-      ];
+      s.tasks.tasks = [fakeTask(teenId: 'teen1', state: TaskState.submitted)];
       _background(tester);
       await tester.pump();
-      expect((s.family.calls, s.taskRepository.calls), (1, 2));
+      expect((s.family.calls, s.tasks.calls), (1, 2));
 
       await _foreground(tester);
-      expect((s.family.calls, s.taskRepository.calls), (2, 4));
+      expect((s.family.calls, s.tasks.calls), (2, 4));
       expect(find.text('1 to check'), findsOneWidget);
     });
 
     testWidgets('selecting the tab refetches', (tester) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
-      expect(s.taskRepository.calls, 2);
+      expect(s.tasks.calls, 2);
 
       await tester.tap(find.text('To check'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Home'));
       await tester.pumpAndSettle();
-      expect((s.family.calls, s.taskRepository.calls), (2, 4));
+      expect((s.family.calls, s.tasks.calls), (2, 4));
     });
 
     testWidgets('a hidden tab does not refetch on resume', (tester) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
       await tester.tap(find.text('To check'));
       await tester.pumpAndSettle();
-      final before = (s.family.calls, s.taskRepository.calls);
+      final before = (s.family.calls, s.tasks.calls);
 
       _background(tester);
       await tester.pump();
       await _foreground(tester);
-      expect((s.family.calls, s.taskRepository.calls), before);
+      expect((s.family.calls, s.tasks.calls), before);
     });
   });
 
   group('navigation bar', () {
     testWidgets('Home and To check only', (tester) async {
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
       expect(find.byType(NavigationDestination), findsNWidgets(2));
       expect(find.text('Home'), findsOneWidget);
@@ -302,11 +264,11 @@ void main() {
 
     testWidgets('To check carries a count badge, hidden at 0', (tester) async {
       final semantics = tester.ensureSemantics();
-      final s = _Setup(teens: [_dana]);
+      final s = ParentHarness(teens: [_dana]);
       await pumpApp(tester, overrides: s.overrides);
       expect(find.byType(Badge), findsNothing);
 
-      s.taskRepository.tasks = [
+      s.tasks.tasks = [
         fakeTask(id: '1', teenId: 'teen1', state: TaskState.submitted),
         fakeTask(id: '2', teenId: 'teen1', state: TaskState.submitted),
       ];
@@ -321,8 +283,8 @@ void main() {
     });
 
     testWidgets('more than 9 shows 9+', (tester) async {
-      final s = _Setup(teens: [_dana]);
-      s.taskRepository.tasks = [
+      final s = ParentHarness(teens: [_dana]);
+      s.tasks.tasks = [
         for (var i = 0; i < 12; i++)
           fakeTask(id: 'x$i', teenId: 'teen1', state: TaskState.submitted),
       ];

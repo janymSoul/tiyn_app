@@ -205,4 +205,72 @@ class AppLocalizationsKk extends AppLocalizations {
   String navBadgeWaiting(int count) {
     return 'Күтуде: $count';
   }
+
+  @override
+  String get taskStateAssigned => 'Орындау керек';
+
+  @override
+  String get taskStateSubmitted => 'Тексеруді күтуде';
+
+  @override
+  String get taskStateApproved => 'Қабылданды';
+
+  @override
+  String get taskStateRejected => 'Қабылданбады';
+
+  @override
+  String get taskStateCancelled => 'Бас тартылды';
+
+  @override
+  String get taskStateExpired => 'Мерзімі өтті';
+
+  @override
+  String teenTabTasks(int count) {
+    return 'Тапсырмалар ($count)';
+  }
+
+  @override
+  String teenTabMilestones(int count) {
+    return 'Кезеңдер ($count)';
+  }
+
+  @override
+  String teenFinished(int count) {
+    return 'Аяқталғандар ($count)';
+  }
+
+  @override
+  String get teenNoTasks => 'Әзірге тапсырма жоқ.';
+
+  @override
+  String get teenNoMilestones => 'Әзірге кезең жоқ.';
+
+  @override
+  String get teenNothingOpen => 'Қазір ашық тапсырма жоқ.';
+
+  @override
+  String milestoneProgress(int done, int total) {
+    return '$total ішінен $done орындалды';
+  }
+
+  @override
+  String get milestoneNoTasks => 'Әзірге тапсырма жоқ';
+
+  @override
+  String deadlineToday(String time) {
+    return 'Мерзімі: бүгін, $time';
+  }
+
+  @override
+  String deadlineTomorrow(String time) {
+    return 'Мерзімі: ертең, $time';
+  }
+
+  @override
+  String deadlineOn(String date, String time) {
+    return 'Мерзімі: $date, $time';
+  }
+
+  @override
+  String get actionBack => 'Артқа';
 }

@@ -14,6 +14,9 @@ class Palette {
   static const infoText = Color(0xFF0B5A80);
   static const blue = Color(0xFF1E9BD0);
   static const warn = Color(0xFFA8430C);
+  static const warnWash = Color(0xFFFBE3D6);
+  static const successWash = Color(0xFFDDF3E4);
+  static const successText = Color(0xFF1B6B3A);
   static const onNavyMuted = Color(0xFFC5D0DE);
   static const ringOnNavy = Color(0xFF3C4D68);
 }

@@ -204,4 +204,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String navBadgeWaiting(int count) {
     return '$count waiting';
   }
+
+  @override
+  String get taskStateAssigned => 'To do';
+
+  @override
+  String get taskStateSubmitted => 'Waiting for check';
+
+  @override
+  String get taskStateApproved => 'Approved';
+
+  @override
+  String get taskStateRejected => 'Rejected';
+
+  @override
+  String get taskStateCancelled => 'Cancelled';
+
+  @override
+  String get taskStateExpired => 'Expired';
+
+  @override
+  String teenTabTasks(int count) {
+    return 'Tasks ($count)';
+  }
+
+  @override
+  String teenTabMilestones(int count) {
+    return 'Milestones ($count)';
+  }
+
+  @override
+  String teenFinished(int count) {
+    return 'Finished ($count)';
+  }
+
+  @override
+  String get teenNoTasks => 'No tasks yet.';
+
+  @override
+  String get teenNoMilestones => 'No milestones yet.';
+
+  @override
+  String get teenNothingOpen => 'Nothing open right now.';
+
+  @override
+  String milestoneProgress(int done, int total) {
+    return '$done of $total done';
+  }
+
+  @override
+  String get milestoneNoTasks => 'No tasks yet';
+
+  @override
+  String deadlineToday(String time) {
+    return 'Due today, $time';
+  }
+
+  @override
+  String deadlineTomorrow(String time) {
+    return 'Due tomorrow, $time';
+  }
+
+  @override
+  String deadlineOn(String date, String time) {
+    return 'Due $date, $time';
+  }
+
+  @override
+  String get actionBack => 'Back';
 }

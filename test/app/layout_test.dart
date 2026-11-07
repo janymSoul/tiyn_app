@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/theme.dart';
@@ -14,6 +15,7 @@ import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
+import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
@@ -216,6 +218,80 @@ void main() {
           ],
         );
         expect(find.byType(ParentHomeScreen), findsOneWidget);
+        expect(tester.takeException(), isNull);
+      });
+
+      testWidgets('teen detail: tasks, finished group and milestones', (
+        tester,
+      ) async {
+        _smallPhone(tester);
+        final tasks = FakeTaskRepository([
+          fakeTask(
+            id: 'a',
+            teenId: '2',
+            title: 'Вымыть всю посуду после большого семейного ужина',
+          ),
+          fakeTask(
+            id: 'b',
+            teenId: '2',
+            state: TaskState.submitted,
+            title: 'Үйдегі барлық бөлмелерді жинап, шаңын сүрту',
+            reward: const Money.kzt(1250000050),
+          ),
+          fakeTask(
+            id: 'c',
+            teenId: '2',
+            state: TaskState.approved,
+            title: 'Готово',
+          ),
+          fakeTask(
+            id: 'm',
+            teenId: '2',
+            kind: TaskKind.milestone,
+            title: 'Подготовка к школьному учебному году целиком',
+          ),
+          fakeTask(
+            id: 'm1',
+            teenId: '2',
+            milestoneId: 'm',
+            state: TaskState.approved,
+          ),
+          fakeTask(id: 'm2', teenId: '2', milestoneId: 'm'),
+        ]);
+        await pumpApp(
+          tester,
+          overrides: [
+            authControllerProvider.overrideWith(() => _Auth(_parentUser)),
+            familyControllerProvider.overrideWith(
+              () => _Family(() async => _teens),
+            ),
+            taskRepositoryProvider.overrideWithValue(tasks),
+          ],
+          locale: Locale(locale),
+        );
+        await tester.tap(find.textContaining('Данияр'));
+        await tester.pumpAndSettle();
+        expect(find.byType(LinearProgressIndicator), findsNothing);
+        expect(tester.takeException(), isNull);
+
+        await tester.scrollUntilVisible(
+          find.byType(ExpansionTile),
+          200,
+          scrollable: find.byType(Scrollable).last,
+        );
+        await tester.tap(find.byType(ExpansionTile));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        // Second segment: two open tasks, one open milestone.
+        await tester.tap(
+          find.descendant(
+            of: find.byWidgetPredicate((w) => w is SegmentedButton),
+            matching: find.textContaining('(1)'),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(find.byType(LinearProgressIndicator), findsOneWidget);
         expect(tester.takeException(), isNull);
       });
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tiyn_app/app/router/routes.dart';
 import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/core/session/role.dart';
@@ -82,7 +84,11 @@ class ParentHomeScreen extends ConsumerWidget {
           ))
             Padding(
               padding: const EdgeInsets.only(bottom: Space.s8),
-              child: _TeenRow(row: row, loading: !tasksFailed),
+              child: _TeenRow(
+                row: row,
+                loading: !tasksFailed,
+                onTap: () => context.push(Routes.parentTeen(row.teen.id)),
+              ),
             ),
         ];
       },
@@ -178,9 +184,14 @@ class _NoTeens extends StatelessWidget {
 }
 
 class _TeenRow extends StatelessWidget {
-  const _TeenRow({required this.row, required this.loading});
+  const _TeenRow({
+    required this.row,
+    required this.loading,
+    required this.onTap,
+  });
 
   final TeenOverview row;
+  final VoidCallback onTap;
 
   /// True while the status is not known yet (as opposed to failed).
   final bool loading;
@@ -191,6 +202,7 @@ class _TeenRow extends StatelessWidget {
     final name = row.teen.displayName;
     return MergeSemantics(
       child: AppCard(
+        onTap: onTap,
         child: Row(
           children: [
             ExcludeSemantics(
@@ -220,6 +232,10 @@ class _TeenRow extends StatelessWidget {
                   _StatusLine(status: row.status, loading: loading),
                 ],
               ),
+            ),
+            const SizedBox(width: Space.s8),
+            const ExcludeSemantics(
+              child: Icon(Icons.chevron_right, color: Palette.muted),
             ),
           ],
         ),
