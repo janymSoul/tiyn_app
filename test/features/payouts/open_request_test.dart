@@ -212,6 +212,27 @@ void main() {
       expect(_cancelButton, findsNothing);
     });
 
+    testWidgets('a 404 on cancel shows the error and refreshes the card', (
+      tester,
+    ) async {
+      final h = _Harness(dashboard: fakeDashboard(openPayout: _open()));
+      h.payouts.cancelError = const ApiException(
+        code: 'not_found',
+        statusCode: 404,
+      );
+      await pumpApp(tester, overrides: h.overrides);
+      final before = h.dashboard.calls;
+
+      h.dashboard.dashboard = fakeDashboard();
+      await tester.tap(_cancelButton);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Yes, cancel the request'));
+      await tester.pumpAndSettle();
+
+      expect(h.dashboard.calls, before + 1);
+      expect(_cancelButton, findsNothing);
+    });
+
     testWidgets('409 invalid_transition says it changed and refreshes', (
       tester,
     ) async {

@@ -191,36 +191,40 @@ class _RequestPayoutScreenState extends ConsumerState<RequestPayoutScreen> {
       ),
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Palette.background,
-        surfaceTintColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          tooltip: l10n.actionClose,
-          onPressed: () => context.pop(),
-        ),
-        title: Text(
-          l10n.payoutCashOut,
-          style: text.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-        ),
-      ),
-      body: SafeArea(
-        child: dashboard.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, _) => ListView(
-            padding: const EdgeInsets.all(24),
-            children: [
-              ErrorCard(
-                message: apiErrorMessage(l10n, e),
-                onRetry: () => ref.invalidate(dashboardControllerProvider),
-              ),
-            ],
+    final sending = _request.phase == SubmitPhase.sending;
+    return PopScope(
+      canPop: !sending,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Palette.background,
+          surfaceTintColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.close),
+            tooltip: l10n.actionClose,
+            onPressed: sending ? null : () => context.pop(),
           ),
-          data: (data) => data == null
-              ? const Center(child: CircularProgressIndicator())
-              : _body(context, data, parents),
+          title: Text(
+            l10n.payoutCashOut,
+            style: text.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+          ),
+        ),
+        body: SafeArea(
+          child: dashboard.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => ListView(
+              padding: const EdgeInsets.all(24),
+              children: [
+                ErrorCard(
+                  message: apiErrorMessage(l10n, e),
+                  onRetry: () => ref.invalidate(dashboardControllerProvider),
+                ),
+              ],
+            ),
+            data: (data) => data == null
+                ? const Center(child: CircularProgressIndicator())
+                : _body(context, data, parents),
+          ),
         ),
       ),
     );

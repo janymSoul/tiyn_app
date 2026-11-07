@@ -45,6 +45,7 @@ class IdempotentSubmitController<P, R> extends ChangeNotifier {
   P? pending;
   R? created;
   bool _keyRotatedSinceFailure = false;
+  bool _disposed = false;
 
   bool get isLocked =>
       phase == SubmitPhase.sending || phase == SubmitPhase.ambiguous;
@@ -98,5 +99,18 @@ class IdempotentSubmitController<P, R> extends ChangeNotifier {
     error = null;
     phase = SubmitPhase.editing;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  /// The screen may close while a call is in flight; the outcome is then
+  /// dropped, and nothing may notify a disposed listener.
+  @override
+  void notifyListeners() {
+    if (!_disposed) super.notifyListeners();
   }
 }

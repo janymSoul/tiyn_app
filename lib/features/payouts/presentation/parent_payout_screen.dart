@@ -101,6 +101,7 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
     });
     try {
       await call();
+      requests.remove(widget.payoutId);
       unawaited(requests.refresh());
       if (mounted) router.pop();
       messenger.showSnackBar(SnackBar(content: Text(doneText)));

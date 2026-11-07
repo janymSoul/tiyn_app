@@ -252,6 +252,30 @@ void main() {
       expect(h.payouts.creates.single.key, isNotEmpty);
     });
 
+    testWidgets('Close and Back are inert while the request is in flight', (
+      tester,
+    ) async {
+      final h = _Harness(dashboard: _rich());
+      h.payouts.createGate = Completer<void>();
+      await _open(tester, h);
+      await _type(tester, '5000');
+      await tester.tap(_send);
+      await tester.pump();
+
+      await tester.tap(find.byIcon(Icons.close), warnIfMissed: false);
+      await tester.pump();
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      await tester.binding.handlePopRoute();
+      await tester.pump();
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+      h.payouts.createGate!.complete();
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      expect(h.payouts.creates, hasLength(1));
+      expect(find.byType(CircularProgressIndicator), findsNothing);
+    });
+
     testWidgets('success refreshes the dashboard, pops home, says who', (
       tester,
     ) async {

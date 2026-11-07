@@ -631,4 +631,23 @@ void main() {
       expect(h.payouts.listStates.length, greaterThan(lists));
     });
   });
+
+  testWidgets('a failing refetch after fulfil still drops the row and badge', (
+    tester,
+  ) async {
+    final h = _harness();
+    await pumpApp(tester, overrides: h.overrides);
+    await _openPayout(tester);
+    expect(find.text('Payout requests (1)'), findsNothing); // on the detail
+
+    h.payouts.listError = const ApiException(code: 'network_error');
+    await tester.tap(_sent);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Yes, I sent it'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Payout requests (1)'), findsNothing);
+    expect(find.text('Cash-out request'), findsNothing);
+    expect(find.byType(Badge), findsNothing);
+  });
 }

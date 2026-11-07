@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
 import 'package:tiyn_app/features/payouts/data/payout.dart';
 import 'package:tiyn_app/features/payouts/data/payout_state.dart';
@@ -74,5 +77,43 @@ void main() {
         expect(container.read(payoutDetailProvider('po1')).hasError, isTrue);
       });
     }
+  });
+
+  group('RequestedPayoutsController', () {
+    test(
+      'remove drops the row and discards an older refresh in flight',
+      () async {
+        final repo = FakePayoutRepository([
+          fakePayout(id: 'a'),
+          fakePayout(id: 'b'),
+        ]);
+        final container = ProviderContainer(
+          overrides: [
+            payoutRepositoryProvider.overrideWithValue(repo),
+            currentUserIdProvider.overrideWithValue('parent1'),
+          ],
+        );
+        addTearDown(container.dispose);
+        container.listen(requestedPayoutsProvider, (_, _) {});
+        await container.read(requestedPayoutsProvider.future);
+
+        repo.listGate = Completer<void>();
+        final stale = container
+            .read(requestedPayoutsProvider.notifier)
+            .refresh();
+        container.read(requestedPayoutsProvider.notifier).remove('a');
+        expect(
+          container.read(requestedPayoutsProvider).value?.map((p) => p.id),
+          ['b'],
+        );
+
+        repo.listGate!.complete(); // the older answer still lists 'a'
+        await stale;
+        expect(
+          container.read(requestedPayoutsProvider).value?.map((p) => p.id),
+          ['b'],
+        );
+      },
+    );
   });
 }

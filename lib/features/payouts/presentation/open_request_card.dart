@@ -63,15 +63,17 @@ class _OpenRequestCardState extends ConsumerState<OpenRequestCard> {
       await ref.read(payoutRepositoryProvider).cancel(widget.payoutId);
       await _refreshEverything(dashboard);
     } catch (e) {
-      if (PayoutProblem.from(e) == PayoutProblem.changed) {
-        // It was answered before the teen confirmed: show how it is now.
-        messenger.showSnackBar(SnackBar(content: Text(l10n.payoutChanged)));
-        await _refreshEverything(dashboard);
-      } else {
-        messenger.showSnackBar(
-          SnackBar(content: Text(apiErrorMessage(l10n, e))),
-        );
-      }
+      final changed = PayoutProblem.from(e) == PayoutProblem.changed;
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            changed ? l10n.payoutChanged : apiErrorMessage(l10n, e),
+          ),
+        ),
+      );
+      // Whatever went wrong, the cancel may or may not have landed, or the
+      // request may be gone: look instead of leaving a stale card.
+      await _refreshEverything(dashboard);
     } finally {
       if (mounted) setState(() => _busy = false);
     }

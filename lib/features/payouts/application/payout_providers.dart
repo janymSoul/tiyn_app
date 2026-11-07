@@ -26,10 +26,28 @@ class RequestedPayoutsController extends AsyncNotifier<List<Payout>> {
   /// screen, that list stays and nothing is surfaced.
   Future<void> refresh() async {
     final previous = state.value;
+    final generation = ++_generation;
     final next = await AsyncValue.guard(_fetch);
-    if (!ref.mounted) return;
+    // A newer refresh or a local removal happened meanwhile: this answer is
+    // older than what the screen already shows.
+    if (!ref.mounted || generation != _generation) return;
     if (next.hasError && previous != null) return;
     state = next;
+  }
+
+  int _generation = 0;
+
+  /// Drops a request that was just resolved, without waiting for the refetch,
+  /// so the row and the badge go even if that refetch fails. Any refresh
+  /// already in flight is older than this and is discarded.
+  void remove(String id) {
+    final list = state.value;
+    if (list == null) return;
+    _generation++;
+    state = AsyncData([
+      for (final p in list)
+        if (p.id != id) p,
+    ]);
   }
 }
 

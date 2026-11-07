@@ -149,4 +149,18 @@ void main() {
       expect(s.controller.key.value, 'key-1');
     });
   });
+
+  test('closing the form mid-call drops the outcome without throwing', () async {
+    final gate = Completer<void>();
+    final controller = RequestPayoutController(
+      send: (r, key) async {
+        await gate.future;
+        return fakePayout();
+      },
+    );
+    final sending = controller.submit(_request);
+    controller.dispose();
+    gate.complete();
+    await sending; // would throw "used after being disposed" without the guard
+  });
 }
