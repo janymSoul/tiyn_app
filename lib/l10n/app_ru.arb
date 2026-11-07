@@ -163,5 +163,7 @@
   "parentKeepIt": "Оставить",
   "parentConfirmCancel": "Да, отменить",
   "parentAddToMilestone": "Добавить задачу в этот этап",
-  "parentNoteLabel": "Заметка"
+  "parentNoteLabel": "Заметка",
+  "pushBannerOpen": "Открыть",
+  "pushBannerDismiss": "Закрыть"
 }

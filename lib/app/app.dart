@@ -5,6 +5,7 @@ import 'package:tiyn_app/app/router/router.dart';
 import 'package:tiyn_app/core/l10n/app_locale.dart';
 import 'package:tiyn_app/design/theme.dart';
 import 'package:tiyn_app/features/push/application/device_registration.dart';
+import 'package:tiyn_app/features/push/presentation/push_banner_host.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
 class TiynApp extends ConsumerWidget {
@@ -23,6 +24,8 @@ class TiynApp extends ConsumerWidget {
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       theme: buildTheme(),
       routerConfig: ref.watch(routerProvider),
+      builder: (context, child) =>
+          PushBannerHost(child: child ?? const SizedBox()),
       locale: locale,
       supportedLocales: const [Locale('ru'), Locale('kk'), Locale('en')],
       localizationsDelegates: const [

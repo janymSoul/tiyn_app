@@ -1083,6 +1083,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Note'**
   String get parentNoteLabel;
+
+  /// No description provided for @pushBannerOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get pushBannerOpen;
+
+  /// No description provided for @pushBannerDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get pushBannerDismiss;
 }
 
 class _AppLocalizationsDelegate

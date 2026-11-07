@@ -343,5 +343,7 @@
   "parentKeepIt": "Keep it",
   "parentConfirmCancel": "Yes, cancel",
   "parentAddToMilestone": "Add task to this milestone",
-  "parentNoteLabel": "Note"
+  "parentNoteLabel": "Note",
+  "pushBannerOpen": "Open",
+  "pushBannerDismiss": "Dismiss"
 }

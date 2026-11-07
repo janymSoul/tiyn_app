@@ -164,5 +164,7 @@
   "parentKeepIt": "Қалдыру",
   "parentConfirmCancel": "Иә, болдырмау",
   "parentAddToMilestone": "Осы кезеңге тапсырма қосу",
-  "parentNoteLabel": "Ескерту"
+  "parentNoteLabel": "Ескерту",
+  "pushBannerOpen": "Ашу",
+  "pushBannerDismiss": "Жабу"
 }

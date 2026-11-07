@@ -569,4 +569,10 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get parentNoteLabel => 'Ескерту';
+
+  @override
+  String get pushBannerOpen => 'Ашу';
+
+  @override
+  String get pushBannerDismiss => 'Жабу';
 }

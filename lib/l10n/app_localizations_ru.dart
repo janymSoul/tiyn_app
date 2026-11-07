@@ -573,4 +573,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get parentNoteLabel => 'Заметка';
+
+  @override
+  String get pushBannerOpen => 'Открыть';
+
+  @override
+  String get pushBannerDismiss => 'Закрыть';
 }

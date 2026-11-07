@@ -569,4 +569,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get parentNoteLabel => 'Note';
+
+  @override
+  String get pushBannerOpen => 'Open';
+
+  @override
+  String get pushBannerDismiss => 'Dismiss';
 }
