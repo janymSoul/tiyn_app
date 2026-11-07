@@ -62,8 +62,12 @@ Map<String, Object?> _body() => {
     'amount': 5,
     'currency': 'KZT',
     'requestedAt': '2026-11-01T00:00:00Z',
+    'expiresAt': '2026-11-08T00:00:00Z',
   },
 };
+
+Map<String, Object?> _payoutOf(Map<String, Object?> body) =>
+    body['openPayout']! as Map<String, Object?>;
 
 Matcher _invalidResponse() => throwsA(
   isA<ApiException>().having((e) => e.code, 'code', 'invalid_response'),
@@ -129,6 +133,51 @@ void main() {
         ..remove('goals')
         ..remove('openPayout');
       expect(() => Dashboard.fromJson(json), returnsNormally);
+    });
+
+    test('decodes the open payout, expiresAt included', () {
+      final p = Dashboard.fromJson(_body()).openPayout!;
+      expect(p.id, 'p');
+      expect(p.parentId, 'x');
+      expect(p.amount, const Money.kzt(5));
+      expect(p.requestedAt, DateTime.utc(2026, 11, 1));
+      expect(p.expiresAt, DateTime.utc(2026, 11, 8));
+    });
+
+    test('no openPayout key or a null one means none', () {
+      expect(
+        Dashboard.fromJson(_body()..remove('openPayout')).openPayout,
+        isNull,
+      );
+      expect(
+        Dashboard.fromJson({..._body(), 'openPayout': null}).openPayout,
+        isNull,
+      );
+    });
+
+    test('an open payout without expiresAt fails the dashboard', () {
+      final payout = Map<String, Object?>.of(
+        _body()['openPayout']! as Map<String, Object?>,
+      )..remove('expiresAt');
+      expect(
+        () => Dashboard.fromJson({..._body(), 'openPayout': payout}),
+        _invalidResponse(),
+      );
+    });
+
+    test('a malformed open payout fails the dashboard', () {
+      for (final bad in <Map<String, Object?>>[
+        {'id': 'p'},
+        {..._payoutOf(_body()), 'amount': 'five'},
+        {..._payoutOf(_body()), 'currency': 'USD'},
+        {..._payoutOf(_body()), 'expiresAt': 'soon'},
+      ]) {
+        expect(
+          () => Dashboard.fromJson({..._body(), 'openPayout': bad}),
+          _invalidResponse(),
+          reason: '$bad',
+        );
+      }
     });
 
     test('a missing description is empty', () {

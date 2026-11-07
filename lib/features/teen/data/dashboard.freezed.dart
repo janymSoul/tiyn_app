@@ -577,9 +577,285 @@ as Money,
 }
 
 /// @nodoc
+mixin _$OpenPayout {
+
+ String get id; String get parentId; Money get amount; DateTime get requestedAt; DateTime get expiresAt;
+/// Create a copy of OpenPayout
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OpenPayoutCopyWith<OpenPayout> get copyWith => _$OpenPayoutCopyWithImpl<OpenPayout>(this as OpenPayout, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as OpenPayout;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OpenPayout&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.parentId, _this.parentId) || other.parentId == _this.parentId)&&(identical(other.amount, _this.amount) || other.amount == _this.amount)&&(identical(other.requestedAt, _this.requestedAt) || other.requestedAt == _this.requestedAt)&&(identical(other.expiresAt, _this.expiresAt) || other.expiresAt == _this.expiresAt));
+}
+
+
+@override
+int get hashCode {
+  final _this = this as OpenPayout;
+  return Object.hash(runtimeType,_this.id,_this.parentId,_this.amount,_this.requestedAt,_this.expiresAt);
+}
+
+@override
+String toString() {
+  final _this = this as OpenPayout;
+  return 'OpenPayout(id: ${_this.id}, parentId: ${_this.parentId}, amount: ${_this.amount}, requestedAt: ${_this.requestedAt}, expiresAt: ${_this.expiresAt})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OpenPayoutCopyWith<$Res>  {
+  factory $OpenPayoutCopyWith(OpenPayout value, $Res Function(OpenPayout) _then) = _$OpenPayoutCopyWithImpl;
+@useResult
+$Res call({
+ String id, String parentId, Money amount, DateTime requestedAt, DateTime expiresAt
+});
+
+
+
+
+}
+/// @nodoc
+class _$OpenPayoutCopyWithImpl<$Res>
+    implements $OpenPayoutCopyWith<$Res> {
+  _$OpenPayoutCopyWithImpl(this._self, this._then);
+
+  final OpenPayout _self;
+  final $Res Function(OpenPayout) _then;
+
+/// Create a copy of OpenPayout
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? parentId = null,Object? amount = null,Object? requestedAt = null,Object? expiresAt = null,}) {
+  return _then(OpenPayout(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,parentId: null == parentId ? _self.parentId : parentId // ignore: cast_nullable_to_non_nullable
+as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as Money,requestedAt: null == requestedAt ? _self.requestedAt : requestedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [OpenPayout].
+extension OpenPayoutPatterns on OpenPayout {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _OpenPayout value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _OpenPayout() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _OpenPayout value)  $default,){
+final _that = this;
+switch (_that) {
+case _OpenPayout():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _OpenPayout value)?  $default,){
+final _that = this;
+switch (_that) {
+case _OpenPayout() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String parentId,  Money amount,  DateTime requestedAt,  DateTime expiresAt)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _OpenPayout() when $default != null:
+return $default(_that.id,_that.parentId,_that.amount,_that.requestedAt,_that.expiresAt);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String parentId,  Money amount,  DateTime requestedAt,  DateTime expiresAt)  $default,) {final _that = this;
+switch (_that) {
+case _OpenPayout():
+return $default(_that.id,_that.parentId,_that.amount,_that.requestedAt,_that.expiresAt);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String parentId,  Money amount,  DateTime requestedAt,  DateTime expiresAt)?  $default,) {final _that = this;
+switch (_that) {
+case _OpenPayout() when $default != null:
+return $default(_that.id,_that.parentId,_that.amount,_that.requestedAt,_that.expiresAt);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _OpenPayout implements OpenPayout {
+  const _OpenPayout({required this.id, required this.parentId, required this.amount, required this.requestedAt, required this.expiresAt});
+  
+
+@override final  String id;
+@override final  String parentId;
+@override final  Money amount;
+@override final  DateTime requestedAt;
+@override final  DateTime expiresAt;
+
+/// Create a copy of OpenPayout
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OpenPayoutCopyWith<_OpenPayout> get copyWith => __$OpenPayoutCopyWithImpl<_OpenPayout>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OpenPayout&&(identical(other.id, id) || other.id == id)&&(identical(other.parentId, parentId) || other.parentId == parentId)&&(identical(other.amount, amount) || other.amount == amount)&&(identical(other.requestedAt, requestedAt) || other.requestedAt == requestedAt)&&(identical(other.expiresAt, expiresAt) || other.expiresAt == expiresAt));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,parentId,amount,requestedAt,expiresAt);
+}
+
+@override
+String toString() {
+    return 'OpenPayout(id: $id, parentId: $parentId, amount: $amount, requestedAt: $requestedAt, expiresAt: $expiresAt)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OpenPayoutCopyWith<$Res> implements $OpenPayoutCopyWith<$Res> {
+  factory _$OpenPayoutCopyWith(_OpenPayout value, $Res Function(_OpenPayout) _then) = __$OpenPayoutCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, String parentId, Money amount, DateTime requestedAt, DateTime expiresAt
+});
+
+
+
+
+}
+/// @nodoc
+class __$OpenPayoutCopyWithImpl<$Res>
+    implements _$OpenPayoutCopyWith<$Res> {
+  __$OpenPayoutCopyWithImpl(this._self, this._then);
+
+  final _OpenPayout _self;
+  final $Res Function(_OpenPayout) _then;
+
+/// Create a copy of OpenPayout
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? parentId = null,Object? amount = null,Object? requestedAt = null,Object? expiresAt = null,}) {
+  return _then(_OpenPayout(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,parentId: null == parentId ? _self.parentId : parentId // ignore: cast_nullable_to_non_nullable
+as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as Money,requestedAt: null == requestedAt ? _self.requestedAt : requestedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as DateTime,
+  ));
+}
+
+
+}
+
+/// @nodoc
 mixin _$Dashboard {
 
- Balance get balance; Money get pending; List<DashboardTask> get chores; List<DashboardTask> get milestones;
+ Balance get balance; Money get pending; List<DashboardTask> get chores; List<DashboardTask> get milestones; OpenPayout? get openPayout;
 /// Create a copy of Dashboard
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -591,20 +867,20 @@ $DashboardCopyWith<Dashboard> get copyWith => _$DashboardCopyWithImpl<Dashboard>
 @override
 bool operator ==(Object other) {
   final _this = this as Dashboard;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dashboard&&(identical(other.balance, _this.balance) || other.balance == _this.balance)&&(identical(other.pending, _this.pending) || other.pending == _this.pending)&&const DeepCollectionEquality().equals(other.chores, _this.chores)&&const DeepCollectionEquality().equals(other.milestones, _this.milestones));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dashboard&&(identical(other.balance, _this.balance) || other.balance == _this.balance)&&(identical(other.pending, _this.pending) || other.pending == _this.pending)&&const DeepCollectionEquality().equals(other.chores, _this.chores)&&const DeepCollectionEquality().equals(other.milestones, _this.milestones)&&(identical(other.openPayout, _this.openPayout) || other.openPayout == _this.openPayout));
 }
 
 
 @override
 int get hashCode {
   final _this = this as Dashboard;
-  return Object.hash(runtimeType,_this.balance,_this.pending,const DeepCollectionEquality().hash(_this.chores),const DeepCollectionEquality().hash(_this.milestones));
+  return Object.hash(runtimeType,_this.balance,_this.pending,const DeepCollectionEquality().hash(_this.chores),const DeepCollectionEquality().hash(_this.milestones),_this.openPayout);
 }
 
 @override
 String toString() {
   final _this = this as Dashboard;
-  return 'Dashboard(balance: ${_this.balance}, pending: ${_this.pending}, chores: ${_this.chores}, milestones: ${_this.milestones})';
+  return 'Dashboard(balance: ${_this.balance}, pending: ${_this.pending}, chores: ${_this.chores}, milestones: ${_this.milestones}, openPayout: ${_this.openPayout})';
 }
 
 
@@ -615,11 +891,11 @@ abstract mixin class $DashboardCopyWith<$Res>  {
   factory $DashboardCopyWith(Dashboard value, $Res Function(Dashboard) _then) = _$DashboardCopyWithImpl;
 @useResult
 $Res call({
- Balance balance, Money pending, List<DashboardTask> chores, List<DashboardTask> milestones
+ Balance balance, Money pending, List<DashboardTask> chores, List<DashboardTask> milestones, OpenPayout? openPayout
 });
 
 
-$BalanceCopyWith<$Res> get balance;
+$BalanceCopyWith<$Res> get balance;$OpenPayoutCopyWith<$Res>? get openPayout;
 
 }
 /// @nodoc
@@ -632,13 +908,14 @@ class _$DashboardCopyWithImpl<$Res>
 
 /// Create a copy of Dashboard
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? balance = null,Object? pending = null,Object? chores = null,Object? milestones = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? balance = null,Object? pending = null,Object? chores = null,Object? milestones = null,Object? openPayout = freezed,}) {
   return _then(Dashboard(
 balance: null == balance ? _self.balance : balance // ignore: cast_nullable_to_non_nullable
 as Balance,pending: null == pending ? _self.pending : pending // ignore: cast_nullable_to_non_nullable
 as Money,chores: null == chores ? _self.chores : chores // ignore: cast_nullable_to_non_nullable
 as List<DashboardTask>,milestones: null == milestones ? _self.milestones : milestones // ignore: cast_nullable_to_non_nullable
-as List<DashboardTask>,
+as List<DashboardTask>,openPayout: freezed == openPayout ? _self.openPayout : openPayout // ignore: cast_nullable_to_non_nullable
+as OpenPayout?,
   ));
 }
 /// Create a copy of Dashboard
@@ -649,6 +926,18 @@ $BalanceCopyWith<$Res> get balance {
   
   return $BalanceCopyWith<$Res>(_self.balance, (value) {
     return _then(_self.copyWith(balance: value));
+  });
+}/// Create a copy of Dashboard
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OpenPayoutCopyWith<$Res>? get openPayout {
+    if (_self.openPayout == null) {
+    return null;
+  }
+
+  return $OpenPayoutCopyWith<$Res>(_self.openPayout!, (value) {
+    return _then(_self.copyWith(openPayout: value));
   });
 }
 }
@@ -732,10 +1021,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Balance balance,  Money pending,  List<DashboardTask> chores,  List<DashboardTask> milestones)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Balance balance,  Money pending,  List<DashboardTask> chores,  List<DashboardTask> milestones,  OpenPayout? openPayout)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Dashboard() when $default != null:
-return $default(_that.balance,_that.pending,_that.chores,_that.milestones);case _:
+return $default(_that.balance,_that.pending,_that.chores,_that.milestones,_that.openPayout);case _:
   return orElse();
 
 }
@@ -753,10 +1042,10 @@ return $default(_that.balance,_that.pending,_that.chores,_that.milestones);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Balance balance,  Money pending,  List<DashboardTask> chores,  List<DashboardTask> milestones)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Balance balance,  Money pending,  List<DashboardTask> chores,  List<DashboardTask> milestones,  OpenPayout? openPayout)  $default,) {final _that = this;
 switch (_that) {
 case _Dashboard():
-return $default(_that.balance,_that.pending,_that.chores,_that.milestones);case _:
+return $default(_that.balance,_that.pending,_that.chores,_that.milestones,_that.openPayout);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -773,10 +1062,10 @@ return $default(_that.balance,_that.pending,_that.chores,_that.milestones);case 
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Balance balance,  Money pending,  List<DashboardTask> chores,  List<DashboardTask> milestones)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Balance balance,  Money pending,  List<DashboardTask> chores,  List<DashboardTask> milestones,  OpenPayout? openPayout)?  $default,) {final _that = this;
 switch (_that) {
 case _Dashboard() when $default != null:
-return $default(_that.balance,_that.pending,_that.chores,_that.milestones);case _:
+return $default(_that.balance,_that.pending,_that.chores,_that.milestones,_that.openPayout);case _:
   return null;
 
 }
@@ -788,7 +1077,7 @@ return $default(_that.balance,_that.pending,_that.chores,_that.milestones);case 
 
 
 class _Dashboard implements Dashboard {
-  const _Dashboard({required this.balance, required this.pending, required  List<DashboardTask> chores, required  List<DashboardTask> milestones}): _chores = chores,_milestones = milestones;
+  const _Dashboard({required this.balance, required this.pending, required  List<DashboardTask> chores, required  List<DashboardTask> milestones, this.openPayout}): _chores = chores,_milestones = milestones;
   
 
 @override final  Balance balance;
@@ -807,6 +1096,7 @@ class _Dashboard implements Dashboard {
   return EqualUnmodifiableListView(_milestones);
 }
 
+@override final  OpenPayout? openPayout;
 
 /// Create a copy of Dashboard
 /// with the given fields replaced by the non-null parameter values.
@@ -818,18 +1108,18 @@ _$DashboardCopyWith<_Dashboard> get copyWith => __$DashboardCopyWithImpl<_Dashbo
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dashboard&&(identical(other.balance, balance) || other.balance == balance)&&(identical(other.pending, pending) || other.pending == pending)&&const DeepCollectionEquality().equals(other.chores, _chores)&&const DeepCollectionEquality().equals(other.milestones, _milestones));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dashboard&&(identical(other.balance, balance) || other.balance == balance)&&(identical(other.pending, pending) || other.pending == pending)&&const DeepCollectionEquality().equals(other.chores, _chores)&&const DeepCollectionEquality().equals(other.milestones, _milestones)&&(identical(other.openPayout, openPayout) || other.openPayout == openPayout));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,balance,pending,const DeepCollectionEquality().hash(_chores),const DeepCollectionEquality().hash(_milestones));
+    return Object.hash(runtimeType,balance,pending,const DeepCollectionEquality().hash(_chores),const DeepCollectionEquality().hash(_milestones),openPayout);
 }
 
 @override
 String toString() {
-    return 'Dashboard(balance: $balance, pending: $pending, chores: $chores, milestones: $milestones)';
+    return 'Dashboard(balance: $balance, pending: $pending, chores: $chores, milestones: $milestones, openPayout: $openPayout)';
 }
 
 
@@ -840,11 +1130,11 @@ abstract mixin class _$DashboardCopyWith<$Res> implements $DashboardCopyWith<$Re
   factory _$DashboardCopyWith(_Dashboard value, $Res Function(_Dashboard) _then) = __$DashboardCopyWithImpl;
 @override @useResult
 $Res call({
- Balance balance, Money pending, List<DashboardTask> chores, List<DashboardTask> milestones
+ Balance balance, Money pending, List<DashboardTask> chores, List<DashboardTask> milestones, OpenPayout? openPayout
 });
 
 
-@override $BalanceCopyWith<$Res> get balance;
+@override $BalanceCopyWith<$Res> get balance;@override $OpenPayoutCopyWith<$Res>? get openPayout;
 
 }
 /// @nodoc
@@ -857,13 +1147,14 @@ class __$DashboardCopyWithImpl<$Res>
 
 /// Create a copy of Dashboard
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? balance = null,Object? pending = null,Object? chores = null,Object? milestones = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? balance = null,Object? pending = null,Object? chores = null,Object? milestones = null,Object? openPayout = freezed,}) {
   return _then(_Dashboard(
 balance: null == balance ? _self.balance : balance // ignore: cast_nullable_to_non_nullable
 as Balance,pending: null == pending ? _self.pending : pending // ignore: cast_nullable_to_non_nullable
 as Money,chores: null == chores ? _self._chores : chores // ignore: cast_nullable_to_non_nullable
 as List<DashboardTask>,milestones: null == milestones ? _self._milestones : milestones // ignore: cast_nullable_to_non_nullable
-as List<DashboardTask>,
+as List<DashboardTask>,openPayout: freezed == openPayout ? _self.openPayout : openPayout // ignore: cast_nullable_to_non_nullable
+as OpenPayout?,
   ));
 }
 
@@ -875,6 +1166,18 @@ $BalanceCopyWith<$Res> get balance {
   
   return $BalanceCopyWith<$Res>(_self.balance, (value) {
     return _then(_self.copyWith(balance: value));
+  });
+}/// Create a copy of Dashboard
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$OpenPayoutCopyWith<$Res>? get openPayout {
+    if (_self.openPayout == null) {
+    return null;
+  }
+
+  return $OpenPayoutCopyWith<$Res>(_self.openPayout!, (value) {
+    return _then(_self.copyWith(openPayout: value));
   });
 }
 }
