@@ -329,3 +329,8 @@ Not requested: the teen's phone number for recipient prefill (PII we do not hold
 
 ## Out of scope (don't do)
 Goals, wallet history, recurring tasks, parent-side teen balances, payout history screens beyond the two single-payout screens above, a bank outside the T1 table, remembering the last bank used, iOS (the `ios/` folder is left alone), recipient prefill, recording which bank was used, notification preferences, a tab rename, and any backend change. A backend gap goes in Part 3 with a fallback; it is not worked around silently.
+
+## Pending after this phase
+- **iOS banks.** Add `iosScheme` and an App Store id to `Bank`; a Swift handler on the `kz.tiyn.app/banks` channel (`canOpenURL`/`open`, App Store fallback); each scheme under `LSApplicationQueriesSchemes` in `Info.plist`, with a test like `bank_resources_test` for it. Freedom's `bankffinlink` is verified on Android only; every scheme needs checking on a real iPhone. `url_launcher` with schemes is the cross-platform alternative (new package, needs approval).
+- **Other iOS work** from Phase 2a: APNs and iOS Firebase config, the iOS side of `PushMessaging`, the notification-settings opener, Google sign-in setup.
+- **More Android banks.** Kaspi and Forte package ids are unverified; each needs a registry entry and a `<queries>` line.
