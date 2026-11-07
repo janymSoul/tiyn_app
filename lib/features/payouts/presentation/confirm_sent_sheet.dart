@@ -12,7 +12,7 @@ Future<bool?> showConfirmSentSheet(BuildContext context, Money amount) {
     amount,
     locale: Localizations.localeOf(context).languageCode,
   );
-  return _confirm(
+  return showConfirmSheet(
     context,
     title: l10n.payoutConfirmSentTitle(money),
     body: l10n.payoutConfirmSentBody(money),
@@ -27,7 +27,7 @@ Future<bool?> showConfirmDeclineSheet(BuildContext context, Money amount) {
     amount,
     locale: Localizations.localeOf(context).languageCode,
   );
-  return _confirm(
+  return showConfirmSheet(
     context,
     title: l10n.payoutDeclineTitle(money),
     body: l10n.payoutDeclineBody,
@@ -38,7 +38,9 @@ Future<bool?> showConfirmDeclineSheet(BuildContext context, Money amount) {
 }
 
 /// The safe answer is the big button; the committing one is the quiet text.
-Future<bool?> _confirm(
+/// With [destructive] the big button is the one that keeps things as they are
+/// and the warning-coloured text commits.
+Future<bool?> showConfirmSheet(
   BuildContext context, {
   required String title,
   required String body,

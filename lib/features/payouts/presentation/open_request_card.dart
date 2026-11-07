@@ -12,6 +12,7 @@ import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/payouts/application/expiry_label.dart';
 import 'package:tiyn_app/features/payouts/application/payout_problem.dart';
 import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
+import 'package:tiyn_app/features/payouts/presentation/confirm_sent_sheet.dart';
 import 'package:tiyn_app/features/payouts/presentation/expiry_text.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
@@ -79,48 +80,13 @@ class _OpenRequestCardState extends ConsumerState<OpenRequestCard> {
   Future<bool?> _confirm() {
     final l10n = AppLocalizations.of(context);
     final locale = Localizations.localeOf(context).languageCode;
-    return showModalBottomSheet<bool>(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: true,
-      builder: (context) => SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Semantics(
-                header: true,
-                child: Text(
-                  l10n.payoutCancelTitle,
-                  style: Theme.of(context).textTheme.titleLarge
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-              ),
-              const SizedBox(height: Space.s8),
-              Text(
-                l10n.payoutCancelBody(
-                  formatMoney(widget.amount, locale: locale),
-                ),
-                style: Theme.of(context).textTheme.bodyMedium
-                    ?.copyWith(color: Palette.muted, height: 1.5),
-              ),
-              const SizedBox(height: Space.s20),
-              FilledButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(l10n.parentKeepIt),
-              ),
-              const SizedBox(height: Space.s4),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                style: TextButton.styleFrom(foregroundColor: Palette.warn),
-                child: Text(l10n.payoutConfirmCancel),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return showConfirmSheet(
+      context,
+      title: l10n.payoutCancelTitle,
+      body: l10n.payoutCancelBody(formatMoney(widget.amount, locale: locale)),
+      yes: l10n.payoutConfirmCancel,
+      no: l10n.parentKeepIt,
+      destructive: true,
     );
   }
 

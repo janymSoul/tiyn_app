@@ -14,6 +14,7 @@ import 'package:tiyn_app/features/payouts/data/cancel_reason.dart';
 import 'package:tiyn_app/features/payouts/data/payout.dart';
 import 'package:tiyn_app/features/payouts/data/payout_state.dart';
 import 'package:tiyn_app/features/payouts/presentation/open_request_card.dart';
+import 'package:tiyn_app/features/payouts/presentation/payout_message.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_home_screen.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
@@ -62,7 +63,7 @@ class TeenPayoutScreen extends ConsumerWidget {
                 final problem = PayoutProblem.from(e);
                 if (problem == PayoutProblem.notFound ||
                     problem == PayoutProblem.notLinked) {
-                  return _Message(title: l10n.payoutUnavailable);
+                  return PayoutMessage(title: l10n.payoutUnavailable);
                 }
                 return ListView(
                   padding: const EdgeInsets.all(24),
@@ -109,60 +110,28 @@ class _Body extends StatelessWidget {
           ),
         ],
       ),
-      PayoutState.fulfilled => _Message(
+      PayoutState.fulfilled => PayoutMessage(
         title: l10n.payoutFulfilledTitle(amount),
         body: l10n.payoutFulfilledBody,
       ),
       PayoutState.cancelled => switch (payout.cancelReason) {
-        CancelReason.declined => _Message(
+        CancelReason.declined => PayoutMessage(
           title: l10n.payoutDeclinedTitle,
           body: l10n.payoutDeclinedBody(amount),
         ),
-        CancelReason.expired => _Message(
+        CancelReason.expired => PayoutMessage(
           title: l10n.payoutExpiredTitle,
           body: l10n.payoutExpiredBody(amount),
         ),
-        CancelReason.unlinked => _Message(
+        CancelReason.unlinked => PayoutMessage(
           title: l10n.payoutUnlinkedTitle,
           body: l10n.payoutUnlinkedBody(amount),
         ),
-        CancelReason.teenCancelled || null => _Message(
+        CancelReason.teenCancelled || null => PayoutMessage(
           title: l10n.payoutCancelledTitle,
           body: l10n.payoutCancelledBody(amount),
         ),
       },
     };
-  }
-}
-
-class _Message extends StatelessWidget {
-  const _Message({required this.title, this.body});
-
-  final String title;
-  final String? body;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-    return ListView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-      children: [
-        Semantics(
-          header: true,
-          child: Text(
-            title,
-            style: text.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
-          ),
-        ),
-        if (body != null) ...[
-          const SizedBox(height: Space.s12),
-          Text(
-            body!,
-            style: text.bodyLarge?.copyWith(color: Palette.muted, height: 1.5),
-          ),
-        ],
-      ],
-    );
   }
 }

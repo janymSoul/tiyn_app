@@ -25,6 +25,7 @@ import 'package:tiyn_app/features/payouts/data/payout.dart';
 import 'package:tiyn_app/features/payouts/data/payout_state.dart';
 import 'package:tiyn_app/features/payouts/presentation/confirm_sent_sheet.dart';
 import 'package:tiyn_app/features/payouts/presentation/expiry_text.dart';
+import 'package:tiyn_app/features/payouts/presentation/payout_message.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
 /// A teen's cash-out request as the parent sees it: send the money, then
@@ -191,7 +192,7 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
                 final problem = PayoutProblem.from(e);
                 if (problem == PayoutProblem.notFound ||
                     problem == PayoutProblem.notLinked) {
-                  return _Message(title: l10n.payoutUnavailable);
+                  return PayoutMessage(title: l10n.payoutUnavailable);
                 }
                 return ListView(
                   padding: const EdgeInsets.all(24),
@@ -222,7 +223,7 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
     final amount = formatMoney(payout.amount, locale: locale);
     final working = _busy != _Busy.none;
 
-    if (_notLinked) return _Message(title: l10n.payoutParentUnlinked);
+    if (_notLinked) return PayoutMessage(title: l10n.payoutParentUnlinked);
 
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
@@ -322,11 +323,11 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
     final locale = Localizations.localeOf(context).languageCode;
     final amount = formatMoney(payout.amount, locale: locale);
     return switch (payout.state) {
-      PayoutState.fulfilled => _Message(
+      PayoutState.fulfilled => PayoutMessage(
         title: l10n.payoutParentFulfilledTitle,
         body: l10n.payoutParentFulfilledBody(amount),
       ),
-      _ => _Message(
+      _ => PayoutMessage(
         title: switch (payout.cancelReason) {
           CancelReason.declined => l10n.payoutParentDeclined,
           CancelReason.expired => l10n.payoutParentExpired,
@@ -335,37 +336,5 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
         },
       ),
     };
-  }
-}
-
-class _Message extends StatelessWidget {
-  const _Message({required this.title, this.body});
-
-  final String title;
-  final String? body;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-    return ListView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-      children: [
-        Semantics(
-          header: true,
-          child: Text(
-            title,
-            style: text.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
-          ),
-        ),
-        if (body != null) ...[
-          const SizedBox(height: Space.s12),
-          Text(
-            body!,
-            style: text.bodyLarge?.copyWith(color: Palette.muted, height: 1.5),
-          ),
-        ],
-      ],
-    );
   }
 }
