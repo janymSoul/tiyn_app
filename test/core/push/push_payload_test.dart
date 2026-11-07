@@ -84,13 +84,13 @@ void main() {
       expect((await fake.initialMessage())?.title, 'x');
     });
 
-    test('request moves the status; delete drops the token', () async {
+    test('request moves the status; delete mints a fresh token', () async {
       final fake = FakePushMessaging(permission: PushPermission.notDetermined)
         ..permissionAfterRequest = PushPermission.denied;
       expect(await fake.requestPermission(), PushPermission.denied);
       expect(await fake.permissionStatus(), PushPermission.denied);
       await fake.deleteToken();
-      expect(await fake.token(), isNull);
+      expect(await fake.token(), 'fcm-token-after-delete-1');
       expect(fake.deleteTokenCalls, 1);
     });
   });

@@ -49,7 +49,8 @@ class FakePushMessaging implements PushMessaging {
     await deleteTokenBlocker?.future;
     final error = deleteTokenError;
     if (error != null) throw error;
-    tokenValue = null;
+    // A real deleteToken makes the next getToken() mint a fresh token.
+    tokenValue = 'fcm-token-after-delete-$deleteTokenCalls';
   }
 
   @override
