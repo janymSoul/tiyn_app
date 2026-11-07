@@ -5,6 +5,7 @@ import 'package:tiyn_app/app/router/router.dart';
 import 'package:tiyn_app/core/l10n/app_locale.dart';
 import 'package:tiyn_app/design/theme.dart';
 import 'package:tiyn_app/features/push/application/device_registration.dart';
+import 'package:tiyn_app/features/push/application/push_link_coordinator.dart';
 import 'package:tiyn_app/features/push/presentation/push_banner_host.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
@@ -20,6 +21,7 @@ class TiynApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(deviceRegistrationProvider);
+    ref.watch(pushLinkCoordinatorProvider);
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       theme: buildTheme(),

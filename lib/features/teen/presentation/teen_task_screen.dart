@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiyn_app/app/router/routes.dart';
 import 'package:tiyn_app/core/format/deadline_label.dart';
 import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
@@ -14,6 +15,7 @@ import 'package:tiyn_app/design/widgets/money_text.dart';
 import 'package:tiyn_app/design/widgets/state_chip.dart';
 import 'package:tiyn_app/features/tasks/application/task_detail_provider.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
+import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 import 'package:tiyn_app/features/teen/presentation/proof_sheet.dart';
@@ -67,13 +69,50 @@ class TeenTaskScreen extends ConsumerWidget {
                   ),
                 ],
               ),
-              data: (t) => _TaskBody(task: t),
+              data: (t) => t.kind == TaskKind.milestone
+                  ? _OpenAsMilestone(id: t.id)
+                  : _TaskBody(task: t),
             ),
           ),
         ),
       ),
     );
   }
+}
+
+/// A push carries a milestone's id as `taskId`, so this screen can be opened
+/// on a milestone. A milestone has its own screen (steps, and the rule that
+/// all steps must be approved before it can be submitted), so hand over to it
+/// instead of showing it as a plain task.
+class _OpenAsMilestone extends StatefulWidget {
+  const _OpenAsMilestone({required this.id});
+
+  final String id;
+
+  @override
+  State<_OpenAsMilestone> createState() => _OpenAsMilestoneState();
+}
+
+class _OpenAsMilestoneState extends State<_OpenAsMilestone> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.pushReplacement(Routes.teenMilestone(widget.id));
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => ListView(
+    children: const [
+      Padding(
+        padding: EdgeInsets.all(48),
+        child: Center(child: CircularProgressIndicator()),
+      ),
+    ],
+  );
 }
 
 class _TaskBody extends ConsumerWidget {
