@@ -41,19 +41,3 @@ abstract class Payout with _$Payout {
     );
   }
 }
-
-extension PayoutJson on Payout {
-  /// The wire shape. Null fields are sent as `null`, as the backend does.
-  Map<String, Object?> toJson() => {
-    'id': id,
-    'teenId': teenId,
-    'parentId': parentId,
-    'amount': amount.minor,
-    'currency': amount.currency,
-    'state': state.wire,
-    'requestedAt': requestedAt.toUtc().toIso8601String(),
-    'expiresAt': expiresAt?.toUtc().toIso8601String(),
-    'resolvedAt': resolvedAt?.toUtc().toIso8601String(),
-    'cancelReason': cancelReason?.wire,
-  };
-}

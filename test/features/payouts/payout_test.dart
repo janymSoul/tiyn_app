@@ -54,21 +54,6 @@ void main() {
       expect(p.resolvedAt, DateTime.utc(2026, 11, 2, 9));
     });
 
-    test('round-trips through toJson', () {
-      for (final json in [
-        _json(),
-        _json(state: 'FULFILLED', resolvedAt: '2026-11-02T09:00:00Z'),
-        _json(
-          state: 'CANCELLED',
-          resolvedAt: '2026-11-02T09:00:00Z',
-          cancelReason: 'EXPIRED',
-        ),
-      ]) {
-        final p = Payout.fromJson(json);
-        expect(Payout.fromJson(p.toJson()), p);
-      }
-    });
-
     test('every wire value of both enums is known', () {
       for (final r in CancelReason.values) {
         expect(CancelReason.fromWire(r.wire), r);

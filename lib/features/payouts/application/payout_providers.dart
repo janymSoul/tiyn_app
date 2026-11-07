@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiyn_app/app/providers.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
+import 'package:tiyn_app/features/payouts/application/payout_problem.dart';
 import 'package:tiyn_app/features/payouts/data/payout.dart';
 import 'package:tiyn_app/features/payouts/data/payout_repository.dart';
 import 'package:tiyn_app/features/payouts/data/payout_state.dart';
@@ -48,13 +49,21 @@ class PayoutDetailController extends AsyncNotifier<Payout> {
   Future<Payout> _fetch() => ref.read(payoutRepositoryProvider).get(id);
 
   /// Reloads without a spinner. If it fails while a payout is already on
-  /// screen, that payout stays and nothing is surfaced.
+  /// screen, that payout stays and nothing is surfaced, except when the
+  /// payout is gone for this user (404, or 403 after an unlink): then the
+  /// screen must stop offering actions on it.
   Future<void> refresh() async {
     final previous = state.value;
     final next = await AsyncValue.guard(_fetch);
     if (!ref.mounted) return;
-    if (next.hasError && previous != null) return;
+    if (next.hasError && previous != null && !_isGone(next.error!)) return;
     state = next;
+  }
+
+  static bool _isGone(Object error) {
+    final problem = PayoutProblem.from(error);
+    return problem == PayoutProblem.notFound ||
+        problem == PayoutProblem.notLinked;
   }
 }
 
