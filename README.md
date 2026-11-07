@@ -8,6 +8,10 @@ Flutter app (Android first) for tasks and pocket money for teens and parents. Ba
 - Android SDK and an emulator or device
 - A Google OAuth client for the flavor's package (see `docs/plans/phase-0-foundation.md`, "Human tasks")
 
+## Push notifications (Firebase)
+
+Push needs `android/app/google-services.json`, which is gitignored because the repo is public. Download it from the Firebase console (project `tiyn-notification`, Project settings, Your apps: the file holds both Android apps, `kz.tiyn.app` and `kz.tiyn.app.dev`) and put it in `android/app/`; Android builds fail without it. CI writes it from the base64 repo secret `GOOGLE_SERVICES_JSON`.
+
 ## Flavors
 
 | Flavor | applicationId | Label | API |

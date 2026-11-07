@@ -10,6 +10,7 @@ import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/busy_button.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
+import 'package:tiyn_app/features/push/presentation/notify_prompt_sheet.dart';
 import 'package:tiyn_app/features/tasks/application/create_task_controller.dart';
 import 'package:tiyn_app/features/tasks/application/task_form.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
@@ -118,6 +119,9 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   }
 
   Future<void> _submit() async {
+    // Taken before the await: the form is gone by the time they are needed.
+    final navigator = Navigator.of(context, rootNavigator: true);
+    final container = ProviderScope.containerOf(context);
     final pending = _create.pending;
     final NewTask task;
     if (_create.phase == CreatePhase.ambiguous && pending != null) {
@@ -132,7 +136,15 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     if (!mounted) return;
     if (ok) {
       _refreshLists();
+      final teenName = ref.read(familyNamesProvider)[widget.args.teenId];
       context.pop(true);
+      unawaited(
+        askForNotificationsAfterCreate(
+          navigatorContext: navigator.context,
+          container: container,
+          teenName: teenName,
+        ),
+      );
       return;
     }
     final error = _create.error;

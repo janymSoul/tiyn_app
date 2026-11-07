@@ -569,4 +569,49 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get parentNoteLabel => 'Ескерту';
+
+  @override
+  String get pushBannerOpen => 'Ашу';
+
+  @override
+  String get pushBannerDismiss => 'Жабу';
+
+  @override
+  String get notifyAskTitleTeen =>
+      'Жаңа тапсырмалар мен ақша туралы біліп отыр';
+
+  @override
+  String notifyParentSheetTitle(String name) {
+    return '$name растама жібергенде хабарлама алыңыз';
+  }
+
+  @override
+  String get notifyParentSheetBody =>
+      'Тексеретін нәрсе пайда болғанда хабарлаймыз.';
+
+  @override
+  String get notifyFallbackName => 'жасөспіріміңіз';
+
+  @override
+  String get notifyTurnOn => 'Қосу';
+
+  @override
+  String get notifyNotNow => 'Қазір емес';
+
+  @override
+  String get notifyDeniedTitle => 'Хабарламалар өшірулі';
+
+  @override
+  String get notifyDeniedBody =>
+      'Хабарламалар өшірулі тұрғанда жаңалықтардан хабарсыз қаласыз. Оларды баптауларда қосуға болады.';
+
+  @override
+  String get notifyOpenSettings => 'Баптауларды ашу';
+
+  @override
+  String get notifyDismiss => 'Жабу';
+
+  @override
+  String get notifyTeenSheetBody =>
+      'Тапсырма келгенде немесе ата-ана шешім қабылдағанда бірден хабарлаймыз.';
 }

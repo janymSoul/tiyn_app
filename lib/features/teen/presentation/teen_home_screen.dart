@@ -14,6 +14,8 @@ import 'package:tiyn_app/design/widgets/task_card.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
+import 'package:tiyn_app/features/push/presentation/notify_cards.dart';
+import 'package:tiyn_app/features/push/presentation/notify_prompt_sheet.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 import 'package:tiyn_app/features/teen/application/teen_home_model.dart';
 import 'package:tiyn_app/features/teen/data/dashboard.dart';
@@ -85,6 +87,8 @@ class TeenHomeScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: Space.s16),
+                const NotifyCards(),
+                const TeenNotifyPrompt(),
                 ...body,
                 const SizedBox(height: Space.s32),
                 if (parents.isNotEmpty)

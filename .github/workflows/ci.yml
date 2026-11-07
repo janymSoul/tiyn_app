@@ -77,6 +77,18 @@ jobs:
           flutter-version-file: pubspec.yaml
           cache: true
       - run: flutter pub get
+      # env/*.json is gitignored; build it from the repo secret.
+      - name: Write env/staging.json
+        env:
+          GOOGLE_SERVER_CLIENT_ID: ${{ secrets.GOOGLE_SERVER_CLIENT_ID }}
+        run: |
+          mkdir -p env
+          printf '{"FLAVOR":"staging","API_BASE_URL":"https://api-staging.tiyn.dev","GOOGLE_SERVER_CLIENT_ID":"%s"}' "$GOOGLE_SERVER_CLIENT_ID" > env/staging.json
+      # google-services.json is gitignored; build it from the repo secret.
+      - name: Write android/app/google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo "$GOOGLE_SERVICES_JSON" | base64 -d > android/app/google-services.json
       - name: Build staging APK
         run: flutter build apk --debug --flavor staging --dart-define-from-file=env/staging.json
       - uses: actions/upload-artifact@v4

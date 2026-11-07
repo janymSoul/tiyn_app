@@ -343,5 +343,25 @@
   "parentKeepIt": "Keep it",
   "parentConfirmCancel": "Yes, cancel",
   "parentAddToMilestone": "Add task to this milestone",
-  "parentNoteLabel": "Note"
+  "parentNoteLabel": "Note",
+  "pushBannerOpen": "Open",
+  "pushBannerDismiss": "Dismiss",
+  "notifyAskTitleTeen": "Get notified about new tasks and money",
+  "notifyParentSheetTitle": "Get notified when {name} sends proof",
+  "@notifyParentSheetTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyParentSheetBody": "We'll tell you as soon as there's something to check.",
+  "notifyFallbackName": "your teen",
+  "notifyTurnOn": "Turn on",
+  "notifyNotNow": "Not now",
+  "notifyDeniedTitle": "Notifications are off",
+  "notifyDeniedBody": "You won't hear about updates until you turn them on in settings.",
+  "notifyOpenSettings": "Open settings",
+  "notifyDismiss": "Dismiss",
+  "notifyTeenSheetBody": "We'll let you know the moment a task arrives or a parent decides."
 }

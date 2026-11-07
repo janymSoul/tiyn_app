@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiyn_app/app/providers.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
+import 'package:tiyn_app/core/session/session_end.dart';
 import 'package:tiyn_app/core/session/session_events.dart';
 import 'package:tiyn_app/features/auth/data/auth_repository.dart';
 import 'package:tiyn_app/features/auth/data/user.dart';
@@ -33,7 +34,21 @@ class AuthController extends AsyncNotifier<User?> {
   void signedIn(User user) => state = AsyncData(user);
 
   Future<void> signOut() async {
-    await ref.read(authRepositoryProvider).signOut();
+    try {
+      await ref
+          .read(sessionEndHooksProvider)
+          .handler
+          .beginSignOut()
+          .timeout(const Duration(seconds: 1));
+    } on Object {
+      // Never let device cleanup hold up or fail a sign-out.
+    }
+    try {
+      await ref.read(authRepositoryProvider).signOut();
+    } on Object {
+      ref.read(sessionEndHooksProvider).handler.signOutFailed();
+      rethrow;
+    }
     state = const AsyncData(null);
   }
 

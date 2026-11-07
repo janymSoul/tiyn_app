@@ -9,6 +9,8 @@ typedef UnauthorizedHandler = void Function();
 
 typedef JsonDecoder<T> = T Function(Object? json);
 
+const _foreignTokenKey = 'foreignToken';
+
 class ApiClient {
   ApiClient({
     required Uri baseUrl,
@@ -29,6 +31,9 @@ class ApiClient {
     _dio.interceptors.addAll([
       InterceptorsWrapper(
         onRequest: (options, handler) async {
+          if (options.headers.containsKey('Authorization')) {
+            return handler.next(options);
+          }
           final token = await _tokens.read();
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -41,7 +46,8 @@ class ApiClient {
           final hadToken = e.requestOptions.headers.containsKey(
             'Authorization',
           );
-          if (e.response?.statusCode == 401 && hadToken) {
+          final ownsSession = e.requestOptions.extra[_foreignTokenKey] != true;
+          if (e.response?.statusCode == 401 && hadToken && ownsSession) {
             _onUnauthorized();
           }
           handler.next(e);
@@ -85,8 +91,22 @@ class ApiClient {
   Future<void> put(String path, {Object? body}) =>
       _send(() => _dio.put<Object?>(path, data: body), (_) {});
 
-  Future<void> delete(String path, {Object? body}) =>
-      _send(() => _dio.delete<Object?>(path, data: body), (_) {});
+  /// With [authToken] the request is made on behalf of that token (a session
+  /// that is being ended) instead of whatever is in storage, and a 401 does
+  /// not count as "the current session expired".
+  Future<void> delete(String path, {Object? body, String? authToken}) => _send(
+    () => _dio.delete<Object?>(
+      path,
+      data: body,
+      options: authToken == null
+          ? null
+          : Options(
+              headers: {'Authorization': 'Bearer $authToken'},
+              extra: {_foreignTokenKey: true},
+            ),
+    ),
+    (_) {},
+  );
 
   Future<T> postMultipart<T>(
     String path, {

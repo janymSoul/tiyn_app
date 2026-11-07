@@ -163,5 +163,18 @@
   "parentKeepIt": "Оставить",
   "parentConfirmCancel": "Да, отменить",
   "parentAddToMilestone": "Добавить задачу в этот этап",
-  "parentNoteLabel": "Заметка"
+  "parentNoteLabel": "Заметка",
+  "pushBannerOpen": "Открыть",
+  "pushBannerDismiss": "Закрыть",
+  "notifyAskTitleTeen": "Узнавай о новых задачах и деньгах",
+  "notifyParentSheetTitle": "Узнайте, когда {name} отправит подтверждение",
+  "notifyParentSheetBody": "Мы сообщим, как только будет что проверить.",
+  "notifyFallbackName": "ваш подросток",
+  "notifyTurnOn": "Включить",
+  "notifyNotNow": "Не сейчас",
+  "notifyDeniedTitle": "Уведомления выключены",
+  "notifyDeniedBody": "Пока уведомления выключены, об обновлениях не узнать. Их можно включить в настройках.",
+  "notifyOpenSettings": "Открыть настройки",
+  "notifyDismiss": "Закрыть",
+  "notifyTeenSheetBody": "Сразу скажем, когда придёт задача или родитель примет решение."
 }

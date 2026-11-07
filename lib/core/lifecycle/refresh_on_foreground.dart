@@ -20,9 +20,10 @@ final tabSelectedProvider = NotifierProvider<TabSelectedNotifier, TabSelected?>(
   TabSelectedNotifier.new,
 );
 
-/// There is no push in Phase 1, so a list refetches itself when the app comes
-/// back to the foreground and when its tab is selected. Every list screen
-/// wraps its content in this instead of re-implementing the pattern.
+/// A list refetches itself when the app comes back to the foreground and when
+/// its tab is selected. Push refreshes screens too, but it is only a nudge: it
+/// can arrive late or not at all, so this stays as the safety net. Every list
+/// screen wraps its content in this instead of re-implementing the pattern.
 ///
 /// [onRefresh] must be silent: the old data stays on screen and a failed
 /// refetch shows nothing.

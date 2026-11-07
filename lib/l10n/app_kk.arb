@@ -164,5 +164,18 @@
   "parentKeepIt": "Қалдыру",
   "parentConfirmCancel": "Иә, болдырмау",
   "parentAddToMilestone": "Осы кезеңге тапсырма қосу",
-  "parentNoteLabel": "Ескерту"
+  "parentNoteLabel": "Ескерту",
+  "pushBannerOpen": "Ашу",
+  "pushBannerDismiss": "Жабу",
+  "notifyAskTitleTeen": "Жаңа тапсырмалар мен ақша туралы біліп отыр",
+  "notifyParentSheetTitle": "{name} растама жібергенде хабарлама алыңыз",
+  "notifyParentSheetBody": "Тексеретін нәрсе пайда болғанда хабарлаймыз.",
+  "notifyFallbackName": "жасөспіріміңіз",
+  "notifyTurnOn": "Қосу",
+  "notifyNotNow": "Қазір емес",
+  "notifyDeniedTitle": "Хабарламалар өшірулі",
+  "notifyDeniedBody": "Хабарламалар өшірулі тұрғанда жаңалықтардан хабарсыз қаласыз. Оларды баптауларда қосуға болады.",
+  "notifyOpenSettings": "Баптауларды ашу",
+  "notifyDismiss": "Жабу",
+  "notifyTeenSheetBody": "Тапсырма келгенде немесе ата-ана шешім қабылдағанда бірден хабарлаймыз."
 }

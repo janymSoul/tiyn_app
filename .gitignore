@@ -55,3 +55,6 @@ android/key.properties
 env/*.local.json
 # Coverage
 coverage/
+
+# Firebase client config (public repo; CI writes it from a secret)
+android/app/google-services.json
