@@ -48,6 +48,11 @@ class FakePayoutRepository implements PayoutRepository {
   final listStates = <PayoutState?>[];
   final gets = <String>[];
   final cancels = <String>[];
+  final fulfils = <String>[];
+  final declines = <String>[];
+  Object? fulfilError;
+  Object? declineError;
+  Completer<void>? fulfilGate;
   Object? getError;
   Object? cancelError;
   Completer<void>? cancelGate;
@@ -89,10 +94,25 @@ class FakePayoutRepository implements PayoutRepository {
   }
 
   @override
-  Future<Payout> fulfil(String id) => throw UnimplementedError();
+  Future<Payout> fulfil(String id) async {
+    fulfils.add(id);
+    await fulfilGate?.future;
+    final failure = fulfilError;
+    if (failure != null) throw failure;
+    return fakePayout(id: id, state: PayoutState.fulfilled);
+  }
 
   @override
-  Future<Payout> decline(String id) => throw UnimplementedError();
+  Future<Payout> decline(String id) async {
+    declines.add(id);
+    final failure = declineError;
+    if (failure != null) throw failure;
+    return fakePayout(
+      id: id,
+      state: PayoutState.cancelled,
+      cancelReason: CancelReason.declined,
+    );
+  }
 
   @override
   Future<Payout> cancel(String id) async {

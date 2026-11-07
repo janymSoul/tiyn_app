@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tiyn_app/app/router/routes.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/app_card.dart';
@@ -66,6 +68,7 @@ class PayoutRequestsSection extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: Space.s8),
                 child: AppCard(
+                  onTap: () => context.push(Routes.parentPayout(payout.id)),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

@@ -823,4 +823,95 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get payoutRowTitle => 'Запрос на выплату';
+
+  @override
+  String payoutAsksForTitle(String name) {
+    return '$name просит';
+  }
+
+  @override
+  String get payoutStepSend => '1. Отправьте деньги';
+
+  @override
+  String get payoutStepConfirm => '2. Затем подтвердите';
+
+  @override
+  String payoutSendHint(String amount) {
+    return 'Отправьте $amount через приложение банка или передайте наличными. Tiyn сам деньги не переводит.';
+  }
+
+  @override
+  String get payoutCopyAmount => 'Скопировать сумму';
+
+  @override
+  String get payoutCopied => 'Сумма скопирована';
+
+  @override
+  String get payoutISentIt => 'Деньги отправлены';
+
+  @override
+  String get payoutDecline => 'Отклонить';
+
+  @override
+  String payoutConfirmSentTitle(String amount) {
+    return 'Подтвердить отправку $amount?';
+  }
+
+  @override
+  String payoutConfirmSentBody(String amount) {
+    return 'Tiyn не видит перевод. После подтверждения $amount будут списаны с баланса подростка.';
+  }
+
+  @override
+  String get payoutYesSent => 'Да, деньги отправлены';
+
+  @override
+  String get payoutNotYet => 'Ещё нет';
+
+  @override
+  String payoutDeclineTitle(String amount) {
+    return 'Отклонить запрос на $amount?';
+  }
+
+  @override
+  String get payoutDeclineBody =>
+      'Подросток сохранит свои деньги и сможет попросить снова.';
+
+  @override
+  String get payoutKeepOpen => 'Оставить';
+
+  @override
+  String get payoutConfirmDecline => 'Да, отклонить';
+
+  @override
+  String payoutNoCover(String amount) {
+    return 'Баланса подростка больше не хватает на $amount. Часть денег списана как штраф за пропущенное задание или отложена на цель. Вы можете отклонить запрос, а подросток сможет попросить меньшую сумму.';
+  }
+
+  @override
+  String get payoutSentDone => 'Выплата подтверждена';
+
+  @override
+  String get payoutDeclinedDone => 'Запрос отклонён';
+
+  @override
+  String get payoutParentFulfilledTitle => 'Выплата подтверждена';
+
+  @override
+  String payoutParentFulfilledBody(String amount) {
+    return '$amount списаны с баланса подростка.';
+  }
+
+  @override
+  String get payoutParentTeenCancelled => 'Подросток отменил запрос';
+
+  @override
+  String get payoutParentDeclined => 'Вы отклонили этот запрос';
+
+  @override
+  String get payoutParentExpired => 'Срок запроса истёк';
+
+  @override
+  String get payoutParentUnlinked =>
+      'Вы больше не связаны с этим подростком. Запрос отменён.';
 }

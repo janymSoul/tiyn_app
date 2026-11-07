@@ -815,4 +815,95 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get payoutRowTitle => 'Төлем сұрауы';
+
+  @override
+  String payoutAsksForTitle(String name) {
+    return '$name сұрайды';
+  }
+
+  @override
+  String get payoutStepSend => '1. Ақшаны жіберіңіз';
+
+  @override
+  String get payoutStepConfirm => '2. Содан кейін растаңыз';
+
+  @override
+  String payoutSendHint(String amount) {
+    return '$amount сомасын банк қосымшасы арқылы жіберіңіз немесе қолма-қол беріңіз. Tiyn ақшаны өзі аудармайды.';
+  }
+
+  @override
+  String get payoutCopyAmount => 'Соманы көшіру';
+
+  @override
+  String get payoutCopied => 'Сома көшірілді';
+
+  @override
+  String get payoutISentIt => 'Ақша жіберілді';
+
+  @override
+  String get payoutDecline => 'Қабылдамау';
+
+  @override
+  String payoutConfirmSentTitle(String amount) {
+    return '$amount жіберілгенін растау керек пе?';
+  }
+
+  @override
+  String payoutConfirmSentBody(String amount) {
+    return 'Tiyn аударымды көрмейді. Растағаннан кейін $amount жасөспірімнің балансынан шегеріледі.';
+  }
+
+  @override
+  String get payoutYesSent => 'Иә, ақша жіберілді';
+
+  @override
+  String get payoutNotYet => 'Әлі жоқ';
+
+  @override
+  String payoutDeclineTitle(String amount) {
+    return '$amount сұрауын қабылдамау керек пе?';
+  }
+
+  @override
+  String get payoutDeclineBody =>
+      'Жасөспірім ақшасын сақтайды және қайта сұрай алады.';
+
+  @override
+  String get payoutKeepOpen => 'Ашық қалдыру';
+
+  @override
+  String get payoutConfirmDecline => 'Иә, қабылдамау';
+
+  @override
+  String payoutNoCover(String amount) {
+    return 'Жасөспірімнің балансы енді $amount сомасына жетпейді. Бір бөлігін өткізіп алған тапсырма үшін айыппұл алды немесе ол мақсатқа бөлінді. Сұрауды қабылдамауға болады, жасөспірім аз сома сұрай алады.';
+  }
+
+  @override
+  String get payoutSentDone => 'Төлем расталды';
+
+  @override
+  String get payoutDeclinedDone => 'Сұрау қабылданбады';
+
+  @override
+  String get payoutParentFulfilledTitle => 'Төлем расталды';
+
+  @override
+  String payoutParentFulfilledBody(String amount) {
+    return '$amount жасөспірімнің балансынан шегерілді.';
+  }
+
+  @override
+  String get payoutParentTeenCancelled => 'Жасөспірім сұрауды кері қайтарды';
+
+  @override
+  String get payoutParentDeclined => 'Сіз бұл сұрауды қабылдамадыңыз';
+
+  @override
+  String get payoutParentExpired => 'Сұраудың мерзімі өтті';
+
+  @override
+  String get payoutParentUnlinked =>
+      'Сіз бұл жасөспіріммен енді байланыспайсыз. Сұрау жойылды.';
 }

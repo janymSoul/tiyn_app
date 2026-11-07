@@ -551,5 +551,79 @@
       }
     }
   },
-  "payoutRowTitle": "Cash-out request"
+  "payoutRowTitle": "Cash-out request",
+  "payoutAsksForTitle": "{name} asks for",
+  "@payoutAsksForTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutStepSend": "1. Send the money",
+  "payoutStepConfirm": "2. Then confirm",
+  "payoutSendHint": "Send {amount} in your bank app, or hand over cash. Tiyn does not move money itself.",
+  "@payoutSendHint": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutCopyAmount": "Copy amount",
+  "payoutCopied": "Amount copied",
+  "payoutISentIt": "I sent it",
+  "payoutDecline": "Decline",
+  "payoutConfirmSentTitle": "Confirm you sent {amount}?",
+  "@payoutConfirmSentTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutConfirmSentBody": "Tiyn can't see the transfer. Confirming takes {amount} off the teen's balance.",
+  "@payoutConfirmSentBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutYesSent": "Yes, I sent it",
+  "payoutNotYet": "Not yet",
+  "payoutDeclineTitle": "Decline the {amount} request?",
+  "@payoutDeclineTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutDeclineBody": "The teen keeps their money and can ask again.",
+  "payoutKeepOpen": "Keep it open",
+  "payoutConfirmDecline": "Yes, decline",
+  "payoutNoCover": "The teen's balance no longer covers {amount}. A missed-task penalty or a goal saving took part of it. You can decline this request, and the teen can ask again for a smaller amount.",
+  "@payoutNoCover": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutSentDone": "Payout confirmed",
+  "payoutDeclinedDone": "Request declined",
+  "payoutParentFulfilledTitle": "Payout confirmed",
+  "payoutParentFulfilledBody": "{amount} was taken off the teen's balance.",
+  "@payoutParentFulfilledBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutParentTeenCancelled": "The teen cancelled this request",
+  "payoutParentDeclined": "You declined this request",
+  "payoutParentExpired": "This request expired",
+  "payoutParentUnlinked": "You are no longer linked to this teen. The request was cancelled."
 }

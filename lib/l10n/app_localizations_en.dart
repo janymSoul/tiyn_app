@@ -815,4 +815,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get payoutRowTitle => 'Cash-out request';
+
+  @override
+  String payoutAsksForTitle(String name) {
+    return '$name asks for';
+  }
+
+  @override
+  String get payoutStepSend => '1. Send the money';
+
+  @override
+  String get payoutStepConfirm => '2. Then confirm';
+
+  @override
+  String payoutSendHint(String amount) {
+    return 'Send $amount in your bank app, or hand over cash. Tiyn does not move money itself.';
+  }
+
+  @override
+  String get payoutCopyAmount => 'Copy amount';
+
+  @override
+  String get payoutCopied => 'Amount copied';
+
+  @override
+  String get payoutISentIt => 'I sent it';
+
+  @override
+  String get payoutDecline => 'Decline';
+
+  @override
+  String payoutConfirmSentTitle(String amount) {
+    return 'Confirm you sent $amount?';
+  }
+
+  @override
+  String payoutConfirmSentBody(String amount) {
+    return 'Tiyn can\'t see the transfer. Confirming takes $amount off the teen\'s balance.';
+  }
+
+  @override
+  String get payoutYesSent => 'Yes, I sent it';
+
+  @override
+  String get payoutNotYet => 'Not yet';
+
+  @override
+  String payoutDeclineTitle(String amount) {
+    return 'Decline the $amount request?';
+  }
+
+  @override
+  String get payoutDeclineBody =>
+      'The teen keeps their money and can ask again.';
+
+  @override
+  String get payoutKeepOpen => 'Keep it open';
+
+  @override
+  String get payoutConfirmDecline => 'Yes, decline';
+
+  @override
+  String payoutNoCover(String amount) {
+    return 'The teen\'s balance no longer covers $amount. A missed-task penalty or a goal saving took part of it. You can decline this request, and the teen can ask again for a smaller amount.';
+  }
+
+  @override
+  String get payoutSentDone => 'Payout confirmed';
+
+  @override
+  String get payoutDeclinedDone => 'Request declined';
+
+  @override
+  String get payoutParentFulfilledTitle => 'Payout confirmed';
+
+  @override
+  String payoutParentFulfilledBody(String amount) {
+    return '$amount was taken off the teen\'s balance.';
+  }
+
+  @override
+  String get payoutParentTeenCancelled => 'The teen cancelled this request';
+
+  @override
+  String get payoutParentDeclined => 'You declined this request';
+
+  @override
+  String get payoutParentExpired => 'This request expired';
+
+  @override
+  String get payoutParentUnlinked =>
+      'You are no longer linked to this teen. The request was cancelled.';
 }

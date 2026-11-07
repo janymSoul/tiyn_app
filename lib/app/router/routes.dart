@@ -37,6 +37,8 @@ abstract final class Routes {
   ).toString();
 
   static const parentReview = '/parent/review';
+  static String parentPayout(String id) => '$parentReview/payout/$id';
+  static const parentPayoutPattern = 'payout/:id';
   static String parentReviewTask(String id) => '$parentReview/$id';
   static const parentReviewTaskPattern = ':id';
 }
