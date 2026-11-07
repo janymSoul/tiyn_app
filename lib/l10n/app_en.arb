@@ -49,9 +49,6 @@
       }
     }
   },
-  "parentLinkedTeens": "Linked teens",
-  "pullToRetry": "Pull down to try again.",
-  "parentNoTeensYet": "Nobody yet. Pull down to refresh once your teen enters the code.",
   "teenGreeting": "Hi, {name}",
   "@teenGreeting": {
     "placeholders": {
@@ -80,5 +77,33 @@
   },
   "actionContinue": "Continue",
   "signInUseAnotherAccount": "Use a different Google account",
-  "signInExpired": "Sign-in expired. Sign in again."
+  "signInExpired": "Sign-in expired. Sign in again.",
+  "parentHomeTitle": "My teens",
+  "parentHomeAdd": "Add",
+  "addTeenTitle": "Add a teen",
+  "teenStatusToCheck": "{count} to check",
+  "@teenStatusToCheck": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "teenStatusActive": "{count} active",
+  "@teenStatusActive": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "teenStatusIdle": "Nothing active",
+  "navBadgeWaiting": "{count} waiting",
+  "@navBadgeWaiting": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

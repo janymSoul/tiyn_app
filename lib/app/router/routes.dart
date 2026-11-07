@@ -10,5 +10,4 @@ abstract final class Routes {
 
   static const parentHome = '/parent/home';
   static const parentReview = '/parent/review';
-  static const parentActivity = '/parent/activity';
 }

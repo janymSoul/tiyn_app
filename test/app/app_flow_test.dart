@@ -6,6 +6,9 @@ import 'package:tiyn_app/features/auth/data/user.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 
+import 'package:tiyn_app/features/tasks/application/task_providers.dart';
+
+import '../helpers/fake_tasks.dart';
 import '../helpers/pump_app.dart';
 
 class _Auth extends AuthController {
@@ -50,6 +53,7 @@ Future<String> _pump(
     overrides: [
       authControllerProvider.overrideWith(() => _Auth(user)),
       familyControllerProvider.overrideWith(() => _Family(family)),
+      taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
     ],
   );
   return routerOf(tester).state.matchedLocation;
@@ -62,7 +66,7 @@ void main() {
     expect(find.text('Continue with Google'), findsOneWidget);
   });
 
-  testWidgets('parent lands on /parent/home with the code and a teen', (
+  testWidgets('parent lands on /parent/home with the teen list', (
     tester,
   ) async {
     final location = await _pump(
@@ -71,10 +75,10 @@ void main() {
       family: const [_teenMember],
     );
     expect(location, '/parent/home');
-    expect(find.text('SXVPUR'), findsOneWidget);
-    expect(find.text('Connect your teen'), findsOneWidget);
+    expect(find.text('My teens'), findsOneWidget);
     expect(find.text('Dana'), findsOneWidget);
-    expect(find.byType(NavigationDestination), findsNWidgets(3));
+    expect(find.text('SXVPUR'), findsNothing);
+    expect(find.byType(NavigationDestination), findsNWidgets(2));
   });
 
   testWidgets('unlinked teen lands on join', (tester) async {

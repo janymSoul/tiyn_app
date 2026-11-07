@@ -43,9 +43,6 @@
   "parentCodeCopy": "Көшіру",
   "parentCodeCopied": "Код көшірілді",
   "parentCodeShareMessage": "Менімен бірге Tiyn-ге қосыл. Менің отбасылық кодым: {code}",
-  "parentLinkedTeens": "Қосылған жасөспірімдер",
-  "pullToRetry": "Қайталау үшін төмен тартыңыз.",
-  "parentNoTeensYet": "Әзірге ешкім жоқ. Жасөспірім кодты енгізгенде жаңарту үшін төмен тартыңыз.",
   "teenGreeting": "Сәлем, {name}",
   "teenConnectedTo": "Қосылған: {names}",
   "signInWelcomeNote": "Google аккаунты арқылы кіріңіз",
@@ -53,5 +50,12 @@
   "signInGoogleAccount": "Google аккаунты: {email}",
   "actionContinue": "Жалғастыру",
   "signInUseAnotherAccount": "Басқа Google аккаунты",
-  "signInExpired": "Кіру мерзімі аяқталды, қайта кіріңіз"
+  "signInExpired": "Кіру мерзімі аяқталды, қайта кіріңіз",
+  "parentHomeTitle": "Менің жасөспірімдерім",
+  "parentHomeAdd": "Қосу",
+  "addTeenTitle": "Жасөспірім қосу",
+  "teenStatusToCheck": "{count} тексеруге",
+  "teenStatusActive": "{count} орындалуда",
+  "teenStatusIdle": "Белсенді тапсырма жоқ",
+  "navBadgeWaiting": "Күтуде: {count}"
 }

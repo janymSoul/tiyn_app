@@ -151,16 +151,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get parentLinkedTeens => 'Подключённые подростки';
-
-  @override
-  String get pullToRetry => 'Потяните вниз, чтобы повторить.';
-
-  @override
-  String get parentNoTeensYet =>
-      'Пока никого. Потяните вниз, чтобы обновить, когда подросток введёт код.';
-
-  @override
   String teenGreeting(String name) {
     return 'Привет, $name';
   }
@@ -189,4 +179,31 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get signInExpired => 'Вход истёк, войдите снова';
+
+  @override
+  String get parentHomeTitle => 'Мои подростки';
+
+  @override
+  String get parentHomeAdd => 'Добавить';
+
+  @override
+  String get addTeenTitle => 'Добавить подростка';
+
+  @override
+  String teenStatusToCheck(int count) {
+    return '$count на проверке';
+  }
+
+  @override
+  String teenStatusActive(int count) {
+    return '$count в работе';
+  }
+
+  @override
+  String get teenStatusIdle => 'Нет активных задач';
+
+  @override
+  String navBadgeWaiting(int count) {
+    return 'Ожидают: $count';
+  }
 }

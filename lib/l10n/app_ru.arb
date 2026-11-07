@@ -42,9 +42,6 @@
   "parentCodeCopy": "Копировать",
   "parentCodeCopied": "Код скопирован",
   "parentCodeShareMessage": "Присоединяйся ко мне в Tiyn. Мой семейный код: {code}",
-  "parentLinkedTeens": "Подключённые подростки",
-  "pullToRetry": "Потяните вниз, чтобы повторить.",
-  "parentNoTeensYet": "Пока никого. Потяните вниз, чтобы обновить, когда подросток введёт код.",
   "teenGreeting": "Привет, {name}",
   "teenConnectedTo": "Подключено: {names}",
   "signInWelcomeNote": "Войдите через аккаунт Google",
@@ -52,5 +49,12 @@
   "signInGoogleAccount": "Аккаунт Google: {email}",
   "actionContinue": "Продолжить",
   "signInUseAnotherAccount": "Другой аккаунт Google",
-  "signInExpired": "Вход истёк, войдите снова"
+  "signInExpired": "Вход истёк, войдите снова",
+  "parentHomeTitle": "Мои подростки",
+  "parentHomeAdd": "Добавить",
+  "addTeenTitle": "Добавить подростка",
+  "teenStatusToCheck": "{count} на проверке",
+  "teenStatusActive": "{count} в работе",
+  "teenStatusIdle": "Нет активных задач",
+  "navBadgeWaiting": "Ожидают: {count}"
 }

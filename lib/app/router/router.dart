@@ -9,7 +9,7 @@ import 'package:tiyn_app/features/auth/presentation/sign_in_screen.dart';
 import 'package:tiyn_app/features/auth/presentation/splash_screen.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/presentation/join_teen_screen.dart';
-import 'package:tiyn_app/features/family/presentation/parent_code_screen.dart';
+import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_shell.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_home_placeholder.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_shell.dart';
@@ -120,21 +120,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, _, shell) => ParentShell(navigationShell: shell),
         branches: [
           StatefulShellBranch(
-            routes: [
-              tab(
-                Routes.parentHome,
-                (_) => Consumer(
-                  builder: (context, ref, _) {
-                    final user = ref.watch(authControllerProvider).value;
-                    return ParentCodeScreen(
-                      joinCode: user?.joinCode ?? '',
-                      onSignOut: () =>
-                          ref.read(authControllerProvider.notifier).signOut(),
-                    );
-                  },
-                ),
-              ),
-            ],
+            routes: [tab(Routes.parentHome, (_) => const ParentHomeScreen())],
           ),
           StatefulShellBranch(
             routes: [
@@ -142,16 +128,6 @@ final routerProvider = Provider<GoRouter>((ref) {
                 Routes.parentReview,
                 (context) => PlaceholderTab(
                   title: AppLocalizations.of(context).navToCheck,
-                ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              tab(
-                Routes.parentActivity,
-                (context) => PlaceholderTab(
-                  title: AppLocalizations.of(context).navActivity,
                 ),
               ),
             ],

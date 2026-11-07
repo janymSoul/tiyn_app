@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
+import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
-class ParentShell extends StatelessWidget {
+/// Home and To check. Progress, Goals and Activity are hidden until they exist.
+class ParentShell extends ConsumerWidget {
   const ParentShell({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final toCheck = ref.watch(
+      submittedTasksProvider.select((s) => s.value?.length ?? 0),
+    );
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: (index) => navigationShell.goBranch(
-          index,
-          initialLocation: index == navigationShell.currentIndex,
-        ),
+        onDestinationSelected: (index) {
+          ref
+              .read(tabSelectedProvider.notifier)
+              .selected(ParentTab.values[index]);
+          navigationShell.goBranch(
+            index,
+            initialLocation: index == navigationShell.currentIndex,
+          );
+        },
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.home_outlined),
@@ -25,16 +37,32 @@ class ParentShell extends StatelessWidget {
             label: l10n.navHome,
           ),
           NavigationDestination(
-            icon: const Icon(Icons.task_alt),
+            icon: _CountBadge(
+              count: toCheck,
+              child: const Icon(Icons.task_alt),
+            ),
             label: l10n.navToCheck,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.receipt_long_outlined),
-            selectedIcon: const Icon(Icons.receipt_long),
-            label: l10n.navActivity,
           ),
         ],
       ),
+    );
+  }
+}
+
+class _CountBadge extends StatelessWidget {
+  const _CountBadge({required this.count, required this.child});
+
+  final int count;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (count <= 0) return child;
+    final l10n = AppLocalizations.of(context);
+    return Badge(
+      label: Text(count > 9 ? '9+' : '$count'),
+      // The visible label is just a number; say what it counts.
+      child: Semantics(label: l10n.navBadgeWaiting(count), child: child),
     );
   }
 }

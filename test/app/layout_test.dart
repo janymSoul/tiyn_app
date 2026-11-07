@@ -12,9 +12,12 @@ import 'package:tiyn_app/features/auth/data/user.dart';
 import 'package:tiyn_app/features/auth/presentation/splash_screen.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
-import 'package:tiyn_app/features/family/presentation/parent_code_screen.dart';
+import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
+import 'package:tiyn_app/features/tasks/application/task_providers.dart';
+import 'package:tiyn_app/features/tasks/data/task_state.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
+import '../helpers/fake_tasks.dart';
 import '../helpers/pump_app.dart';
 
 // Worst realistic case: a small phone, large system text, the two languages
@@ -183,6 +186,12 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            taskRepositoryProvider.overrideWithValue(
+              FakeTaskRepository([
+                fakeTask(id: 's', teenId: '4', state: TaskState.submitted),
+                fakeTask(id: 'a', teenId: '2'),
+              ]),
+            ),
           ],
           locale: Locale(locale),
         );
@@ -195,8 +204,9 @@ void main() {
         await _pumpScreen(
           tester,
           locale,
-          ParentCodeScreen(joinCode: 'SXVPUR', onSignOut: () {}),
+          const ParentHomeScreen(),
           overrides: [
+            taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
             authControllerProvider.overrideWith(() => _Auth(_parentUser)),
             familyControllerProvider.overrideWith(
               () => _Family(
@@ -205,7 +215,7 @@ void main() {
             ),
           ],
         );
-        expect(find.byType(ParentCodeScreen), findsOneWidget);
+        expect(find.byType(ParentHomeScreen), findsOneWidget);
         expect(tester.takeException(), isNull);
       });
 

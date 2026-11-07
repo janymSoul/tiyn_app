@@ -352,24 +352,6 @@ abstract class AppLocalizations {
   /// **'Join me on Tiyn. My family code is {code}'**
   String parentCodeShareMessage(String code);
 
-  /// No description provided for @parentLinkedTeens.
-  ///
-  /// In en, this message translates to:
-  /// **'Linked teens'**
-  String get parentLinkedTeens;
-
-  /// No description provided for @pullToRetry.
-  ///
-  /// In en, this message translates to:
-  /// **'Pull down to try again.'**
-  String get pullToRetry;
-
-  /// No description provided for @parentNoTeensYet.
-  ///
-  /// In en, this message translates to:
-  /// **'Nobody yet. Pull down to refresh once your teen enters the code.'**
-  String get parentNoTeensYet;
-
   /// No description provided for @teenGreeting.
   ///
   /// In en, this message translates to:
@@ -417,6 +399,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign-in expired. Sign in again.'**
   String get signInExpired;
+
+  /// No description provided for @parentHomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My teens'**
+  String get parentHomeTitle;
+
+  /// No description provided for @parentHomeAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get parentHomeAdd;
+
+  /// No description provided for @addTeenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a teen'**
+  String get addTeenTitle;
+
+  /// No description provided for @teenStatusToCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} to check'**
+  String teenStatusToCheck(int count);
+
+  /// No description provided for @teenStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} active'**
+  String teenStatusActive(int count);
+
+  /// No description provided for @teenStatusIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing active'**
+  String get teenStatusIdle;
+
+  /// No description provided for @navBadgeWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} waiting'**
+  String navBadgeWaiting(int count);
 }
 
 class _AppLocalizationsDelegate

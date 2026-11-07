@@ -149,16 +149,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get parentLinkedTeens => 'Linked teens';
-
-  @override
-  String get pullToRetry => 'Pull down to try again.';
-
-  @override
-  String get parentNoTeensYet =>
-      'Nobody yet. Pull down to refresh once your teen enters the code.';
-
-  @override
   String teenGreeting(String name) {
     return 'Hi, $name';
   }
@@ -187,4 +177,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInExpired => 'Sign-in expired. Sign in again.';
+
+  @override
+  String get parentHomeTitle => 'My teens';
+
+  @override
+  String get parentHomeAdd => 'Add';
+
+  @override
+  String get addTeenTitle => 'Add a teen';
+
+  @override
+  String teenStatusToCheck(int count) {
+    return '$count to check';
+  }
+
+  @override
+  String teenStatusActive(int count) {
+    return '$count active';
+  }
+
+  @override
+  String get teenStatusIdle => 'Nothing active';
+
+  @override
+  String navBadgeWaiting(int count) {
+    return '$count waiting';
+  }
 }

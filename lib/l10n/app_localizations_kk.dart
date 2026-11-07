@@ -150,16 +150,6 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
-  String get parentLinkedTeens => 'Қосылған жасөспірімдер';
-
-  @override
-  String get pullToRetry => 'Қайталау үшін төмен тартыңыз.';
-
-  @override
-  String get parentNoTeensYet =>
-      'Әзірге ешкім жоқ. Жасөспірім кодты енгізгенде жаңарту үшін төмен тартыңыз.';
-
-  @override
   String teenGreeting(String name) {
     return 'Сәлем, $name';
   }
@@ -188,4 +178,31 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get signInExpired => 'Кіру мерзімі аяқталды, қайта кіріңіз';
+
+  @override
+  String get parentHomeTitle => 'Менің жасөспірімдерім';
+
+  @override
+  String get parentHomeAdd => 'Қосу';
+
+  @override
+  String get addTeenTitle => 'Жасөспірім қосу';
+
+  @override
+  String teenStatusToCheck(int count) {
+    return '$count тексеруге';
+  }
+
+  @override
+  String teenStatusActive(int count) {
+    return '$count орындалуда';
+  }
+
+  @override
+  String get teenStatusIdle => 'Белсенді тапсырма жоқ';
+
+  @override
+  String navBadgeWaiting(int count) {
+    return 'Күтуде: $count';
+  }
 }
