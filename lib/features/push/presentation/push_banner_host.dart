@@ -94,78 +94,84 @@ class _BannerState extends ConsumerState<_Banner> {
       key: ValueKey('dismiss-${data.id}'),
       direction: DismissDirection.up,
       onDismissed: (_) => _dismiss(),
-      child: Semantics(
-        liveRegion: true,
-        container: true,
-        label: spoken,
-        child: Material(
-          color: Palette.navy,
-          elevation: 6,
-          borderRadius: BorderRadius.circular(Radii.card),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              Space.s16,
-              Space.s12,
-              Space.s4,
-              Space.s8,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ExcludeSemantics(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (data.title.isNotEmpty)
-                          Text(
-                            data.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: text.titleSmall?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+      child: Material(
+        color: Palette.navy,
+        elevation: 6,
+        borderRadius: BorderRadius.circular(Radii.card),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            Space.s16,
+            Space.s12,
+            Space.s4,
+            Space.s8,
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // One announcement for the text; the Open button stays a
+                    // separate, reachable control.
+                    Semantics(
+                      liveRegion: true,
+                      container: true,
+                      excludeSemantics: true,
+                      label: spoken,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (data.title.isNotEmpty)
+                            Text(
+                              data.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: text.titleSmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                        if (data.body.isNotEmpty)
-                          Text(
-                            data.body,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: text.bodyMedium?.copyWith(
-                              color: Palette.onNavyMuted,
+                          if (data.body.isNotEmpty)
+                            Text(
+                              data.body,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: text.bodyMedium?.copyWith(
+                                color: Palette.onNavyMuted,
+                              ),
                             ),
-                          ),
-                        Align(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: TextButton(
-                            onPressed: _open,
-                            style: TextButton.styleFrom(
-                              foregroundColor: Palette.gold,
-                              padding: EdgeInsets.zero,
-                              minimumSize: const Size(48, 48),
-                            ),
-                            child: Text(l10n.pushBannerOpen),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                    Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: TextButton(
+                        onPressed: _open,
+                        style: TextButton.styleFrom(
+                          foregroundColor: Palette.gold,
+                          padding: EdgeInsets.zero,
+                          minimumSize: const Size(48, 48),
+                        ),
+                        child: Text(l10n.pushBannerOpen),
+                      ),
+                    ),
+                  ],
                 ),
-                // No tooltip: this sits above the Navigator, so there is no
-                // Overlay for one to use.
-                Semantics(
-                  label: l10n.pushBannerDismiss,
-                  button: true,
-                  excludeSemantics: true,
-                  onTap: _dismiss,
-                  child: IconButton(
-                    onPressed: _dismiss,
-                    icon: const Icon(Icons.close, color: Palette.onNavyMuted),
-                  ),
+              ),
+              // No tooltip: this sits above the Navigator, so there is no
+              // Overlay for one to use.
+              Semantics(
+                label: l10n.pushBannerDismiss,
+                button: true,
+                excludeSemantics: true,
+                onTap: _dismiss,
+                child: IconButton(
+                  onPressed: _dismiss,
+                  icon: const Icon(Icons.close, color: Palette.onNavyMuted),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

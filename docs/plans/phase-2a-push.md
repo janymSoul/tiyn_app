@@ -48,7 +48,7 @@
 core/push/                         (the only place that imports firebase_*)
   push_messaging.dart              interface + PushMessage, PushPermission
   firebase_push_messaging.dart     real implementation
-  unavailable_push_messaging.dart  no-op (D6)
+  no_push_messaging.dart           no-op: the default in tests
   push_payload.dart                data map -> PushPayload{type, taskId, payoutId}, tolerant
   push_type.dart                   enum PushType with wire names; unknown -> null
 
@@ -64,9 +64,11 @@ features/push/
 ```
 `features/push` may import `features/auth` (foundational) and `features/tasks`, `features/family`, `features/teen` **application** providers only to refresh them. `core/` imports nothing from `features/`.
 
-**Auth ↔ push seam.** `AuthController.signOut` must start the device cleanup *before* it clears the JWT. `AuthController` already imports `app/providers.dart`, so the registration object is exposed there as `deviceRegistrationProvider` and `AuthController` calls it. No new abstraction layer. `features/auth` does not import `features/push`.
+**Auth ↔ push seam.** `AuthController.signOut` must start the device cleanup *before* it clears the JWT. A provider-based hook is a dependency loop in Riverpod (auth reads the handler, the handler watches the signed-in user), so `core/session/session_end.dart` holds a plain `SessionEndHooks` object that `DeviceRegistration` registers itself in when it starts (`TiynApp` watches it). `features/auth` does not import `features/push`.
 
-**Tests never touch Firebase.** `pushMessagingProvider` throws `UnimplementedError` unless overridden (the same pattern as `appConfigProvider`); `main` overrides it with the real or the no-op implementation, and `pumpApp` overrides it with a `FakePushMessaging`. A test (`push_imports_test`) fails if any file outside `core/push` imports `firebase_*`.
+**One deliberate exception to the feature-import rule:** the two home screens embed `NotifyCards` and the create form calls `askForNotificationsAfterCreate`, both from `features/push/presentation`. They are UI composition, not data coupling.
+
+**Tests never touch Firebase.** `pushMessagingProvider` defaults to the no-op `NoPushMessaging`, so every existing test keeps working untouched; `main` overrides it with `FirebasePushMessaging` (which itself degrades to "unavailable" and retries the Firebase start on later calls, D6), and push tests override it with a `FakePushMessaging`. A test (`push_imports_test`) fails if any file outside `core/push` imports `firebase_*`.
 
 ## 1.3 Registration lifecycle and sign-out
 
@@ -177,6 +179,7 @@ Tests: a Dart test over the Android resources (the three meta-data entries, the 
 Commit: `feat(push): notification channel, icon and colour`.
 
 ## P5. Foreground banner and provider refresh
+(Also carries `push_location.dart`, the pure routing function and its table test, because the banner's Open action needs it. P6 keeps cold start, warm taps and the milestone fix.)
 `push_refresh.dart`, `push_banner.dart`, `PushBannerHost` in `app.dart`, strings (Open, Dismiss, semantics).
 Tests: the banner shows title and body; a second push replaces the first (never two); auto-dismiss (fake clock); Open navigates; no banner without a session; each refresh row of the table calls the right silent refresh and **does not set the family loading**; unknown type still refreshes; the teen home balance updates with no pull-to-refresh when an `APPROVED` push arrives.
 Commit: `feat(push): foreground banner and refresh by push type`.
