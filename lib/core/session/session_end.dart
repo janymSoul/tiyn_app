@@ -5,6 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// stays instant.
 abstract interface class SessionEndHandler {
   Future<void> beginSignOut();
+
+  /// The sign-out did not go through: the user is still signed in.
+  void signOutFailed();
 }
 
 class NoSessionEndHandler implements SessionEndHandler {
@@ -12,6 +15,9 @@ class NoSessionEndHandler implements SessionEndHandler {
 
   @override
   Future<void> beginSignOut() async {}
+
+  @override
+  void signOutFailed() {}
 }
 
 /// A plain holder, not a provider chain: the handler (push device cleanup)

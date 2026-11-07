@@ -60,7 +60,13 @@ class PushLinkCoordinator {
 
     if (user.role == Role.teen) {
       final family = _ref.read(familyControllerProvider);
-      if (family.isLoading || family.hasError) return;
+      if (family.isLoading) return;
+      if (family.hasError) {
+        // The router is not sending this teen anywhere useful, and a link kept
+        // forever would fire at some unrelated later moment.
+        _pending = null;
+        return;
+      }
     }
 
     _pending = null;

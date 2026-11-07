@@ -44,8 +44,10 @@ Future<void> _ask({
 }) async {
   if (!container.read(pushPromptProvider).shouldAsk) return;
   final controller = container.read(pushPromptProvider.notifier);
-  await controller.markExplained();
   await SchedulerBinding.instance.endOfFrame;
+  // Only a sheet the user actually saw counts as "asked".
+  if (!navigatorContext.mounted) return;
+  await controller.markExplained();
   if (!navigatorContext.mounted) return;
   final accepted = await showModalBottomSheet<bool>(
     context: navigatorContext,

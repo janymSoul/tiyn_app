@@ -43,7 +43,12 @@ class AuthController extends AsyncNotifier<User?> {
     } on Object {
       // Never let device cleanup hold up or fail a sign-out.
     }
-    await ref.read(authRepositoryProvider).signOut();
+    try {
+      await ref.read(authRepositoryProvider).signOut();
+    } on Object {
+      ref.read(sessionEndHooksProvider).handler.signOutFailed();
+      rethrow;
+    }
     state = const AsyncData(null);
   }
 

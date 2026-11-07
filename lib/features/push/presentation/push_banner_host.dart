@@ -59,7 +59,9 @@ class _BannerState extends ConsumerState<_Banner> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _timer?.cancel();
+    // Once: this also runs when the keyboard or rotation changes MediaQuery,
+    // and the banner must not get a fresh 5 seconds each time.
+    if (_timer != null) return;
     final slow = MediaQuery.of(context).accessibleNavigation;
     _timer = Timer(slow ? _visibleForScreenReader : _visibleFor, _dismiss);
   }

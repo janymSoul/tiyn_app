@@ -73,6 +73,7 @@ class DeviceRegistration implements SessionEndHandler {
   bool _again = false;
   bool _signingOut = false;
   bool _cleanupHandled = false;
+  Future<void>? _cleaning;
   String? _loggedToken;
 
   PushMessaging get _push => _ref.read(pushMessagingProvider);
@@ -106,6 +107,11 @@ class DeviceRegistration implements SessionEndHandler {
     // deletion failed (for example the sign-out happened offline).
     if (userId == null) return _retryPendingTokenDelete();
     if (_signingOut) return;
+
+    // A sign-in right after a sign-out must not read the token that is still
+    // being deleted, or it would register a token that dies a moment later.
+    await _cleaning;
+    if (_ref.read(currentUserIdProvider) != userId || _signingOut) return;
 
     await _retryPendingTokenDelete();
 
@@ -147,7 +153,25 @@ class DeviceRegistration implements SessionEndHandler {
     final jwt = await _ref.read(tokenStorageProvider).read();
     final registered = await _store.readRegistration();
     await _store.markPendingTokenDelete();
-    unawaited(_cleanup(jwt: jwt, registeredToken: registered?.token));
+    _startCleanup(jwt: jwt, registeredToken: registered?.token);
+  }
+
+  @override
+  void signOutFailed() {
+    _signingOut = false;
+    _cleanupHandled = false;
+    // The cleanup may already have dropped this phone's registration.
+    unawaited(sync());
+  }
+
+  void _startCleanup({String? jwt, String? registeredToken}) {
+    final run = _cleanup(jwt: jwt, registeredToken: registeredToken);
+    _cleaning = run;
+    unawaited(
+      run.whenComplete(() {
+        if (identical(_cleaning, run)) _cleaning = null;
+      }),
+    );
   }
 
   /// The session ended some other way (expired, `/me` said 401): there is no
@@ -159,7 +183,8 @@ class DeviceRegistration implements SessionEndHandler {
     }
     _signingOut = true;
     await _store.markPendingTokenDelete();
-    await _cleanup(jwt: null, registeredToken: null);
+    _startCleanup();
+    await _cleaning;
   }
 
   Future<void> _cleanup({

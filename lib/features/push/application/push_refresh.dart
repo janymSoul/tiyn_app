@@ -91,7 +91,11 @@ class PushRefresher {
           _refreshTeenLists();
         case RefreshTarget.taskDetail:
           final id = payload.taskId;
-          if (id != null) _ref.invalidate(taskDetailProvider(id));
+          if (id == null) break;
+          final detail = taskDetailProvider(id);
+          if (_ref.exists(detail)) {
+            unawaited(_ref.read(detail.notifier).refresh());
+          }
       }
     }
   }
