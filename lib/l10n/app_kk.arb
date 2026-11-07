@@ -75,5 +75,9 @@
   "deadlineToday": "Мерзімі: бүгін, {time}",
   "deadlineTomorrow": "Мерзімі: ертең, {time}",
   "deadlineOn": "Мерзімі: {date}, {time}",
-  "actionBack": "Артқа"
+  "actionBack": "Артқа",
+  "teenTasksTitle": "Тапсырмалар",
+  "teenMilestonesTitle": "Кезеңдер",
+  "teenNothingToDo": "Әзірге істер жоқ. Демал!",
+  "teenPendingChip": "{amount} тексеруді күтуде"
 }

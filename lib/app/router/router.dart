@@ -12,8 +12,7 @@ import 'package:tiyn_app/features/family/presentation/join_teen_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_shell.dart';
 import 'package:tiyn_app/features/parent/presentation/teen_detail_screen.dart';
-import 'package:tiyn_app/features/teen/presentation/teen_home_placeholder.dart';
-import 'package:tiyn_app/features/teen/presentation/teen_shell.dart';
+import 'package:tiyn_app/features/teen/presentation/teen_home_screen.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -62,61 +61,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: Routes.signIn, builder: (_, _) => const SignInScreen()),
       GoRoute(path: Routes.teenJoin, builder: (_, _) => const JoinTeenScreen()),
-      StatefulShellRoute.indexedStack(
-        builder: (_, _, shell) => TeenShell(navigationShell: shell),
-        branches: [
-          StatefulShellBranch(
-            routes: [
-              tab(
-                Routes.teenHome,
-                (_) => Consumer(
-                  builder: (context, ref, _) {
-                    final user = ref.watch(authControllerProvider).value;
-                    final parents =
-                        ref.watch(familyControllerProvider).value ?? const [];
-                    return TeenHomePlaceholder(
-                      displayName: user?.displayName ?? '',
-                      parentNames: [for (final p in parents) p.displayName],
-                      onSignOut: () =>
-                          ref.read(authControllerProvider.notifier).signOut(),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              tab(
-                Routes.teenProgress,
-                (context) => PlaceholderTab(
-                  title: AppLocalizations.of(context).navProgress,
-                ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              tab(
-                Routes.teenGoals,
-                (context) => PlaceholderTab(
-                  title: AppLocalizations.of(context).navGoals,
-                ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              tab(
-                Routes.teenActivity,
-                (context) => PlaceholderTab(
-                  title: AppLocalizations.of(context).navActivity,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+      GoRoute(path: Routes.teenHome, builder: (_, _) => const TeenHomeScreen()),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => ParentShell(navigationShell: shell),
         branches: [

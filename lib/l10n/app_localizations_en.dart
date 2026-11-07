@@ -272,4 +272,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionBack => 'Back';
+
+  @override
+  String get teenTasksTitle => 'Tasks';
+
+  @override
+  String get teenMilestonesTitle => 'Milestones';
+
+  @override
+  String get teenNothingToDo => 'Nothing to do right now. Enjoy!';
+
+  @override
+  String teenPendingChip(String amount) {
+    return '$amount waiting for check';
+  }
 }

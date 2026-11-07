@@ -1,43 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:tiyn_app/features/tasks/application/milestone_progress.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
-import 'package:tiyn_app/features/tasks/data/task_state.dart';
 
-@immutable
-class MilestoneProgress {
-  const MilestoneProgress({required this.done, required this.total});
-
-  final int done;
-  final int total;
-
-  double get fraction => total == 0 ? 0 : done / total;
-
-  @override
-  bool operator ==(Object other) =>
-      other is MilestoneProgress && other.done == done && other.total == total;
-
-  @override
-  int get hashCode => Object.hash(done, total);
-
-  @override
-  String toString() => 'MilestoneProgress($done/$total)';
-}
-
-/// "2 of 5 done", counted from the children by `milestoneId`. Same rule as the
-/// backend's `totalTasks`: cancelled children don't count, approved ones are
-/// done.
-MilestoneProgress milestoneProgress(String milestoneId, Iterable<Task> tasks) {
-  var done = 0;
-  var total = 0;
-  for (final t in tasks) {
-    if (t.milestoneId != milestoneId || t.state == TaskState.cancelled) {
-      continue;
-    }
-    total++;
-    if (t.state == TaskState.approved) done++;
-  }
-  return MilestoneProgress(done: done, total: total);
-}
+/// Progress of one milestone, counted from its children by `milestoneId`.
+MilestoneProgress milestoneProgress(String milestoneId, Iterable<Task> tasks) =>
+    MilestoneProgress.ofSteps(
+      tasks.where((t) => t.milestoneId == milestoneId).map((t) => t.state),
+    );
 
 @immutable
 class TeenTasks {

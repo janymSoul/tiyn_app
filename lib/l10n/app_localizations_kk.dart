@@ -273,4 +273,18 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get actionBack => 'Артқа';
+
+  @override
+  String get teenTasksTitle => 'Тапсырмалар';
+
+  @override
+  String get teenMilestonesTitle => 'Кезеңдер';
+
+  @override
+  String get teenNothingToDo => 'Әзірге істер жоқ. Демал!';
+
+  @override
+  String teenPendingChip(String amount) {
+    return '$amount тексеруді күтуде';
+  }
 }

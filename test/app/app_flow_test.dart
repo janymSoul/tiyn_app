@@ -7,7 +7,9 @@ import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
+import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 
+import '../helpers/fake_dashboard.dart';
 import '../helpers/fake_tasks.dart';
 import '../helpers/pump_app.dart';
 
@@ -54,6 +56,7 @@ Future<String> _pump(
       authControllerProvider.overrideWith(() => _Auth(user)),
       familyControllerProvider.overrideWith(() => _Family(family)),
       taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
+      dashboardRepositoryProvider.overrideWithValue(FakeDashboardRepository()),
     ],
   );
   return routerOf(tester).state.matchedLocation;
@@ -87,7 +90,7 @@ void main() {
     expect(find.text("Enter your parent's code"), findsOneWidget);
   });
 
-  testWidgets('linked teen lands on teen home with the 4-item nav', (
+  testWidgets('linked teen lands on teen home, with no navigation bar', (
     tester,
   ) async {
     final location = await _pump(
@@ -96,12 +99,16 @@ void main() {
       family: const [_parentMember],
     );
     expect(location, '/teen/home');
+    expect(find.text('Hi, Dana'), findsOneWidget);
     expect(find.text('Connected to Aigerim'), findsOneWidget);
-    expect(find.byType(NavigationDestination), findsNWidgets(4));
+    expect(find.byType(NavigationBar), findsNothing);
+  });
 
-    await tester.tap(find.text('Goals'));
+  testWidgets('a teen cannot reach the parent screens', (tester) async {
+    await _pump(tester, user: _teen, family: const [_parentMember]);
+    routerOf(tester).go('/parent/home');
     await tester.pumpAndSettle();
-    expect(find.text('Coming soon'), findsOneWidget);
+    expect(routerOf(tester).state.matchedLocation, '/teen/home');
   });
 
   for (final (locale, text) in const [
@@ -120,16 +127,4 @@ void main() {
       expect(find.text(text), findsOneWidget);
     });
   }
-
-  testWidgets('teen tabs: target icon for goals, filled icon when selected', (
-    tester,
-  ) async {
-    await _pump(tester, user: _teen, family: const [_parentMember]);
-
-    expect(find.byIcon(Icons.track_changes), findsOneWidget);
-    expect(find.byIcon(Icons.flag_outlined), findsNothing);
-    expect(find.byIcon(Icons.home), findsOneWidget);
-    expect(find.byIcon(Icons.home_outlined), findsNothing);
-    expect(find.byIcon(Icons.receipt_long_outlined), findsOneWidget);
-  });
 }

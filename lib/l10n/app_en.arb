@@ -178,5 +178,16 @@
       }
     }
   },
-  "actionBack": "Back"
+  "actionBack": "Back",
+  "teenTasksTitle": "Tasks",
+  "teenMilestonesTitle": "Milestones",
+  "teenNothingToDo": "Nothing to do right now. Enjoy!",
+  "teenPendingChip": "{amount} waiting for check",
+  "@teenPendingChip": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

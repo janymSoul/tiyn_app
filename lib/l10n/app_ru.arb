@@ -74,5 +74,9 @@
   "deadlineToday": "Срок: сегодня, {time}",
   "deadlineTomorrow": "Срок: завтра, {time}",
   "deadlineOn": "Срок: {date}, {time}",
-  "actionBack": "Назад"
+  "actionBack": "Назад",
+  "teenTasksTitle": "Задачи",
+  "teenMilestonesTitle": "Этапы",
+  "teenNothingToDo": "Пока дел нет. Отдыхай!",
+  "teenPendingChip": "{amount} ждёт проверки"
 }

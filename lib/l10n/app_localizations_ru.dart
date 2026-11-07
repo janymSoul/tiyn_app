@@ -274,4 +274,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get actionBack => 'Назад';
+
+  @override
+  String get teenTasksTitle => 'Задачи';
+
+  @override
+  String get teenMilestonesTitle => 'Этапы';
+
+  @override
+  String get teenNothingToDo => 'Пока дел нет. Отдыхай!';
+
+  @override
+  String teenPendingChip(String amount) {
+    return '$amount ждёт проверки';
+  }
 }

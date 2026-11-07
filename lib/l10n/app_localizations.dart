@@ -549,6 +549,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get actionBack;
+
+  /// No description provided for @teenTasksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get teenTasksTitle;
+
+  /// No description provided for @teenMilestonesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Milestones'**
+  String get teenMilestonesTitle;
+
+  /// No description provided for @teenNothingToDo.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to do right now. Enjoy!'**
+  String get teenNothingToDo;
+
+  /// No description provided for @teenPendingChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} waiting for check'**
+  String teenPendingChip(String amount);
 }
 
 class _AppLocalizationsDelegate

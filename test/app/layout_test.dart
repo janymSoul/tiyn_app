@@ -17,8 +17,10 @@ import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
+import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
+import '../helpers/fake_dashboard.dart';
 import '../helpers/fake_tasks.dart';
 import '../helpers/pump_app.dart';
 
@@ -295,7 +297,9 @@ void main() {
         expect(tester.takeException(), isNull);
       });
 
-      testWidgets('teen home inside its shell', (tester) async {
+      testWidgets('teen home with a milestone, pending chip and long text', (
+        tester,
+      ) async {
         _smallPhone(tester);
         await pumpApp(
           tester,
@@ -304,10 +308,74 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _parents),
             ),
+            dashboardRepositoryProvider.overrideWithValue(
+              FakeDashboardRepository(
+                fakeDashboard(
+                  balance: const Money.kzt(123456789000),
+                  available: const Money.kzt(123456789000),
+                  pending: const Money.kzt(1250000050),
+                  chores: [
+                    fakeChore(
+                      id: 'a',
+                      title: 'Вымыть всю посуду после большого ужина',
+                    ),
+                    fakeChore(
+                      id: 'b',
+                      title: 'Үйдегі барлық бөлмелерді жинап, шаңын сүрту',
+                      state: TaskState.submitted,
+                      reward: const Money.kzt(1250000050),
+                    ),
+                    fakeChore(
+                      id: 'c',
+                      title: 'Первый шаг большого этапа',
+                      milestoneId: 'm',
+                    ),
+                  ],
+                  milestones: [
+                    fakeMilestone(
+                      id: 'm',
+                      title: 'Подготовка к школьному учебному году целиком',
+                      approvedTasks: 1,
+                      totalTasks: 4,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
           locale: Locale(locale),
         );
-        expect(find.byType(NavigationBar), findsOneWidget);
+        expect(find.byType(NavigationBar), findsNothing);
+        expect(tester.takeException(), isNull);
+
+        // The milestone is below the fold: scroll to it, overflow-checking
+        // every card on the way.
+        await tester.scrollUntilVisible(
+          find.byType(LinearProgressIndicator),
+          200,
+        );
+        await tester.drag(find.byType(ListView), const Offset(0, -2000));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+      });
+
+      testWidgets('teen home error card', (tester) async {
+        _smallPhone(tester);
+        await pumpApp(
+          tester,
+          overrides: [
+            authControllerProvider.overrideWith(() => _Auth(_teenUser)),
+            familyControllerProvider.overrideWith(
+              () => _Family(() async => _parents),
+            ),
+            dashboardRepositoryProvider.overrideWithValue(
+              FakeDashboardRepository()
+                ..error = const ApiException(code: 'network_error'),
+            ),
+          ],
+          locale: Locale(locale),
+        );
+        expect(find.byType(TextButton), findsWidgets);
         expect(tester.takeException(), isNull);
       });
 

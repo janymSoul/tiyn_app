@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiyn_app/core/format/deadline_label.dart';
 import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/app_card.dart';
-import 'package:tiyn_app/design/widgets/money_text.dart';
-import 'package:tiyn_app/design/widgets/state_chip.dart';
+import 'package:tiyn_app/design/widgets/task_card.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
 import 'package:tiyn_app/features/parent/application/teen_tasks.dart';
+import 'package:tiyn_app/features/tasks/application/milestone_progress.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
@@ -171,6 +170,14 @@ class _TeenDetailScreenState extends ConsumerState<TeenDetailScreen> {
   }
 }
 
+Widget _card(Task task, List<Widget> children) => TaskCard(
+  title: task.title,
+  reward: task.reward,
+  deadlineAt: task.deadlineAt,
+  state: task.state,
+  children: children,
+);
+
 class _TaskRow extends StatelessWidget {
   const _TaskRow({required this.task});
 
@@ -178,7 +185,7 @@ class _TaskRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _RowCard(task: task, children: const []);
+    return _card(task, const []);
   }
 }
 
@@ -192,94 +199,25 @@ class _MilestoneRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    return _RowCard(
-      task: milestone,
-      children: [
-        const SizedBox(height: Space.s8),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: LinearProgressIndicator(
-            value: progress.fraction,
-            minHeight: 8,
-            backgroundColor: Palette.line,
-            color: Palette.gold,
-          ),
-        ),
-        const SizedBox(height: Space.s4),
-        Text(
-          progress.total == 0
-              ? l10n.milestoneNoTasks
-              : l10n.milestoneProgress(progress.done, progress.total),
-          style: text.bodySmall?.copyWith(color: Palette.muted),
-        ),
-      ],
-    );
-  }
-}
-
-/// Shared look of a task or milestone row: title and reward, then deadline and
-/// the state chip, then any [children].
-class _RowCard extends StatelessWidget {
-  const _RowCard({required this.task, required this.children});
-
-  final Task task;
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-    final l10n = AppLocalizations.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: Space.s8),
-      child: MergeSemantics(
-        child: AppCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      task.title,
-                      style: text.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: Space.s12),
-                  MoneyText(
-                    task.reward,
-                    style: text.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: Space.s8),
-              Wrap(
-                spacing: Space.s12,
-                runSpacing: Space.s8,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Text(
-                    deadlineLabel(
-                      l10n,
-                      MaterialLocalizations.of(context),
-                      task.deadlineAt,
-                      now: DateTime.now(),
-                    ),
-                    style: text.bodyMedium?.copyWith(color: Palette.muted),
-                  ),
-                  StateChip(task.state),
-                ],
-              ),
-              ...children,
-            ],
-          ),
+    return _card(milestone, [
+      const SizedBox(height: Space.s8),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: LinearProgressIndicator(
+          value: progress.fraction,
+          minHeight: 8,
+          backgroundColor: Palette.line,
+          color: Palette.gold,
         ),
       ),
-    );
+      const SizedBox(height: Space.s4),
+      Text(
+        progress.total == 0
+            ? l10n.milestoneNoTasks
+            : l10n.milestoneProgress(progress.done, progress.total),
+        style: text.bodySmall?.copyWith(color: Palette.muted),
+      ),
+    ]);
   }
 }
 

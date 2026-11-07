@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiyn_app/features/parent/application/teen_tasks.dart';
+import 'package:tiyn_app/features/tasks/application/milestone_progress.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
 
