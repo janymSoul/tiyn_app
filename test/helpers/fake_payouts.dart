@@ -56,6 +56,8 @@ class FakePayoutRepository implements PayoutRepository {
   Object? getError;
   Object? cancelError;
   Completer<void>? cancelGate;
+  Completer<void>? getGate;
+  Completer<void>? listGate;
 
   @override
   Future<Payout> create({
@@ -73,6 +75,7 @@ class FakePayoutRepository implements PayoutRepository {
   @override
   Future<List<Payout>> list({PayoutState? state}) async {
     listStates.add(state);
+    await listGate?.future;
     final failure = listError;
     if (failure != null) throw failure;
     return [
@@ -84,6 +87,7 @@ class FakePayoutRepository implements PayoutRepository {
   @override
   Future<Payout> get(String id) async {
     gets.add(id);
+    await getGate?.future;
     final failure = getError;
     if (failure != null) throw failure;
     final found = payouts.where((p) => p.id == id).firstOrNull;
