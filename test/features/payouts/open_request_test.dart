@@ -183,6 +183,35 @@ void main() {
       expect(find.widgetWithText(FilledButton, 'Cash out'), findsOneWidget);
     });
 
+    testWidgets('leaving the screen mid-cancel still clears the card', (
+      tester,
+    ) async {
+      final h = _Harness(dashboard: fakeDashboard(openPayout: _open()));
+      h.payouts.payouts = [fakePayout()];
+      h.payouts.cancelGate = Completer<void>();
+      await pumpApp(tester, overrides: h.overrides);
+      routerOf(tester).go('/teen/home/payout/po1');
+      await tester.pumpAndSettle();
+      final before = h.dashboard.calls;
+
+      await tester.tap(_cancelButton);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Yes, cancel the request'));
+      await tester.pump();
+      await tester.pump();
+      routerOf(tester).go('/teen/home');
+      await tester.pumpAndSettle();
+
+      h.dashboard.dashboard = fakeDashboard();
+      h.payouts.cancelGate!.complete();
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(h.payouts.cancels, ['po1']);
+      expect(h.dashboard.calls, greaterThan(before));
+      expect(_cancelButton, findsNothing);
+    });
+
     testWidgets('409 invalid_transition says it changed and refreshes', (
       tester,
     ) async {

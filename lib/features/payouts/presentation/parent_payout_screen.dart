@@ -61,9 +61,6 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
   Future<void> _refresh() =>
       ref.read(payoutDetailProvider(widget.payoutId).notifier).refresh();
 
-  void _refreshList() =>
-      unawaited(ref.read(requestedPayoutsProvider.notifier).refresh());
-
   Future<void> _fulfil(Payout payout) async {
     if (_fulfilUnsure == null) {
       final yes = await showConfirmSentSheet(context, payout.amount);
@@ -94,18 +91,26 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final router = GoRouter.of(context);
+    // Taken before the await: the parent may press Back while the call is in
+    // flight, and the list and badge must still hear about the outcome.
+    final requests = ref.read(requestedPayoutsProvider.notifier);
     setState(() {
       _busy = busy;
       _fulfilUnsure = null;
     });
     try {
       await call();
-      _refreshList();
-      if (!mounted) return;
-      router.pop();
+      unawaited(requests.refresh());
+      if (mounted) router.pop();
       messenger.showSnackBar(SnackBar(content: Text(doneText)));
     } catch (e) {
       final problem = PayoutProblem.from(e);
+      if (problem != PayoutProblem.insufficientFunds &&
+          problem != PayoutProblem.other) {
+        // Changed, unlinked or unsure: the list may be stale either way.
+        unawaited(requests.refresh());
+      }
+      if (!mounted) return;
       switch (problem) {
         case PayoutProblem.insufficientFunds:
           setState(() => _noCover = true);
@@ -113,10 +118,8 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
           // Answered or cancelled meanwhile: show how it ended.
           messenger.showSnackBar(SnackBar(content: Text(l10n.payoutChanged)));
           await _refresh();
-          _refreshList();
         case PayoutProblem.notLinked:
           setState(() => _notLinked = true);
-          _refreshList();
         case PayoutProblem.ambiguous when busy == _Busy.fulfil:
           // Maybe it went through: look before asking again.
           await _refresh();

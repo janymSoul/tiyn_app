@@ -40,10 +40,14 @@ class OpenRequestCard extends ConsumerStatefulWidget {
 class _OpenRequestCardState extends ConsumerState<OpenRequestCard> {
   bool _busy = false;
 
-  Future<void> _refreshEverything() async {
+  /// Refreshes through [dashboard] taken before the await: the teen may leave
+  /// the screen while the call is in flight, and the card must still go.
+  Future<void> _refreshEverything(DashboardController dashboard) async {
     final detail = payoutDetailProvider(widget.payoutId);
-    if (ref.exists(detail)) unawaited(ref.read(detail.notifier).refresh());
-    await ref.read(dashboardControllerProvider.notifier).refresh();
+    if (mounted && ref.exists(detail)) {
+      unawaited(ref.read(detail.notifier).refresh());
+    }
+    await dashboard.refresh();
   }
 
   Future<void> _cancel() async {
@@ -52,15 +56,16 @@ class _OpenRequestCardState extends ConsumerState<OpenRequestCard> {
     final confirmed = await _confirm();
     if (confirmed != true || !mounted) return;
 
+    final dashboard = ref.read(dashboardControllerProvider.notifier);
     setState(() => _busy = true);
     try {
       await ref.read(payoutRepositoryProvider).cancel(widget.payoutId);
-      await _refreshEverything();
+      await _refreshEverything(dashboard);
     } catch (e) {
       if (PayoutProblem.from(e) == PayoutProblem.changed) {
         // It was answered before the teen confirmed: show how it is now.
         messenger.showSnackBar(SnackBar(content: Text(l10n.payoutChanged)));
-        await _refreshEverything();
+        await _refreshEverything(dashboard);
       } else {
         messenger.showSnackBar(
           SnackBar(content: Text(apiErrorMessage(l10n, e))),

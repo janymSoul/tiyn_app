@@ -586,4 +586,49 @@ void main() {
       expect(find.text('Open Freedom Bank'), findsNothing);
     });
   });
+
+  group('leaving while the call is in flight', () {
+    testWidgets('Back during fulfil: it still lands, the list is refreshed', (
+      tester,
+    ) async {
+      final h = _harness();
+      await pumpApp(tester, overrides: h.overrides);
+      await _openPayout(tester);
+      h.payouts.fulfilGate = Completer<void>();
+
+      await tester.tap(_sent);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Yes, I sent it'));
+      await tester.pump();
+      await tester.pump();
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      final lists = h.payouts.listStates.length;
+
+      h.payouts.payouts = [];
+      h.payouts.fulfilGate!.complete();
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(h.payouts.fulfils, ['po1'], reason: 'sent once');
+      expect(h.payouts.listStates.length, greaterThan(lists));
+      expect(find.text('Payout requests (1)'), findsNothing);
+      expect(find.text('Payout confirmed'), findsOneWidget);
+    });
+
+    testWidgets('an unsure fulfil also refreshes the list', (tester) async {
+      final h = _harness();
+      h.payouts.fulfilError = const ApiException(code: 'timeout');
+      await pumpApp(tester, overrides: h.overrides);
+      await _openPayout(tester);
+      final lists = h.payouts.listStates.length;
+
+      await tester.tap(_sent);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Yes, I sent it'));
+      await tester.pumpAndSettle();
+
+      expect(h.payouts.listStates.length, greaterThan(lists));
+    });
+  });
 }
