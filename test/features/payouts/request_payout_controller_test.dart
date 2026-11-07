@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
+import 'package:tiyn_app/core/network/idempotent_submit_controller.dart';
 import 'package:tiyn_app/features/payouts/application/request_payout_controller.dart';
 import 'package:tiyn_app/features/payouts/data/payout.dart';
 
@@ -69,7 +70,7 @@ void main() {
     test('nothing is pending; the first edit makes a new key, once', () async {
       final s = _setup()..script.add(_rejected);
       expect(await s.controller.submit(_request), isFalse);
-      expect(s.controller.phase, RequestPhase.rejected);
+      expect(s.controller.phase, SubmitPhase.rejected);
       expect(s.controller.pending, isNull);
       expect(s.controller.key.value, 'key-1');
 
@@ -106,7 +107,7 @@ void main() {
     test('locks, keeps the payload, and retries with the same key', () async {
       final s = _setup()..script.addAll([_timeout, _server]);
       expect(await s.controller.submit(_request), isFalse);
-      expect(s.controller.phase, RequestPhase.ambiguous);
+      expect(s.controller.phase, SubmitPhase.ambiguous);
       expect(s.controller.isLocked, isTrue);
       expect(s.controller.pending, _request);
 
@@ -120,7 +121,7 @@ void main() {
       expect(await s.controller.submit(_other), isTrue);
       expect(s.sent.last.request, _request);
       expect(s.sent.last.key, 'key-1');
-      expect(s.controller.phase, RequestPhase.editing);
+      expect(s.controller.phase, SubmitPhase.editing);
     });
 
     test('editing is not possible without the explicit unlock', () async {
@@ -134,7 +135,7 @@ void main() {
       final s = _setup()..script.add(_timeout);
       await s.controller.submit(_request);
       s.controller.unlockToEdit();
-      expect(s.controller.phase, RequestPhase.editing);
+      expect(s.controller.phase, SubmitPhase.editing);
       expect(s.controller.isLocked, isFalse);
       expect(s.controller.key.value, 'key-2');
       await s.controller.submit(_other);

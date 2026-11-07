@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
+import 'package:tiyn_app/core/network/idempotent_submit_controller.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/busy_button.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
@@ -124,7 +125,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final container = ProviderScope.containerOf(context);
     final pending = _create.pending;
     final NewTask task;
-    if (_create.phase == CreatePhase.ambiguous && pending != null) {
+    if (_create.phase == SubmitPhase.ambiguous && pending != null) {
       task = pending; // resend exactly what the server may have seen
     } else {
       setState(() => _showErrors = true);
@@ -148,7 +149,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       return;
     }
     final error = _create.error;
-    if (_create.phase == CreatePhase.rejected && error != null) {
+    if (_create.phase == SubmitPhase.rejected && error != null) {
       setState(() {
         _serverErrors[fieldForServerCode(error.code)] = apiErrorMessage(
           AppLocalizations.of(context),
@@ -231,7 +232,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final text = Theme.of(context).textTheme;
     final material = MaterialLocalizations.of(context);
     final locked = _create.isLocked;
-    final ambiguous = _create.phase == CreatePhase.ambiguous;
+    final ambiguous = _create.phase == SubmitPhase.ambiguous;
     final teenName = ref.watch(
       familyControllerProvider.select(
         (s) =>
@@ -390,7 +391,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
             ],
             const SizedBox(height: Space.s24),
             BusyButton(
-              busy: _create.phase == CreatePhase.sending,
+              busy: _create.phase == SubmitPhase.sending,
               onPressed: _submit,
               child: Text(
                 ambiguous

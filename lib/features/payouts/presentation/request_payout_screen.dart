@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiyn_app/app/config.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
+import 'package:tiyn_app/core/network/idempotent_submit_controller.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/busy_button.dart';
@@ -83,7 +84,7 @@ class _RequestPayoutScreenState extends ConsumerState<RequestPayoutScreen> {
 
     final PayoutRequest request;
     final pending = _request.pending;
-    if (_request.phase == RequestPhase.ambiguous && pending != null) {
+    if (_request.phase == SubmitPhase.ambiguous && pending != null) {
       request = pending; // resend exactly what the server may have seen
     } else {
       final amount = validatePayoutAmount(
@@ -112,7 +113,7 @@ class _RequestPayoutScreenState extends ConsumerState<RequestPayoutScreen> {
       return;
     }
     final error = _request.error;
-    if (_request.phase == RequestPhase.rejected && error != null) {
+    if (_request.phase == SubmitPhase.rejected && error != null) {
       _showRejection(l10n, error);
     }
   }
@@ -234,7 +235,7 @@ class _RequestPayoutScreenState extends ConsumerState<RequestPayoutScreen> {
     final text = Theme.of(context).textTheme;
     final locale = Localizations.localeOf(context).languageCode;
     final locked = _request.isLocked;
-    final ambiguous = _request.phase == RequestPhase.ambiguous;
+    final ambiguous = _request.phase == SubmitPhase.ambiguous;
 
     // Something changed since the teen opened the form (a penalty, an open
     // request from another phone). While an attempt is in flight or unsure the
@@ -346,7 +347,7 @@ class _RequestPayoutScreenState extends ConsumerState<RequestPayoutScreen> {
           )
         else
           BusyButton(
-            busy: _request.phase == RequestPhase.sending,
+            busy: _request.phase == SubmitPhase.sending,
             onPressed: ambiguous || canSend
                 ? () => _submit(parents, data)
                 : null,
