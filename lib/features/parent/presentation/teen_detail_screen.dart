@@ -5,7 +5,7 @@ import 'package:tiyn_app/app/router/routes.dart';
 import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
-import 'package:tiyn_app/design/widgets/app_card.dart';
+import 'package:tiyn_app/design/widgets/error_card.dart';
 import 'package:tiyn_app/design/widgets/task_card.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
@@ -93,7 +93,7 @@ class _TeenDetailScreenState extends ConsumerState<TeenDetailScreen> {
             error: (e, _) => ListView(
               padding: const EdgeInsets.all(24),
               children: [
-                _ErrorCard(
+                ErrorCard(
                   message: apiErrorMessage(l10n, e),
                   onRetry: () => ref.invalidate(taskListProvider(_query)),
                 ),
@@ -277,34 +277,6 @@ class _EmptyText extends StatelessWidget {
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.bodyLarge
             ?.copyWith(color: Palette.muted),
-      ),
-    );
-  }
-}
-
-class _ErrorCard extends StatelessWidget {
-  const _ErrorCard({required this.message, required this.onRetry});
-
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            message,
-            style: Theme.of(context).textTheme.bodyMedium
-                ?.copyWith(color: Palette.warn, height: 1.5),
-          ),
-          const SizedBox(height: Space.s8),
-          TextButton(
-            onPressed: onRetry,
-            child: Text(AppLocalizations.of(context).actionTryAgain),
-          ),
-        ],
       ),
     );
   }

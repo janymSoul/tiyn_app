@@ -18,6 +18,7 @@ import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
+import 'package:tiyn_app/features/tasks/data/proof.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
@@ -276,6 +277,62 @@ void main() {
           200,
           scrollable: find.byType(Scrollable).first,
         );
+        expect(tester.takeException(), isNull);
+      });
+
+      testWidgets('review: list, long proof and the reject sheet', (
+        tester,
+      ) async {
+        _smallPhone(tester);
+        final tasks =
+            FakeTaskRepository([
+                fakeTask(
+                  id: 'r',
+                  teenId: '4',
+                  state: TaskState.submitted,
+                  title: 'Вымыть всю посуду после большого семейного ужина',
+                  reward: const Money.kzt(1250000050),
+                  submittedAt: DateTime.utc(2026, 11, 7, 8),
+                ),
+              ])
+              ..proofsById['r'] = [
+                Proof(
+                  attemptNo: 2,
+                  text: 'Всё готово, ' * 40,
+                  createdAt: DateTime.utc(2026, 11, 7, 9),
+                ),
+              ];
+        await pumpApp(
+          tester,
+          overrides: [
+            authControllerProvider.overrideWith(() => _Auth(_parentUser)),
+            familyControllerProvider.overrideWith(
+              () => _Family(() async => _teens),
+            ),
+            taskRepositoryProvider.overrideWithValue(tasks),
+          ],
+          locale: Locale(locale),
+        );
+        await tester.tap(find.byIcon(Icons.task_alt));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        await tester.tap(find.textContaining('Вымыть'));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        final reject = find.text(
+          AppLocalizations.of(tester.element(find.byType(Scaffold).last))
+              .reviewReject,
+        );
+        await tester.scrollUntilVisible(
+          reject,
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.tap(reject);
+        await tester.pumpAndSettle();
+        expect(find.byType(BottomSheet), findsOneWidget);
         expect(tester.takeException(), isNull);
       });
 

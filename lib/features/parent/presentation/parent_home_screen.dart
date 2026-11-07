@@ -7,6 +7,7 @@ import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/app_card.dart';
+import 'package:tiyn_app/design/widgets/error_card.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/presentation/join_code_panel.dart';
@@ -56,7 +57,7 @@ class ParentHomeScreen extends ConsumerWidget {
         ),
       ],
       error: (e, _) => [
-        _ErrorCard(
+        ErrorCard(
           message: apiErrorMessage(l10n, e),
           onRetry: () => ref.invalidate(familyControllerProvider),
         ),
@@ -68,7 +69,7 @@ class ParentHomeScreen extends ConsumerWidget {
           _Header(onAdd: () => showAddTeenSheet(context, joinCode: joinCode)),
           const SizedBox(height: Space.s16),
           if (tasksFailed) ...[
-            _ErrorCard(
+            ErrorCard(
               message: apiErrorMessage(l10n, tasksError!),
               onRetry: () {
                 ref.invalidate(submittedTasksProvider);
@@ -306,31 +307,5 @@ class _StatusLine extends StatelessWidget {
         style: text.bodyMedium?.copyWith(color: Palette.muted),
       ),
     };
-  }
-}
-
-class _ErrorCard extends StatelessWidget {
-  const _ErrorCard({required this.message, required this.onRetry});
-
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            message,
-            style: Theme.of(context).textTheme.bodyMedium
-                ?.copyWith(color: Palette.warn, height: 1.5),
-          ),
-          const SizedBox(height: Space.s8),
-          TextButton(onPressed: onRetry, child: Text(l10n.actionTryAgain)),
-        ],
-      ),
-    );
   }
 }

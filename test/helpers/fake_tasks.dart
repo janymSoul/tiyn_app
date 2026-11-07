@@ -1,6 +1,7 @@
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
 import 'package:tiyn_app/features/tasks/data/new_task.dart';
+import 'package:tiyn_app/features/tasks/data/proof.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/tasks/data/task_repository.dart';
@@ -17,6 +18,7 @@ Task fakeTask({
   String? milestoneId,
   int? approvedTasks,
   int? totalTasks,
+  DateTime? submittedAt,
 }) => Task(
   id: id,
   teenId: teenId,
@@ -30,6 +32,7 @@ Task fakeTask({
   milestoneId: milestoneId,
   approvedTasks: approvedTasks,
   totalTasks: totalTasks,
+  submittedAt: submittedAt,
 );
 
 /// Serves `list` from [tasks] and records every request, so a test can assert
@@ -80,6 +83,57 @@ class FakeTaskRepository implements TaskRepository {
       milestoneId: task.milestoneId,
     );
   }
+
+  /// Proofs by task id, and how often they were asked for.
+  final proofsById = <String, List<Proof>>{};
+  int proofCalls = 0;
+  int getCalls = 0;
+
+  /// Every approve / reject / redo, in order.
+  final decisions =
+      <({String action, String id, String? note, DateTime? deadline})>[];
+
+  /// Runs before a decision takes effect; throw to make it fail.
+  Future<void> Function(String action, String id)? onDecision;
+
+  @override
+  Future<Task> get(String id) async {
+    getCalls++;
+    final failure = error;
+    if (failure != null) throw failure;
+    return tasks.firstWhere((t) => t.id == id);
+  }
+
+  @override
+  Future<List<Proof>> proofs(String id) async {
+    proofCalls++;
+    return proofsById[id] ?? const [];
+  }
+
+  Future<Task> _decide(
+    String action,
+    String id,
+    TaskState to, {
+    String? note,
+    DateTime? deadline,
+  }) async {
+    decisions.add((action: action, id: id, note: note, deadline: deadline));
+    await onDecision?.call(action, id);
+    final i = tasks.indexWhere((t) => t.id == id);
+    tasks[i] = tasks[i].copyWith(state: to);
+    return tasks[i];
+  }
+
+  @override
+  Future<Task> approve(String id) => _decide('approve', id, TaskState.approved);
+
+  @override
+  Future<Task> reject(String id, {String? note}) =>
+      _decide('reject', id, TaskState.rejected, note: note);
+
+  @override
+  Future<Task> requestRedo(String id, {String? note, DateTime? deadlineAt}) =>
+      _decide('redo', id, TaskState.assigned, note: note, deadline: deadlineAt);
 
   @override
   dynamic noSuchMethod(Invocation invocation) =>

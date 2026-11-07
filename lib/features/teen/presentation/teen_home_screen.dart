@@ -5,8 +5,8 @@ import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
-import 'package:tiyn_app/design/widgets/app_card.dart';
 import 'package:tiyn_app/design/widgets/coin_badge.dart';
+import 'package:tiyn_app/design/widgets/error_card.dart';
 import 'package:tiyn_app/design/widgets/state_chip.dart';
 import 'package:tiyn_app/design/widgets/task_card.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
@@ -54,7 +54,7 @@ class TeenHomeScreen extends ConsumerWidget {
         ),
       ],
       error: (e, _) => [
-        _ErrorCard(
+        ErrorCard(
           message: apiErrorMessage(l10n, e),
           onRetry: () => ref.invalidate(dashboardControllerProvider),
         ),
@@ -255,34 +255,6 @@ class _MilestoneCard extends StatelessWidget {
           ),
         ],
       ],
-    );
-  }
-}
-
-class _ErrorCard extends StatelessWidget {
-  const _ErrorCard({required this.message, required this.onRetry});
-
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            message,
-            style: Theme.of(context).textTheme.bodyMedium
-                ?.copyWith(color: Palette.warn, height: 1.5),
-          ),
-          const SizedBox(height: Space.s8),
-          TextButton(
-            onPressed: onRetry,
-            child: Text(AppLocalizations.of(context).actionTryAgain),
-          ),
-        ],
-      ),
     );
   }
 }

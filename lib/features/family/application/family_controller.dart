@@ -39,3 +39,12 @@ final familyControllerProvider =
     AsyncNotifierProvider<FamilyController, List<FamilyMember>>(
       FamilyController.new,
     );
+
+/// Display names by member id, for screens that only show a name.
+final familyNamesProvider = Provider<Map<String, String>>(
+  (ref) => {
+    for (final m
+        in ref.watch(familyControllerProvider).value ?? const <FamilyMember>[])
+      m.id: m.displayName,
+  },
+);

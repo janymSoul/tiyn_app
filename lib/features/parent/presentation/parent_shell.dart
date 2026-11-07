@@ -22,13 +22,17 @@ class ParentShell extends ConsumerWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: (index) {
-          ref
-              .read(tabSelectedProvider.notifier)
-              .selected(ParentTab.values[index]);
           navigationShell.goBranch(
             index,
             initialLocation: index == navigationShell.currentIndex,
           );
+          // After the frame: a tab opened for the first time is built by
+          // goBranch, and only then is there a listener to hear this.
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ref
+                .read(tabSelectedProvider.notifier)
+                .selected(ParentTab.values[index]);
+          });
         },
         destinations: [
           NavigationDestination(

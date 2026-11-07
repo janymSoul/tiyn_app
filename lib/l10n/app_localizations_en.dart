@@ -402,4 +402,64 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get createNewMilestoneTooltip => 'New milestone';
+
+  @override
+  String get actionSend => 'Send';
+
+  @override
+  String get reviewEmpty => 'Nothing to check. Nice!';
+
+  @override
+  String reviewAttempt(int n) {
+    return 'Attempt $n';
+  }
+
+  @override
+  String get reviewApprove => 'Approve';
+
+  @override
+  String get reviewRedo => 'Ask to redo';
+
+  @override
+  String get reviewReject => 'Reject';
+
+  @override
+  String get reviewNote => 'Note (optional)';
+
+  @override
+  String get reviewRedoTitle => 'Ask to redo';
+
+  @override
+  String reviewRedoHint(String name) {
+    return 'The task goes back to $name. You can give a new deadline.';
+  }
+
+  @override
+  String get reviewDeadlineKeep => 'Keep the current deadline';
+
+  @override
+  String get reviewDeadlineChange => 'New deadline';
+
+  @override
+  String get reviewRejectTitle => 'Reject this task?';
+
+  @override
+  String reviewRejectBody(String name) {
+    return 'This is final. $name will not be able to redo it.';
+  }
+
+  @override
+  String get reviewChanged => 'This task just changed. Here is the latest.';
+
+  @override
+  String get reviewNoProof => 'No proof was attached.';
+
+  @override
+  String get reviewPhotoFailed => 'Could not load the photo.';
+
+  @override
+  String get reviewZoomHint => 'Tap to zoom';
+
+  @override
+  String get reviewProofLabel => 'Proof';
 }

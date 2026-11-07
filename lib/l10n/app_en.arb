@@ -245,5 +245,44 @@
   "createEditWarnBody": "The first attempt may already have gone through. If you change something and send it, a second task could be created.",
   "createEditAnyway": "Change anyway",
   "createNewTaskTooltip": "New task",
-  "createNewMilestoneTooltip": "New milestone"
+  "createNewMilestoneTooltip": "New milestone",
+  "actionSend": "Send",
+  "reviewEmpty": "Nothing to check. Nice!",
+  "reviewAttempt": "Attempt {n}",
+  "@reviewAttempt": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewApprove": "Approve",
+  "reviewRedo": "Ask to redo",
+  "reviewReject": "Reject",
+  "reviewNote": "Note (optional)",
+  "reviewRedoTitle": "Ask to redo",
+  "reviewRedoHint": "The task goes back to {name}. You can give a new deadline.",
+  "@reviewRedoHint": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewDeadlineKeep": "Keep the current deadline",
+  "reviewDeadlineChange": "New deadline",
+  "reviewRejectTitle": "Reject this task?",
+  "reviewRejectBody": "This is final. {name} will not be able to redo it.",
+  "@reviewRejectBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewChanged": "This task just changed. Here is the latest.",
+  "reviewNoProof": "No proof was attached.",
+  "reviewPhotoFailed": "Could not load the photo.",
+  "reviewZoomHint": "Tap to zoom",
+  "reviewProofLabel": "Proof"
 }

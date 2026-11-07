@@ -402,4 +402,65 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get createNewMilestoneTooltip => 'Жаңа кезең';
+
+  @override
+  String get actionSend => 'Жіберу';
+
+  @override
+  String get reviewEmpty => 'Тексеретін ештеңе жоқ. Тамаша!';
+
+  @override
+  String reviewAttempt(int n) {
+    return '$n-әрекет';
+  }
+
+  @override
+  String get reviewApprove => 'Қабылдау';
+
+  @override
+  String get reviewRedo => 'Қайта жасауды сұрау';
+
+  @override
+  String get reviewReject => 'Қабылдамау';
+
+  @override
+  String get reviewNote => 'Ескертпе (міндетті емес)';
+
+  @override
+  String get reviewRedoTitle => 'Қайта жасауды сұрау';
+
+  @override
+  String reviewRedoHint(String name) {
+    return 'Тапсырма қайтадан $name қолына өтеді. Жаңа мерзім беруге болады.';
+  }
+
+  @override
+  String get reviewDeadlineKeep => 'Бұрынғы мерзімді қалдыру';
+
+  @override
+  String get reviewDeadlineChange => 'Жаңа мерзім';
+
+  @override
+  String get reviewRejectTitle => 'Тапсырманы қабылдамау керек пе?';
+
+  @override
+  String reviewRejectBody(String name) {
+    return 'Бұл түпкілікті шешім. $name оны қайта жасай алмайды.';
+  }
+
+  @override
+  String get reviewChanged =>
+      'Тапсырма жаңа ғана өзгерді. Міне, соңғы нұсқасы.';
+
+  @override
+  String get reviewNoProof => 'Растама тіркелмеген.';
+
+  @override
+  String get reviewPhotoFailed => 'Фотоны жүктеу мүмкін болмады.';
+
+  @override
+  String get reviewZoomHint => 'Үлкейту үшін басыңыз';
+
+  @override
+  String get reviewProofLabel => 'Растама';
 }

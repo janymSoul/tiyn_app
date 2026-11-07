@@ -226,29 +226,42 @@ void main() {
       expect(find.text('1 to check'), findsOneWidget);
     });
 
-    testWidgets('selecting the tab refetches', (tester) async {
-      final s = ParentHarness(teens: [_dana]);
-      await pumpApp(tester, overrides: s.overrides);
-      expect(s.tasks.calls, 2);
+    testWidgets('selecting a tab refetches that tab\'s data', (tester) async {
+      final h = ParentHarness(teens: [_dana]);
+      await pumpApp(tester, overrides: h.overrides);
+      expect((h.family.calls, h.tasks.calls), (1, 2));
 
       await tester.tap(find.text('To check'));
       await tester.pumpAndSettle();
+      expect(
+        (h.family.calls, h.tasks.callsFor(TaskState.submitted)),
+        (1, 2),
+        reason: 'To check refetches its own list only',
+      );
+      expect(h.tasks.callsFor(TaskState.assigned), 1);
+
       await tester.tap(find.text('Home'));
       await tester.pumpAndSettle();
-      expect((s.family.calls, s.tasks.calls), (2, 4));
+      expect(h.family.calls, 2);
+      expect(h.tasks.callsFor(TaskState.assigned), 2);
     });
 
-    testWidgets('a hidden tab does not refetch on resume', (tester) async {
-      final s = ParentHarness(teens: [_dana]);
-      await pumpApp(tester, overrides: s.overrides);
+    testWidgets('on resume only the visible tab refetches', (tester) async {
+      final h = ParentHarness(teens: [_dana]);
+      await pumpApp(tester, overrides: h.overrides);
       await tester.tap(find.text('To check'));
       await tester.pumpAndSettle();
-      final before = (s.family.calls, s.tasks.calls);
+      final family = h.family.calls;
+      final assigned = h.tasks.callsFor(TaskState.assigned);
+      final submitted = h.tasks.callsFor(TaskState.submitted);
 
       _background(tester);
       await tester.pump();
       await _foreground(tester);
-      expect((s.family.calls, s.tasks.calls), before);
+
+      expect(h.family.calls, family, reason: 'hidden Home stays quiet');
+      expect(h.tasks.callsFor(TaskState.assigned), assigned);
+      expect(h.tasks.callsFor(TaskState.submitted), submitted + 1);
     });
   });
 

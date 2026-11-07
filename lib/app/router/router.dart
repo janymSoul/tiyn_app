@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiyn_app/app/router/redirect.dart';
 import 'package:tiyn_app/app/router/routes.dart';
-import 'package:tiyn_app/design/widgets/placeholder_tab.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/auth/presentation/sign_in_screen.dart';
 import 'package:tiyn_app/features/auth/presentation/splash_screen.dart';
@@ -12,19 +11,17 @@ import 'package:tiyn_app/features/family/presentation/join_teen_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/create_task_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_shell.dart';
+import 'package:tiyn_app/features/parent/presentation/review_list_screen.dart';
+import 'package:tiyn_app/features/parent/presentation/review_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/teen_detail_screen.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_home_screen.dart';
-import 'package:tiyn_app/l10n/app_localizations.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier<int>(0);
   ref.listen(authControllerProvider, (_, _) => refresh.value++);
   ref.listen(familyControllerProvider, (_, _) => refresh.value++);
   ref.onDispose(refresh.dispose);
-
-  GoRoute tab(String path, Widget Function(BuildContext) build) =>
-      GoRoute(path: path, builder: (context, _) => build(context));
 
   return GoRouter(
     refreshListenable: refresh,
@@ -103,11 +100,16 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           StatefulShellBranch(
             routes: [
-              tab(
-                Routes.parentReview,
-                (context) => PlaceholderTab(
-                  title: AppLocalizations.of(context).navToCheck,
-                ),
+              GoRoute(
+                path: Routes.parentReview,
+                builder: (_, _) => const ReviewListScreen(),
+                routes: [
+                  GoRoute(
+                    path: Routes.parentReviewTaskPattern,
+                    builder: (_, state) =>
+                        ReviewScreen(taskId: state.pathParameters['id']!),
+                  ),
+                ],
               ),
             ],
           ),

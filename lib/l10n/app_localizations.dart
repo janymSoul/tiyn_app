@@ -783,6 +783,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New milestone'**
   String get createNewMilestoneTooltip;
+
+  /// No description provided for @actionSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get actionSend;
+
+  /// No description provided for @reviewEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to check. Nice!'**
+  String get reviewEmpty;
+
+  /// No description provided for @reviewAttempt.
+  ///
+  /// In en, this message translates to:
+  /// **'Attempt {n}'**
+  String reviewAttempt(int n);
+
+  /// No description provided for @reviewApprove.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get reviewApprove;
+
+  /// No description provided for @reviewRedo.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask to redo'**
+  String get reviewRedo;
+
+  /// No description provided for @reviewReject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get reviewReject;
+
+  /// No description provided for @reviewNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get reviewNote;
+
+  /// No description provided for @reviewRedoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask to redo'**
+  String get reviewRedoTitle;
+
+  /// No description provided for @reviewRedoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The task goes back to {name}. You can give a new deadline.'**
+  String reviewRedoHint(String name);
+
+  /// No description provided for @reviewDeadlineKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the current deadline'**
+  String get reviewDeadlineKeep;
+
+  /// No description provided for @reviewDeadlineChange.
+  ///
+  /// In en, this message translates to:
+  /// **'New deadline'**
+  String get reviewDeadlineChange;
+
+  /// No description provided for @reviewRejectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject this task?'**
+  String get reviewRejectTitle;
+
+  /// No description provided for @reviewRejectBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This is final. {name} will not be able to redo it.'**
+  String reviewRejectBody(String name);
+
+  /// No description provided for @reviewChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'This task just changed. Here is the latest.'**
+  String get reviewChanged;
+
+  /// No description provided for @reviewNoProof.
+  ///
+  /// In en, this message translates to:
+  /// **'No proof was attached.'**
+  String get reviewNoProof;
+
+  /// No description provided for @reviewPhotoFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the photo.'**
+  String get reviewPhotoFailed;
+
+  /// No description provided for @reviewZoomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to zoom'**
+  String get reviewZoomHint;
+
+  /// No description provided for @reviewProofLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Proof'**
+  String get reviewProofLabel;
 }
 
 class _AppLocalizationsDelegate

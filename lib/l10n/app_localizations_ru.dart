@@ -404,4 +404,65 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get createNewMilestoneTooltip => 'Новый этап';
+
+  @override
+  String get actionSend => 'Отправить';
+
+  @override
+  String get reviewEmpty => 'Проверять нечего. Отлично!';
+
+  @override
+  String reviewAttempt(int n) {
+    return 'Попытка $n';
+  }
+
+  @override
+  String get reviewApprove => 'Принять';
+
+  @override
+  String get reviewRedo => 'Попросить переделать';
+
+  @override
+  String get reviewReject => 'Отклонить';
+
+  @override
+  String get reviewNote => 'Комментарий (необязательно)';
+
+  @override
+  String get reviewRedoTitle => 'Попросить переделать';
+
+  @override
+  String reviewRedoHint(String name) {
+    return 'Задача вернётся к: $name. Можно назначить новый срок.';
+  }
+
+  @override
+  String get reviewDeadlineKeep => 'Оставить прежний срок';
+
+  @override
+  String get reviewDeadlineChange => 'Новый срок';
+
+  @override
+  String get reviewRejectTitle => 'Отклонить задачу?';
+
+  @override
+  String reviewRejectBody(String name) {
+    return 'Это окончательно. $name не сможет её переделать.';
+  }
+
+  @override
+  String get reviewChanged =>
+      'Задача только что изменилась. Вот актуальные данные.';
+
+  @override
+  String get reviewNoProof => 'Подтверждение не приложено.';
+
+  @override
+  String get reviewPhotoFailed => 'Не удалось загрузить фото.';
+
+  @override
+  String get reviewZoomHint => 'Нажмите, чтобы увеличить';
+
+  @override
+  String get reviewProofLabel => 'Подтверждение';
 }
