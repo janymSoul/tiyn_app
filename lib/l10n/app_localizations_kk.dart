@@ -802,4 +802,17 @@ class AppLocalizationsKk extends AppLocalizations {
   String payoutUnlinkedBody(String amount) {
     return 'Ата-анаңмен байланыс үзілгендіктен, сұрау жойылды. $amount қайтадан қолжетімді.';
   }
+
+  @override
+  String payoutSectionTitle(int count) {
+    return 'Төлем сұраулары ($count)';
+  }
+
+  @override
+  String proofsSectionTitle(int count) {
+    return 'Растаулар ($count)';
+  }
+
+  @override
+  String get payoutRowTitle => 'Төлем сұрауы';
 }

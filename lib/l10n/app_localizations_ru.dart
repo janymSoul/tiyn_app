@@ -810,4 +810,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String payoutUnlinkedBody(String amount) {
     return 'Связь с родителем разорвана, поэтому запрос отменён. $amount снова доступны.';
   }
+
+  @override
+  String payoutSectionTitle(int count) {
+    return 'Запросы на выплату ($count)';
+  }
+
+  @override
+  String proofsSectionTitle(int count) {
+    return 'Подтверждения ($count)';
+  }
+
+  @override
+  String get payoutRowTitle => 'Запрос на выплату';
 }

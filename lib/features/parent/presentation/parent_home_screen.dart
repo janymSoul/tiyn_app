@@ -14,6 +14,7 @@ import 'package:tiyn_app/features/family/presentation/join_code_panel.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
 import 'package:tiyn_app/features/parent/application/teen_status.dart';
 import 'package:tiyn_app/features/parent/presentation/add_teen_sheet.dart';
+import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
 import 'package:tiyn_app/features/push/presentation/notify_cards.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
@@ -27,6 +28,8 @@ class ParentHomeScreen extends ConsumerWidget {
     ref.read(familyControllerProvider.notifier).refresh(),
     ref.read(submittedTasksProvider.notifier).refresh(),
     ref.read(assignedTasksProvider.notifier).refresh(),
+    // Keeps the To check badge, which counts payout requests, current.
+    ref.read(requestedPayoutsProvider.notifier).refresh(),
   ]);
 
   /// Null while loading or failed: a status computed from the empty list that

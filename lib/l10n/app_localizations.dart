@@ -1431,6 +1431,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are no longer linked to this parent, so the request was cancelled. {amount} is available again.'**
   String payoutUnlinkedBody(String amount);
+
+  /// No description provided for @payoutSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout requests ({count})'**
+  String payoutSectionTitle(int count);
+
+  /// No description provided for @proofsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Proofs ({count})'**
+  String proofsSectionTitle(int count);
+
+  /// No description provided for @payoutRowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash-out request'**
+  String get payoutRowTitle;
 }
 
 class _AppLocalizationsDelegate

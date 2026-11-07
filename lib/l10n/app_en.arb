@@ -534,5 +534,22 @@
         "type": "String"
       }
     }
-  }
+  },
+  "payoutSectionTitle": "Payout requests ({count})",
+  "@payoutSectionTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "proofsSectionTitle": "Proofs ({count})",
+  "@proofsSectionTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "payoutRowTitle": "Cash-out request"
 }

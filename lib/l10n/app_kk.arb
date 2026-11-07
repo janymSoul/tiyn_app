@@ -222,5 +222,8 @@
   "payoutCancelledTitle": "Сұрау кері қайтарылды",
   "payoutCancelledBody": "{amount} қайтадан қолжетімді.",
   "payoutUnlinkedTitle": "Байланыс үзілді",
-  "payoutUnlinkedBody": "Ата-анаңмен байланыс үзілгендіктен, сұрау жойылды. {amount} қайтадан қолжетімді."
+  "payoutUnlinkedBody": "Ата-анаңмен байланыс үзілгендіктен, сұрау жойылды. {amount} қайтадан қолжетімді.",
+  "payoutSectionTitle": "Төлем сұраулары ({count})",
+  "proofsSectionTitle": "Растаулар ({count})",
+  "payoutRowTitle": "Төлем сұрауы"
 }

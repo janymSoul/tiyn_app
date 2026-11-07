@@ -802,4 +802,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String payoutUnlinkedBody(String amount) {
     return 'You are no longer linked to this parent, so the request was cancelled. $amount is available again.';
   }
+
+  @override
+  String payoutSectionTitle(int count) {
+    return 'Payout requests ($count)';
+  }
+
+  @override
+  String proofsSectionTitle(int count) {
+    return 'Proofs ($count)';
+  }
+
+  @override
+  String get payoutRowTitle => 'Cash-out request';
 }

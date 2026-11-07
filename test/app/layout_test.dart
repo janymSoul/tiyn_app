@@ -17,6 +17,7 @@ import 'package:tiyn_app/features/auth/presentation/splash_screen.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
+import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/tasks/data/proof.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
@@ -25,6 +26,7 @@ import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
 import '../helpers/fake_dashboard.dart';
+import '../helpers/fake_payouts.dart';
 import '../helpers/fake_tasks.dart';
 import '../helpers/pump_app.dart';
 
@@ -194,6 +196,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(
               FakeTaskRepository([
                 fakeTask(id: 's', teenId: '4', state: TaskState.submitted),
@@ -214,6 +217,7 @@ void main() {
           locale,
           const ParentHomeScreen(),
           overrides: [
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
             authControllerProvider.overrideWith(() => _Auth(_parentUser)),
             familyControllerProvider.overrideWith(
@@ -241,6 +245,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -309,6 +314,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -380,6 +386,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -531,6 +538,7 @@ void main() {
               () => _Family(() async => _parents),
             ),
             dashboardRepositoryProvider.overrideWithValue(dash),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -602,6 +610,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),

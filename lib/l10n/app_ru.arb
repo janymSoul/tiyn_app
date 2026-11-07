@@ -221,5 +221,8 @@
   "payoutCancelledTitle": "Запрос отменён",
   "payoutCancelledBody": "{amount} снова доступны.",
   "payoutUnlinkedTitle": "Связь с родителем разорвана",
-  "payoutUnlinkedBody": "Связь с родителем разорвана, поэтому запрос отменён. {amount} снова доступны."
+  "payoutUnlinkedBody": "Связь с родителем разорвана, поэтому запрос отменён. {amount} снова доступны.",
+  "payoutSectionTitle": "Запросы на выплату ({count})",
+  "proofsSectionTitle": "Подтверждения ({count})",
+  "payoutRowTitle": "Запрос на выплату"
 }

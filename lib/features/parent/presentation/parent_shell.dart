@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
+import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
 /// Home and To check. Progress, Goals and Activity are hidden until they exist.
@@ -14,9 +15,14 @@ class ParentShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final toCheck = ref.watch(
+    // Proofs and payout requests both wait for the parent.
+    final proofs = ref.watch(
       submittedTasksProvider.select((s) => s.value?.length ?? 0),
     );
+    final requests = ref.watch(
+      requestedPayoutsProvider.select((s) => s.value?.length ?? 0),
+    );
+    final toCheck = proofs + requests;
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: NavigationBar(

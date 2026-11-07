@@ -10,12 +10,14 @@ import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/auth/data/user.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
+import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 
 import '../helpers/fake_dashboard.dart';
 import '../helpers/fake_family.dart';
+import '../helpers/fake_payouts.dart';
 import '../helpers/fake_tasks.dart';
 import '../helpers/parent_harness.dart';
 import '../helpers/pump_app.dart';
@@ -56,6 +58,7 @@ _teen({TaskState state = TaskState.assigned}) {
         ]),
       ),
       dashboardRepositoryProvider.overrideWithValue(dash),
+      payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
       taskRepositoryProvider.overrideWithValue(tasks),
     ],
   );
