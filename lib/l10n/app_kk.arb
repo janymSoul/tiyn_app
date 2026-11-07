@@ -250,5 +250,8 @@
   "payoutParentTeenCancelled": "Жасөспірім сұрауды кері қайтарды",
   "payoutParentDeclined": "Сіз бұл сұрауды қабылдамадыңыз",
   "payoutParentExpired": "Сұраудың мерзімі өтті",
-  "payoutParentUnlinked": "Сіз бұл жасөспіріммен енді байланыспайсыз. Сұрау жойылды."
+  "payoutParentUnlinked": "Сіз бұл жасөспіріммен енді байланыспайсыз. Сұрау жойылды.",
+  "payoutOpenBank": "{bank} ашу",
+  "payoutBankStore": "{bank} орнатылмаған. Қосымшаның дүкендегі беті ашылды.",
+  "payoutBankUnavailable": "{bank} ашу мүмкін болмады. Қосымшаны өзіңіз ашып, қайтып келіп растаңыз."
 }

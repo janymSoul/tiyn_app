@@ -50,6 +50,9 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <!-- Bank apps the parent can open (core/bank/bank.dart). Without a
+             line here Android 11+ hides the app and it can't be launched. -->
+        <package android:name="ffinbank.MyFreedom"/>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>

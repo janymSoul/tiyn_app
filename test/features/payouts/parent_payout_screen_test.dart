@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tiyn_app/core/bank/bank.dart';
+import 'package:tiyn_app/core/bank/bank_launcher.dart';
+import 'package:tiyn_app/core/bank/bank_providers.dart';
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
@@ -10,6 +13,7 @@ import 'package:tiyn_app/features/payouts/application/payout_copy_text.dart';
 import 'package:tiyn_app/features/payouts/data/cancel_reason.dart';
 import 'package:tiyn_app/features/payouts/data/payout_state.dart';
 
+import '../../helpers/fake_bank_launcher.dart';
 import '../../helpers/fake_payouts.dart';
 import '../../helpers/parent_harness.dart';
 import '../../helpers/pump_app.dart';
@@ -457,6 +461,129 @@ void main() {
       await tester.tap(find.text('Try again'));
       await tester.pumpAndSettle();
       expect(_sent, findsOneWidget);
+    });
+  });
+
+  group('opening a bank app', () {
+    const kaspi = Bank(
+      id: 'kaspi',
+      displayName: 'Kaspi',
+      androidPackage: 'kz.example.kaspi',
+    );
+
+    Future<FakeBankLauncher> open(
+      WidgetTester tester,
+      ParentHarness h, {
+      BankLaunchResult result = BankLaunchResult.opened,
+      List<Bank>? banks,
+    }) async {
+      final launcher = FakeBankLauncher(result);
+      await pumpApp(
+        tester,
+        overrides: [
+          ...h.overrides,
+          bankLauncherProvider.overrideWithValue(launcher),
+          if (banks != null) banksProvider.overrideWithValue(banks),
+        ],
+      );
+      await _openPayout(tester);
+      return launcher;
+    }
+
+    testWidgets('one bank: a single button that opens it', (tester) async {
+      final h = _harness();
+      final launcher = await open(tester, h);
+      expect(find.text('Open Freedom Bank'), findsOneWidget);
+
+      await tester.tap(find.text('Open Freedom Bank'));
+      await tester.pumpAndSettle();
+      expect(launcher.opened.single.id, 'freedom');
+    });
+
+    testWidgets('opening a bank never fulfils, before or after a resume', (
+      tester,
+    ) async {
+      final h = _harness();
+      final launcher = await open(tester, h);
+      await tester.tap(find.text('Open Freedom Bank'));
+      await tester.pumpAndSettle();
+
+      final binding = tester.binding;
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pumpAndSettle();
+
+      expect(launcher.opened, hasLength(1));
+      expect(h.payouts.fulfils, isEmpty);
+      expect(h.payouts.declines, isEmpty);
+      expect(_sent, findsOneWidget, reason: 'still waiting for the parent');
+    });
+
+    for (final (result, note) in [
+      (BankLaunchResult.opened, null),
+      (
+        BankLaunchResult.storeOpened,
+        "Freedom Bank isn't installed. We opened its store page.",
+      ),
+      (
+        BankLaunchResult.unavailable,
+        'Could not open Freedom Bank. Open it yourself, then come back and '
+            'confirm.',
+      ),
+    ]) {
+      testWidgets('${result.name}: amount and copy stay, confirm still works', (
+        tester,
+      ) async {
+        final h = _harness();
+        await open(tester, h, result: result);
+        await tester.tap(find.text('Open Freedom Bank'));
+        await tester.pumpAndSettle();
+
+        if (note != null) expect(find.text(note), findsOneWidget);
+        expect(find.text('Copy amount'), findsOneWidget);
+        expect(find.text(_money(500000)), findsWidgets);
+        expect(h.payouts.fulfils, isEmpty);
+
+        await tester.tap(_sent);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Yes, I sent it'));
+        await tester.pumpAndSettle();
+        expect(h.payouts.fulfils, ['po1']);
+      });
+    }
+
+    testWidgets('several banks: a list, each opening its own app', (
+      tester,
+    ) async {
+      final h = _harness();
+      final launcher = await open(tester, h, banks: [freedomBank, kaspi]);
+      expect(find.text('Open Freedom Bank'), findsOneWidget);
+      expect(find.text('Open Kaspi'), findsOneWidget);
+
+      await tester.tap(find.text('Open Kaspi'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Open Freedom Bank'));
+      await tester.pumpAndSettle();
+      expect(launcher.opened.map((b) => b.id), ['kaspi', 'freedom']);
+    });
+
+    testWidgets('no bank button once the request is not open', (tester) async {
+      final h = _harness();
+      await open(tester, h);
+      h.payouts.payouts = [fakePayout(state: PayoutState.fulfilled)];
+      final binding = tester.binding;
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pumpAndSettle();
+      expect(find.text('Open Freedom Bank'), findsNothing);
     });
   });
 }

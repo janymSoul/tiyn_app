@@ -906,4 +906,19 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get payoutParentUnlinked =>
       'Сіз бұл жасөспіріммен енді байланыспайсыз. Сұрау жойылды.';
+
+  @override
+  String payoutOpenBank(String bank) {
+    return '$bank ашу';
+  }
+
+  @override
+  String payoutBankStore(String bank) {
+    return '$bank орнатылмаған. Қосымшаның дүкендегі беті ашылды.';
+  }
+
+  @override
+  String payoutBankUnavailable(String bank) {
+    return '$bank ашу мүмкін болмады. Қосымшаны өзіңіз ашып, қайтып келіп растаңыз.';
+  }
 }

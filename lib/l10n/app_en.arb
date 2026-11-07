@@ -625,5 +625,29 @@
   "payoutParentTeenCancelled": "The teen cancelled this request",
   "payoutParentDeclined": "You declined this request",
   "payoutParentExpired": "This request expired",
-  "payoutParentUnlinked": "You are no longer linked to this teen. The request was cancelled."
+  "payoutParentUnlinked": "You are no longer linked to this teen. The request was cancelled.",
+  "payoutOpenBank": "Open {bank}",
+  "@payoutOpenBank": {
+    "placeholders": {
+      "bank": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutBankStore": "{bank} isn't installed. We opened its store page.",
+  "@payoutBankStore": {
+    "placeholders": {
+      "bank": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutBankUnavailable": "Could not open {bank}. Open it yourself, then come back and confirm.",
+  "@payoutBankUnavailable": {
+    "placeholders": {
+      "bank": {
+        "type": "String"
+      }
+    }
+  }
 }

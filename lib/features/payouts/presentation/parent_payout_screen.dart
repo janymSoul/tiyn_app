@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiyn_app/core/bank/bank.dart';
+import 'package:tiyn_app/core/bank/bank_launcher.dart';
+import 'package:tiyn_app/core/bank/bank_providers.dart';
 import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
@@ -51,6 +54,9 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
   /// given, so "Try again" resends without asking again. Safe on the server:
   /// fulfilling a fulfilled payout writes no second debit.
   String? _fulfilUnsure;
+
+  /// What happened when a bank was opened, if it did not simply open.
+  String? _bankNote;
 
   Future<void> _refresh() =>
       ref.read(payoutDetailProvider(widget.payoutId).notifier).refresh();
@@ -123,6 +129,24 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
     } finally {
       if (mounted) setState(() => _busy = _Busy.none);
     }
+  }
+
+  /// Opens a bank app and nothing else. Whether the money was sent is the
+  /// parent's word, given later in the confirmation sheet; this never calls
+  /// fulfil, whatever the result.
+  Future<void> _openBank(Bank bank) async {
+    final l10n = AppLocalizations.of(context);
+    final result = await ref.read(bankLauncherProvider).open(bank);
+    if (!mounted) return;
+    setState(() {
+      _bankNote = switch (result) {
+        BankLaunchResult.opened => null,
+        BankLaunchResult.storeOpened => l10n.payoutBankStore(bank.displayName),
+        BankLaunchResult.unavailable => l10n.payoutBankUnavailable(
+          bank.displayName,
+        ),
+      };
+    });
   }
 
   Future<void> _copy(Payout payout) async {
@@ -236,6 +260,17 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
             style: text.bodyMedium?.copyWith(color: Palette.muted, height: 1.5),
           ),
           const SizedBox(height: Space.s12),
+          for (final bank in ref.watch(banksProvider)) ...[
+            FilledButton.tonal(
+              onPressed: working ? null : () => _openBank(bank),
+              child: Text(l10n.payoutOpenBank(bank.displayName)),
+            ),
+            const SizedBox(height: Space.s8),
+          ],
+          if (_bankNote != null) ...[
+            InfoBanner(_bankNote!),
+            const SizedBox(height: Space.s8),
+          ],
           OutlinedButton.icon(
             onPressed: () => _copy(payout),
             icon: const Icon(Icons.copy, size: 18),

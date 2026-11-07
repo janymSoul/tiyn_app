@@ -914,4 +914,19 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get payoutParentUnlinked =>
       'Вы больше не связаны с этим подростком. Запрос отменён.';
+
+  @override
+  String payoutOpenBank(String bank) {
+    return 'Открыть $bank';
+  }
+
+  @override
+  String payoutBankStore(String bank) {
+    return '$bank не установлен. Мы открыли страницу приложения в магазине.';
+  }
+
+  @override
+  String payoutBankUnavailable(String bank) {
+    return 'Не удалось открыть $bank. Откройте приложение сами, затем вернитесь и подтвердите.';
+  }
 }

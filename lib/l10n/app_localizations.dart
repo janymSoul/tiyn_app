@@ -1599,6 +1599,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You are no longer linked to this teen. The request was cancelled.'**
   String get payoutParentUnlinked;
+
+  /// No description provided for @payoutOpenBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {bank}'**
+  String payoutOpenBank(String bank);
+
+  /// No description provided for @payoutBankStore.
+  ///
+  /// In en, this message translates to:
+  /// **'{bank} isn\'t installed. We opened its store page.'**
+  String payoutBankStore(String bank);
+
+  /// No description provided for @payoutBankUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open {bank}. Open it yourself, then come back and confirm.'**
+  String payoutBankUnavailable(String bank);
 }
 
 class _AppLocalizationsDelegate

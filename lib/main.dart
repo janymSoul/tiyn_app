@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiyn_app/app/app.dart';
 import 'package:tiyn_app/app/config.dart';
+import 'package:tiyn_app/core/bank/bank_providers.dart';
+import 'package:tiyn_app/core/bank/method_channel_bank_launcher.dart';
 import 'package:tiyn_app/core/push/firebase_init.dart';
 import 'package:tiyn_app/core/push/firebase_push_messaging.dart';
 import 'package:tiyn_app/core/push/notification_settings_opener.dart';
@@ -18,6 +20,9 @@ Future<void> main() async {
       retry: (_, _) => null,
       overrides: [
         appConfigProvider.overrideWithValue(config),
+        bankLauncherProvider.overrideWithValue(
+          const MethodChannelBankLauncher(),
+        ),
         notificationSettingsOpenerProvider.overrideWithValue(
           const MethodChannelNotificationSettingsOpener(),
         ),

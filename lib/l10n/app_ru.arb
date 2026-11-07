@@ -249,5 +249,8 @@
   "payoutParentTeenCancelled": "Подросток отменил запрос",
   "payoutParentDeclined": "Вы отклонили этот запрос",
   "payoutParentExpired": "Срок запроса истёк",
-  "payoutParentUnlinked": "Вы больше не связаны с этим подростком. Запрос отменён."
+  "payoutParentUnlinked": "Вы больше не связаны с этим подростком. Запрос отменён.",
+  "payoutOpenBank": "Открыть {bank}",
+  "payoutBankStore": "{bank} не установлен. Мы открыли страницу приложения в магазине.",
+  "payoutBankUnavailable": "Не удалось открыть {bank}. Откройте приложение сами, затем вернитесь и подтвердите."
 }
