@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:tiyn_app/core/money/money.dart';
+import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
 import 'package:tiyn_app/features/payouts/data/cancel_reason.dart';
 import 'package:tiyn_app/features/payouts/data/payout.dart';
@@ -45,6 +46,11 @@ class FakePayoutRepository implements PayoutRepository {
   Completer<void>? createGate;
   Object? listError;
   final listStates = <PayoutState?>[];
+  final gets = <String>[];
+  final cancels = <String>[];
+  Object? getError;
+  Object? cancelError;
+  Completer<void>? cancelGate;
 
   @override
   Future<Payout> create({
@@ -71,7 +77,16 @@ class FakePayoutRepository implements PayoutRepository {
   }
 
   @override
-  Future<Payout> get(String id) => throw UnimplementedError();
+  Future<Payout> get(String id) async {
+    gets.add(id);
+    final failure = getError;
+    if (failure != null) throw failure;
+    final found = payouts.where((p) => p.id == id).firstOrNull;
+    if (found == null) {
+      throw const ApiException(code: 'not_found', statusCode: 404);
+    }
+    return found;
+  }
 
   @override
   Future<Payout> fulfil(String id) => throw UnimplementedError();
@@ -80,5 +95,15 @@ class FakePayoutRepository implements PayoutRepository {
   Future<Payout> decline(String id) => throw UnimplementedError();
 
   @override
-  Future<Payout> cancel(String id) => throw UnimplementedError();
+  Future<Payout> cancel(String id) async {
+    cancels.add(id);
+    await cancelGate?.future;
+    final failure = cancelError;
+    if (failure != null) throw failure;
+    return fakePayout(
+      id: id,
+      state: PayoutState.cancelled,
+      cancelReason: CancelReason.teenCancelled,
+    );
+  }
 }

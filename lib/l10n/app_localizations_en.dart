@@ -700,4 +700,106 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cashOutLockedNote => 'Money set aside for goals is not included.';
+
+  @override
+  String payoutWaitingFor(String name) {
+    return 'Waiting for $name';
+  }
+
+  @override
+  String get payoutWaitingForParent => 'Waiting for your parent';
+
+  @override
+  String payoutHeld(String amount) {
+    return '$amount held for this request';
+  }
+
+  @override
+  String payoutDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days left',
+      one: '1 day left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String payoutHoursLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours left',
+      one: '1 hour left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutLessThanHour => 'Less than an hour left';
+
+  @override
+  String get payoutAnyMoment => 'Expires any moment';
+
+  @override
+  String get payoutCancelRequest => 'Cancel request';
+
+  @override
+  String get payoutCancelTitle => 'Cancel this request?';
+
+  @override
+  String payoutCancelBody(String amount) {
+    return 'Your $amount request will be withdrawn and the money is available again.';
+  }
+
+  @override
+  String get payoutConfirmCancel => 'Yes, cancel the request';
+
+  @override
+  String get payoutChanged => 'This request just changed. Here is the latest.';
+
+  @override
+  String get payoutUnavailable => 'This request is no longer available.';
+
+  @override
+  String payoutFulfilledTitle(String amount) {
+    return 'Payout of $amount confirmed';
+  }
+
+  @override
+  String get payoutFulfilledBody =>
+      'Your parent confirmed sending the money. Check your bank. If it hasn\'t arrived, talk to them.';
+
+  @override
+  String get payoutDeclinedTitle => 'Request declined';
+
+  @override
+  String payoutDeclinedBody(String amount) {
+    return 'Your parent declined the request. $amount is available again.';
+  }
+
+  @override
+  String get payoutExpiredTitle => 'Request expired';
+
+  @override
+  String payoutExpiredBody(String amount) {
+    return 'Your parent didn\'t answer in time. $amount is available again, and you can ask again.';
+  }
+
+  @override
+  String get payoutCancelledTitle => 'Request cancelled';
+
+  @override
+  String payoutCancelledBody(String amount) {
+    return '$amount is available again.';
+  }
+
+  @override
+  String get payoutUnlinkedTitle => 'No longer linked';
+
+  @override
+  String payoutUnlinkedBody(String amount) {
+    return 'You are no longer linked to this parent, so the request was cancelled. $amount is available again.';
+  }
 }

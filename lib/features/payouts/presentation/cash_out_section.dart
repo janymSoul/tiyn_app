@@ -4,6 +4,7 @@ import 'package:tiyn_app/app/router/routes.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/features/payouts/application/cash_out_rule.dart';
+import 'package:tiyn_app/features/payouts/presentation/open_request_card.dart';
 import 'package:tiyn_app/features/teen/data/dashboard.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
@@ -25,7 +26,7 @@ String? cashOutExplanation(
 };
 
 /// The "Cash out" button on the teen home, or the reason it is disabled. With
-/// an open request it shows nothing: the request card takes its place.
+/// an open request the request card takes its place.
 class CashOutSection extends StatelessWidget {
   const CashOutSection({super.key, required this.dashboard});
 
@@ -39,7 +40,15 @@ class CashOutSection extends StatelessWidget {
       dashboard.balance,
       hasOpenRequest: dashboard.openPayout != null,
     );
-    if (state is CashOutOpenRequest) return const SizedBox.shrink();
+    final open = dashboard.openPayout;
+    if (state is CashOutOpenRequest && open != null) {
+      return OpenRequestCard(
+        payoutId: open.id,
+        parentId: open.parentId,
+        amount: open.amount,
+        expiresAt: open.expiresAt,
+      );
+    }
 
     final why = cashOutExplanation(l10n, state, locale);
     return Padding(

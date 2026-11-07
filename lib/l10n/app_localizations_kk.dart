@@ -700,4 +700,106 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get cashOutLockedNote => 'Мақсатқа бөлінген ақша есепке алынбайды.';
+
+  @override
+  String payoutWaitingFor(String name) {
+    return 'Жауап күтілуде: $name';
+  }
+
+  @override
+  String get payoutWaitingForParent => 'Ата-анаңның жауабы күтілуде';
+
+  @override
+  String payoutHeld(String amount) {
+    return '$amount осы сұрауға бекітілді';
+  }
+
+  @override
+  String payoutDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн қалды',
+      one: '$count күн қалды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String payoutHoursLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сағат қалды',
+      one: '$count сағат қалды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutLessThanHour => 'Бір сағаттан аз қалды';
+
+  @override
+  String get payoutAnyMoment => 'Мерзімі кез келген минутта аяқталады';
+
+  @override
+  String get payoutCancelRequest => 'Сұрауды болдырмау';
+
+  @override
+  String get payoutCancelTitle => 'Сұрауды болдырмау керек пе?';
+
+  @override
+  String payoutCancelBody(String amount) {
+    return '$amount сұрауы кері қайтарылады, ақша қайтадан қолжетімді болады.';
+  }
+
+  @override
+  String get payoutConfirmCancel => 'Иә, сұрауды болдырмау';
+
+  @override
+  String get payoutChanged => 'Сұрау жаңа ғана өзгерді. Міне, соңғы нұсқасы.';
+
+  @override
+  String get payoutUnavailable => 'Бұл сұрау енді жоқ.';
+
+  @override
+  String payoutFulfilledTitle(String amount) {
+    return '$amount төлемі расталды';
+  }
+
+  @override
+  String get payoutFulfilledBody =>
+      'Ата-анаң ақшаны жібергенін растады. Банкіңді тексер. Ақша келмесе, онымен сөйлес.';
+
+  @override
+  String get payoutDeclinedTitle => 'Сұрау қабылданбады';
+
+  @override
+  String payoutDeclinedBody(String amount) {
+    return 'Ата-анаң сұрауды қабылдамады. $amount қайтадан қолжетімді.';
+  }
+
+  @override
+  String get payoutExpiredTitle => 'Сұраудың мерзімі өтті';
+
+  @override
+  String payoutExpiredBody(String amount) {
+    return 'Ата-анаң уақытында жауап бермеді. $amount қайтадан қолжетімді, қайта сұрай аласың.';
+  }
+
+  @override
+  String get payoutCancelledTitle => 'Сұрау кері қайтарылды';
+
+  @override
+  String payoutCancelledBody(String amount) {
+    return '$amount қайтадан қолжетімді.';
+  }
+
+  @override
+  String get payoutUnlinkedTitle => 'Байланыс үзілді';
+
+  @override
+  String payoutUnlinkedBody(String amount) {
+    return 'Ата-анаңмен байланыс үзілгендіктен, сұрау жойылды. $amount қайтадан қолжетімді.';
+  }
 }

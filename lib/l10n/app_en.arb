@@ -441,5 +441,98 @@
       }
     }
   },
-  "cashOutLockedNote": "Money set aside for goals is not included."
+  "cashOutLockedNote": "Money set aside for goals is not included.",
+  "payoutWaitingFor": "Waiting for {name}",
+  "@payoutWaitingFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutWaitingForParent": "Waiting for your parent",
+  "payoutHeld": "{amount} held for this request",
+  "@payoutHeld": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutDaysLeft": "{count, plural, one{1 day left} other{{count} days left}}",
+  "@payoutDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "payoutHoursLeft": "{count, plural, one{1 hour left} other{{count} hours left}}",
+  "@payoutHoursLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "payoutLessThanHour": "Less than an hour left",
+  "payoutAnyMoment": "Expires any moment",
+  "payoutCancelRequest": "Cancel request",
+  "payoutCancelTitle": "Cancel this request?",
+  "payoutCancelBody": "Your {amount} request will be withdrawn and the money is available again.",
+  "@payoutCancelBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutConfirmCancel": "Yes, cancel the request",
+  "payoutChanged": "This request just changed. Here is the latest.",
+  "payoutUnavailable": "This request is no longer available.",
+  "payoutFulfilledTitle": "Payout of {amount} confirmed",
+  "@payoutFulfilledTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutFulfilledBody": "Your parent confirmed sending the money. Check your bank. If it hasn't arrived, talk to them.",
+  "payoutDeclinedTitle": "Request declined",
+  "payoutDeclinedBody": "Your parent declined the request. {amount} is available again.",
+  "@payoutDeclinedBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutExpiredTitle": "Request expired",
+  "payoutExpiredBody": "Your parent didn't answer in time. {amount} is available again, and you can ask again.",
+  "@payoutExpiredBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutCancelledTitle": "Request cancelled",
+  "payoutCancelledBody": "{amount} is available again.",
+  "@payoutCancelledBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutUnlinkedTitle": "No longer linked",
+  "payoutUnlinkedBody": "You are no longer linked to this parent, so the request was cancelled. {amount} is available again.",
+  "@payoutUnlinkedBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

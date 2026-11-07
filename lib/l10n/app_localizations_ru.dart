@@ -703,4 +703,111 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get cashOutLockedNote => 'Деньги, отложенные на цели, не учитываются.';
+
+  @override
+  String payoutWaitingFor(String name) {
+    return 'Ждём ответа: $name';
+  }
+
+  @override
+  String get payoutWaitingForParent => 'Ждём ответа родителя';
+
+  @override
+  String payoutHeld(String amount) {
+    return '$amount отложено под этот запрос';
+  }
+
+  @override
+  String payoutDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'осталось $count дня',
+      many: 'осталось $count дней',
+      few: 'осталось $count дня',
+      one: 'остался $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String payoutHoursLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'осталось $count часа',
+      many: 'осталось $count часов',
+      few: 'осталось $count часа',
+      one: 'остался $count час',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutLessThanHour => 'Остался меньше часа';
+
+  @override
+  String get payoutAnyMoment => 'Срок истекает с минуты на минуту';
+
+  @override
+  String get payoutCancelRequest => 'Отменить запрос';
+
+  @override
+  String get payoutCancelTitle => 'Отменить запрос?';
+
+  @override
+  String payoutCancelBody(String amount) {
+    return 'Запрос на $amount будет отозван, а деньги снова станут доступны.';
+  }
+
+  @override
+  String get payoutConfirmCancel => 'Да, отменить запрос';
+
+  @override
+  String get payoutChanged =>
+      'Запрос только что изменился. Вот актуальные данные.';
+
+  @override
+  String get payoutUnavailable => 'Этого запроса больше нет.';
+
+  @override
+  String payoutFulfilledTitle(String amount) {
+    return 'Выплата $amount подтверждена';
+  }
+
+  @override
+  String get payoutFulfilledBody =>
+      'Родитель подтвердил, что отправил деньги. Проверь банк. Если денег нет, поговори с родителем.';
+
+  @override
+  String get payoutDeclinedTitle => 'Запрос отклонён';
+
+  @override
+  String payoutDeclinedBody(String amount) {
+    return 'Родитель отклонил запрос. $amount снова доступны.';
+  }
+
+  @override
+  String get payoutExpiredTitle => 'Срок запроса истёк';
+
+  @override
+  String payoutExpiredBody(String amount) {
+    return 'Родитель не ответил вовремя. $amount снова доступны, можно попросить ещё раз.';
+  }
+
+  @override
+  String get payoutCancelledTitle => 'Запрос отменён';
+
+  @override
+  String payoutCancelledBody(String amount) {
+    return '$amount снова доступны.';
+  }
+
+  @override
+  String get payoutUnlinkedTitle => 'Связь с родителем разорвана';
+
+  @override
+  String payoutUnlinkedBody(String amount) {
+    return 'Связь с родителем разорвана, поэтому запрос отменён. $amount снова доступны.';
+  }
 }
