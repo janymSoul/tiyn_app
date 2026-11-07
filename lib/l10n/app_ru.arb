@@ -154,5 +154,14 @@
   "errorDeadlinePassed": "Срок прошёл, поэтому отправить уже нельзя.",
   "errorUnsupportedProof": "Не удалось принять. Попробуй другое фото или более короткую заметку.",
   "errorPayloadTooLarge": "Фото слишком большое. Попробуй другое.",
-  "errorTaskChanged": "Задача только что изменилась. Вот актуальные данные."
+  "errorTaskChanged": "Задача только что изменилась. Вот актуальные данные.",
+  "parentCancelTask": "Отменить задачу",
+  "parentCancelMilestone": "Отменить этап",
+  "parentCancelTaskTitle": "Отменить эту задачу?",
+  "parentCancelMilestoneTitle": "Отменить этот этап?",
+  "parentCancelBody": "Её больше нельзя будет выполнить или отправить. Это нельзя отменить.",
+  "parentKeepIt": "Оставить",
+  "parentConfirmCancel": "Да, отменить",
+  "parentAddToMilestone": "Добавить задачу в этот этап",
+  "parentNoteLabel": "Заметка"
 }

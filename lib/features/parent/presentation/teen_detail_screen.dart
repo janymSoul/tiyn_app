@@ -186,13 +186,15 @@ class _TeenDetailScreenState extends ConsumerState<TeenDetailScreen> {
   }
 }
 
-Widget _card(Task task, List<Widget> children) => TaskCard(
-  title: task.title,
-  reward: task.reward,
-  deadlineAt: task.deadlineAt,
-  state: task.state,
-  children: children,
-);
+Widget _card(BuildContext context, Task task, List<Widget> children) =>
+    TaskCard(
+      title: task.title,
+      reward: task.reward,
+      deadlineAt: task.deadlineAt,
+      state: task.state,
+      onTap: () => context.push(Routes.parentTask(task.teenId, task.id)),
+      children: children,
+    );
 
 class _TaskRow extends StatelessWidget {
   const _TaskRow({required this.task});
@@ -201,7 +203,7 @@ class _TaskRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _card(task, const []);
+    return _card(context, task, const []);
   }
 }
 
@@ -215,7 +217,7 @@ class _MilestoneRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    return _card(milestone, [
+    return _card(context, milestone, [
       const SizedBox(height: Space.s8),
       ClipRRect(
         borderRadius: BorderRadius.circular(4),

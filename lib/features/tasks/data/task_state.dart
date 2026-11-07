@@ -22,4 +22,8 @@ enum TaskState {
 
   /// Still waiting for the teen or the parent to do something.
   bool get isOpen => this == assigned || this == submitted;
+
+  /// The parent can still call it off. Same states as `isOpen`; kept apart
+  /// because they are different rules that happen to agree today.
+  bool get canCancel => this == assigned || this == submitted;
 }

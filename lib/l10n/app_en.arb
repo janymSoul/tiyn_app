@@ -334,5 +334,14 @@
   "errorDeadlinePassed": "The deadline has passed, so this can't be sent anymore.",
   "errorUnsupportedProof": "We couldn't accept that. Try a different photo, or a shorter note.",
   "errorPayloadTooLarge": "That photo is too big. Try another one.",
-  "errorTaskChanged": "This task just changed. Here is the latest."
+  "errorTaskChanged": "This task just changed. Here is the latest.",
+  "parentCancelTask": "Cancel task",
+  "parentCancelMilestone": "Cancel milestone",
+  "parentCancelTaskTitle": "Cancel this task?",
+  "parentCancelMilestoneTitle": "Cancel this milestone?",
+  "parentCancelBody": "It can't be done or submitted any more. This can't be undone.",
+  "parentKeepIt": "Keep it",
+  "parentConfirmCancel": "Yes, cancel",
+  "parentAddToMilestone": "Add task to this milestone",
+  "parentNoteLabel": "Note"
 }

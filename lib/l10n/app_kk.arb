@@ -155,5 +155,14 @@
   "errorDeadlinePassed": "Мерзім өтті, сондықтан жіберуге болмайды.",
   "errorUnsupportedProof": "Қабылдай алмадық. Басқа фото немесе қысқа ескертпе көр.",
   "errorPayloadTooLarge": "Фото тым үлкен. Басқасын көр.",
-  "errorTaskChanged": "Тапсырма жаңа ғана өзгерді. Міне, соңғы нұсқасы."
+  "errorTaskChanged": "Тапсырма жаңа ғана өзгерді. Міне, соңғы нұсқасы.",
+  "parentCancelTask": "Тапсырманы болдырмау",
+  "parentCancelMilestone": "Кезеңді болдырмау",
+  "parentCancelTaskTitle": "Бұл тапсырманы болдырмау керек пе?",
+  "parentCancelMilestoneTitle": "Бұл кезеңді болдырмау керек пе?",
+  "parentCancelBody": "Оны енді орындауға немесе жіберуге болмайды. Мұны қайтару мүмкін емес.",
+  "parentKeepIt": "Қалдыру",
+  "parentConfirmCancel": "Иә, болдырмау",
+  "parentAddToMilestone": "Осы кезеңге тапсырма қосу",
+  "parentNoteLabel": "Ескерту"
 }

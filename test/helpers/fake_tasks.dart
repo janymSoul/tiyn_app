@@ -125,6 +125,9 @@ class FakeTaskRepository implements TaskRepository {
   }
 
   @override
+  Future<Task> cancel(String id) => _decide('cancel', id, TaskState.cancelled);
+
+  @override
   Future<Task> approve(String id) => _decide('approve', id, TaskState.approved);
 
   @override

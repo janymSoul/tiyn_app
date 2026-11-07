@@ -10,6 +10,9 @@ abstract final class Routes {
   static const parentHome = '/parent/home';
   static String parentTeen(String id) => '$parentHome/teen/$id';
   static const parentTeenPattern = 'teen/:id';
+  static String parentTask(String teenId, String taskId) =>
+      '${parentTeen(teenId)}/task/$taskId';
+  static const parentTaskPattern = 'task/:taskId';
   static const parentNew = '/parent/new';
 
   /// The create form for a task or a milestone (a milestone's step carries

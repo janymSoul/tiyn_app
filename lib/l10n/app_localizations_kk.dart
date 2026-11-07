@@ -541,4 +541,32 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get errorTaskChanged =>
       'Тапсырма жаңа ғана өзгерді. Міне, соңғы нұсқасы.';
+
+  @override
+  String get parentCancelTask => 'Тапсырманы болдырмау';
+
+  @override
+  String get parentCancelMilestone => 'Кезеңді болдырмау';
+
+  @override
+  String get parentCancelTaskTitle => 'Бұл тапсырманы болдырмау керек пе?';
+
+  @override
+  String get parentCancelMilestoneTitle => 'Бұл кезеңді болдырмау керек пе?';
+
+  @override
+  String get parentCancelBody =>
+      'Оны енді орындауға немесе жіберуге болмайды. Мұны қайтару мүмкін емес.';
+
+  @override
+  String get parentKeepIt => 'Қалдыру';
+
+  @override
+  String get parentConfirmCancel => 'Иә, болдырмау';
+
+  @override
+  String get parentAddToMilestone => 'Осы кезеңге тапсырма қосу';
+
+  @override
+  String get parentNoteLabel => 'Ескерту';
 }

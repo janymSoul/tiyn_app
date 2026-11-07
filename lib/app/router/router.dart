@@ -11,6 +11,7 @@ import 'package:tiyn_app/features/family/presentation/join_teen_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/create_task_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_shell.dart';
+import 'package:tiyn_app/features/parent/presentation/parent_task_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/review_list_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/review_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/teen_detail_screen.dart';
@@ -110,6 +111,15 @@ final routerProvider = Provider<GoRouter>((ref) {
                     path: Routes.parentTeenPattern,
                     builder: (_, state) =>
                         TeenDetailScreen(teenId: state.pathParameters['id']!),
+                    routes: [
+                      GoRoute(
+                        path: Routes.parentTaskPattern,
+                        builder: (_, state) => ParentTaskScreen(
+                          teenId: state.pathParameters['id']!,
+                          taskId: state.pathParameters['taskId']!,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

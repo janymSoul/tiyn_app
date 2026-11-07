@@ -571,6 +571,61 @@ void main() {
         expect(tester.takeException(), isNull);
       });
 
+      testWidgets('parent task and milestone detail, cancel sheet', (
+        tester,
+      ) async {
+        _smallPhone(tester);
+        final long = 'Өте ұзын атау, сондай-ақ ұзын сөздер ' * 2;
+        final tasks = FakeTaskRepository([
+          fakeTask(
+            id: 'm1',
+            teenId: '4',
+            kind: TaskKind.milestone,
+            title: long,
+          ).copyWith(
+            description: 'Сипаттама ' * 30,
+            decisionNote: 'Ескерту ' * 20,
+            penalty: const Money.kzt(50000),
+          ),
+          for (var i = 0; i < 3; i++)
+            fakeTask(
+              id: 's$i',
+              teenId: '4',
+              title: '$long $i',
+              milestoneId: 'm1',
+            ),
+        ]);
+        await pumpApp(
+          tester,
+          overrides: [
+            authControllerProvider.overrideWith(() => _Auth(_parentUser)),
+            familyControllerProvider.overrideWith(
+              () => _Family(() async => _teens),
+            ),
+            taskRepositoryProvider.overrideWithValue(tasks),
+          ],
+          locale: Locale(locale),
+        );
+
+        unawaited(routerOf(tester).push(Routes.parentTask('4', 'm1')));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        final cancel = find.text(
+          AppLocalizations.of(tester.element(find.byType(Scaffold).last))
+              .parentCancelMilestone,
+        );
+        await tester.scrollUntilVisible(
+          cancel,
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(cancel);
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+      });
+
       testWidgets('splash error with sign-out', (tester) async {
         _smallPhone(tester);
         await _pumpScreen(

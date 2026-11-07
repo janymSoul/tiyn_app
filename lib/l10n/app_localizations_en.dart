@@ -541,4 +541,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorTaskChanged => 'This task just changed. Here is the latest.';
+
+  @override
+  String get parentCancelTask => 'Cancel task';
+
+  @override
+  String get parentCancelMilestone => 'Cancel milestone';
+
+  @override
+  String get parentCancelTaskTitle => 'Cancel this task?';
+
+  @override
+  String get parentCancelMilestoneTitle => 'Cancel this milestone?';
+
+  @override
+  String get parentCancelBody =>
+      'It can\'t be done or submitted any more. This can\'t be undone.';
+
+  @override
+  String get parentKeepIt => 'Keep it';
+
+  @override
+  String get parentConfirmCancel => 'Yes, cancel';
+
+  @override
+  String get parentAddToMilestone => 'Add task to this milestone';
+
+  @override
+  String get parentNoteLabel => 'Note';
 }

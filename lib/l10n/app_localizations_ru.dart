@@ -545,4 +545,32 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get errorTaskChanged =>
       'Задача только что изменилась. Вот актуальные данные.';
+
+  @override
+  String get parentCancelTask => 'Отменить задачу';
+
+  @override
+  String get parentCancelMilestone => 'Отменить этап';
+
+  @override
+  String get parentCancelTaskTitle => 'Отменить эту задачу?';
+
+  @override
+  String get parentCancelMilestoneTitle => 'Отменить этот этап?';
+
+  @override
+  String get parentCancelBody =>
+      'Её больше нельзя будет выполнить или отправить. Это нельзя отменить.';
+
+  @override
+  String get parentKeepIt => 'Оставить';
+
+  @override
+  String get parentConfirmCancel => 'Да, отменить';
+
+  @override
+  String get parentAddToMilestone => 'Добавить задачу в этот этап';
+
+  @override
+  String get parentNoteLabel => 'Заметка';
 }

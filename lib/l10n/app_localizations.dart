@@ -1029,6 +1029,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This task just changed. Here is the latest.'**
   String get errorTaskChanged;
+
+  /// No description provided for @parentCancelTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel task'**
+  String get parentCancelTask;
+
+  /// No description provided for @parentCancelMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel milestone'**
+  String get parentCancelMilestone;
+
+  /// No description provided for @parentCancelTaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this task?'**
+  String get parentCancelTaskTitle;
+
+  /// No description provided for @parentCancelMilestoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this milestone?'**
+  String get parentCancelMilestoneTitle;
+
+  /// No description provided for @parentCancelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It can\'t be done or submitted any more. This can\'t be undone.'**
+  String get parentCancelBody;
+
+  /// No description provided for @parentKeepIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it'**
+  String get parentKeepIt;
+
+  /// No description provided for @parentConfirmCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, cancel'**
+  String get parentConfirmCancel;
+
+  /// No description provided for @parentAddToMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task to this milestone'**
+  String get parentAddToMilestone;
+
+  /// No description provided for @parentNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get parentNoteLabel;
 }
 
 class _AppLocalizationsDelegate
