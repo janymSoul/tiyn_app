@@ -575,4 +575,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pushBannerDismiss => 'Dismiss';
+
+  @override
+  String get notifyAskTitleTeen => 'Get notified about new tasks and money';
+
+  @override
+  String notifyParentSheetTitle(String name) {
+    return 'Get notified when $name sends proof';
+  }
+
+  @override
+  String get notifyParentSheetBody =>
+      'We\'ll tell you as soon as there\'s something to check.';
+
+  @override
+  String get notifyFallbackName => 'your teen';
+
+  @override
+  String get notifyTurnOn => 'Turn on';
+
+  @override
+  String get notifyNotNow => 'Not now';
+
+  @override
+  String get notifyDeniedTitle => 'Notifications are off';
+
+  @override
+  String get notifyDeniedBody =>
+      'You won\'t hear about updates until you turn them on in settings.';
+
+  @override
+  String get notifyOpenSettings => 'Open settings';
+
+  @override
+  String get notifyDismiss => 'Dismiss';
 }

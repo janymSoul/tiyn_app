@@ -1095,6 +1095,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get pushBannerDismiss;
+
+  /// No description provided for @notifyAskTitleTeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified about new tasks and money'**
+  String get notifyAskTitleTeen;
+
+  /// No description provided for @notifyParentSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified when {name} sends proof'**
+  String notifyParentSheetTitle(String name);
+
+  /// No description provided for @notifyParentSheetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll tell you as soon as there\'s something to check.'**
+  String get notifyParentSheetBody;
+
+  /// No description provided for @notifyFallbackName.
+  ///
+  /// In en, this message translates to:
+  /// **'your teen'**
+  String get notifyFallbackName;
+
+  /// No description provided for @notifyTurnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get notifyTurnOn;
+
+  /// No description provided for @notifyNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notifyNotNow;
+
+  /// No description provided for @notifyDeniedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off'**
+  String get notifyDeniedTitle;
+
+  /// No description provided for @notifyDeniedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You won\'t hear about updates until you turn them on in settings.'**
+  String get notifyDeniedBody;
+
+  /// No description provided for @notifyOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get notifyOpenSettings;
+
+  /// No description provided for @notifyDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get notifyDismiss;
 }
 
 class _AppLocalizationsDelegate

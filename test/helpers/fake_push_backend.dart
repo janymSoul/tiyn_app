@@ -6,6 +6,7 @@ import 'package:tiyn_app/features/push/data/push_store.dart';
 class FakePushStore implements PushStore {
   DeviceRecord? registration;
   bool pendingDelete = false;
+  final flags = <String>{};
 
   @override
   Future<DeviceRecord?> readRegistration() async => registration;
@@ -16,6 +17,14 @@ class FakePushStore implements PushStore {
 
   @override
   Future<void> clearRegistration() async => registration = null;
+
+  @override
+  Future<bool> readFlag(String userId, PromptFlag flag) async =>
+      flags.contains('${flag.name}_$userId');
+
+  @override
+  Future<void> writeFlag(String userId, PromptFlag flag) async =>
+      flags.add('${flag.name}_$userId');
 
   @override
   Future<bool> hasPendingTokenDelete() async => pendingDelete;

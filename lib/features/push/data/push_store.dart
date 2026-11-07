@@ -72,4 +72,23 @@ class PushStore {
 
   Future<void> clearPendingTokenDelete() =>
       _storage.delete(key: _pendingDeleteKey);
+
+  /// One-time prompt flags, per user: on a shared phone a second account is a
+  /// new person and gets its own prompt. Not cleared on sign-out.
+  Future<bool> readFlag(String userId, PromptFlag flag) async =>
+      await _storage.read(key: _flagKey(userId, flag)) != null;
+
+  Future<void> writeFlag(String userId, PromptFlag flag) =>
+      _storage.write(key: _flagKey(userId, flag), value: '1');
+
+  static String _flagKey(String userId, PromptFlag flag) =>
+      'tiyn_push_${flag.name}_$userId';
+}
+
+enum PromptFlag {
+  /// We showed our own explanation (and, if accepted, the system dialog).
+  explained,
+
+  /// The "notifications are off" card was dismissed for good.
+  deniedCardDismissed,
 }

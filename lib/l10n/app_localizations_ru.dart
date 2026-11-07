@@ -579,4 +579,38 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get pushBannerDismiss => 'Закрыть';
+
+  @override
+  String get notifyAskTitleTeen => 'Узнавай о новых задачах и деньгах';
+
+  @override
+  String notifyParentSheetTitle(String name) {
+    return 'Узнайте, когда $name отправит подтверждение';
+  }
+
+  @override
+  String get notifyParentSheetBody =>
+      'Мы сообщим, как только будет что проверить.';
+
+  @override
+  String get notifyFallbackName => 'ваш подросток';
+
+  @override
+  String get notifyTurnOn => 'Включить';
+
+  @override
+  String get notifyNotNow => 'Не сейчас';
+
+  @override
+  String get notifyDeniedTitle => 'Уведомления выключены';
+
+  @override
+  String get notifyDeniedBody =>
+      'Пока уведомления выключены, об обновлениях не узнать. Их можно включить в настройках.';
+
+  @override
+  String get notifyOpenSettings => 'Открыть настройки';
+
+  @override
+  String get notifyDismiss => 'Закрыть';
 }

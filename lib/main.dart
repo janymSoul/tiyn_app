@@ -5,6 +5,7 @@ import 'package:tiyn_app/app/app.dart';
 import 'package:tiyn_app/app/config.dart';
 import 'package:tiyn_app/core/push/firebase_init.dart';
 import 'package:tiyn_app/core/push/firebase_push_messaging.dart';
+import 'package:tiyn_app/core/push/notification_settings_opener.dart';
 import 'package:tiyn_app/core/push/push_providers.dart';
 
 Future<void> main() async {
@@ -17,6 +18,9 @@ Future<void> main() async {
       retry: (_, _) => null,
       overrides: [
         appConfigProvider.overrideWithValue(config),
+        notificationSettingsOpenerProvider.overrideWithValue(
+          const MethodChannelNotificationSettingsOpener(),
+        ),
         pushMessagingProvider.overrideWithValue(
           FirebasePushMessaging(initialized: firebaseReady),
         ),

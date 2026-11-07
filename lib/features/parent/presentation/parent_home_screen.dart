@@ -14,6 +14,7 @@ import 'package:tiyn_app/features/family/presentation/join_code_panel.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
 import 'package:tiyn_app/features/parent/application/teen_status.dart';
 import 'package:tiyn_app/features/parent/presentation/add_teen_sheet.dart';
+import 'package:tiyn_app/features/push/presentation/notify_cards.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
@@ -107,6 +108,7 @@ class ParentHomeScreen extends ConsumerWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(24, 32, 24, 32),
               children: [
+                const NotifyCards(role: Role.parent),
                 ...body,
                 const SizedBox(height: Space.s24),
                 TextButton(
