@@ -86,6 +86,26 @@ void main() {
       );
     });
 
+    test('a resolved payout has no expiresAt: omitted or null both parse', () {
+      // The backend sends expiresAt only while REQUESTED (api.md). This is the
+      // exact shape of a fulfil/decline/cancel response.
+      for (final state in ['FULFILLED', 'CANCELLED']) {
+        final omitted = _json(state: state, resolvedAt: '2026-11-02T10:00:00Z')
+          ..remove('expiresAt');
+        final nulled = {...omitted, 'expiresAt': null};
+        for (final json in [omitted, nulled]) {
+          final p = Payout.fromJson(json);
+          expect(p.expiresAt, isNull, reason: state);
+          expect(p.state.isOpen, isFalse);
+        }
+      }
+    });
+
+    test('an open request without expiresAt is a contract break', () {
+      final json = _json()..remove('expiresAt');
+      expect(() => Payout.fromJson(json), _invalidResponse());
+    });
+
     test('a missing field or a foreign currency fails loudly', () {
       for (final key in ['id', 'teenId', 'parentId', 'amount', 'expiresAt']) {
         final json = _json()..remove(key);

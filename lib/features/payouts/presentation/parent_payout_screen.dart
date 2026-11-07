@@ -239,7 +239,7 @@ class _ParentPayoutScreenState extends ConsumerState<ParentPayoutScreen> {
         ),
         const SizedBox(height: Space.s4),
         Text(
-          expiryText(l10n, expiryLabel(payout.expiresAt, now: DateTime.now())),
+          expiryText(l10n, expiryLabel(payout.expiresAt!, now: DateTime.now())),
           style: text.bodyMedium?.copyWith(color: Palette.muted),
         ),
         const SizedBox(height: Space.s24),

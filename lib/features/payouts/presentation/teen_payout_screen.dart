@@ -104,7 +104,8 @@ class _Body extends StatelessWidget {
             payoutId: payout.id,
             parentId: payout.parentId,
             amount: payout.amount,
-            expiresAt: payout.expiresAt,
+            // An open payout always carries it; Payout.fromJson enforces that.
+            expiresAt: payout.expiresAt!,
           ),
         ],
       ),

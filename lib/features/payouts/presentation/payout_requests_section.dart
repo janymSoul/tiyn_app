@@ -93,7 +93,7 @@ class PayoutRequestsSection extends ConsumerWidget {
                             Text(
                               expiryText(
                                 l10n,
-                                expiryLabel(payout.expiresAt, now: now),
+                                expiryLabel(payout.expiresAt!, now: now),
                               ),
                               style: text.bodySmall?.copyWith(
                                 color: Palette.muted,

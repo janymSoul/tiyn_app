@@ -26,7 +26,9 @@ Payout fakePayout({
     amount: amount,
     state: state,
     requestedAt: at,
-    expiresAt: expiresAt ?? at.add(const Duration(days: 7)),
+    expiresAt: state == PayoutState.requested
+        ? expiresAt ?? at.add(const Duration(days: 7))
+        : null,
     resolvedAt: state == PayoutState.requested ? null : at,
     cancelReason: cancelReason,
   );

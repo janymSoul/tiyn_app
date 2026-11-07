@@ -121,5 +121,19 @@ void main() {
         expect(r.headers.containsKey('Idempotency-Key'), isFalse);
       }
     });
+
+    test(
+      'the real resolved response has no expiresAt and still decodes',
+      () async {
+        // What the backend sends for a fulfilled/declined payout.
+        final body = _payout(state: 'FULFILLED')
+          ..remove('expiresAt')
+          ..['resolvedAt'] = '2026-11-02T10:00:00Z';
+        final s = _ok(body);
+        final p = await s.repository.fulfil('p1');
+        expect(p.state, PayoutState.fulfilled);
+        expect(p.expiresAt, isNull);
+      },
+    );
   });
 }

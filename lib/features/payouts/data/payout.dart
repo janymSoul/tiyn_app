@@ -9,7 +9,8 @@ part 'payout.freezed.dart';
 /// `PayoutResponse`. Decoded by hand because the amount is two fields
 /// (`amount` + `currency`) that become one [Money].
 ///
-/// [expiresAt] is only meaningful while [state] is `REQUESTED`.
+/// [expiresAt] is sent only while [state] is `REQUESTED`: the backend omits
+/// it once the payout is fulfilled or cancelled, so it is null then.
 @freezed
 abstract class Payout with _$Payout {
   const factory Payout({
@@ -19,21 +20,22 @@ abstract class Payout with _$Payout {
     required Money amount,
     required PayoutState state,
     required DateTime requestedAt,
-    required DateTime expiresAt,
+    DateTime? expiresAt,
     DateTime? resolvedAt,
     CancelReason? cancelReason,
   }) = _Payout;
 
   factory Payout.fromJson(Map<String, Object?> json) {
     final reason = json['cancelReason'];
+    final state = PayoutState.fromWire(json['state']);
     return Payout(
       id: reqString(json, 'id'),
       teenId: reqString(json, 'teenId'),
       parentId: reqString(json, 'parentId'),
       amount: Money.fromJson(json['amount'], json['currency']),
-      state: PayoutState.fromWire(json['state']),
+      state: state,
       requestedAt: reqTime(json, 'requestedAt'),
-      expiresAt: reqTime(json, 'expiresAt'),
+      expiresAt: state.isOpen ? reqTime(json, 'expiresAt') : null,
       resolvedAt: optTime(json, 'resolvedAt'),
       cancelReason: reason == null ? null : CancelReason.fromWire(reason),
     );
@@ -50,7 +52,7 @@ extension PayoutJson on Payout {
     'currency': amount.currency,
     'state': state.wire,
     'requestedAt': requestedAt.toUtc().toIso8601String(),
-    'expiresAt': expiresAt.toUtc().toIso8601String(),
+    'expiresAt': expiresAt?.toUtc().toIso8601String(),
     'resolvedAt': resolvedAt?.toUtc().toIso8601String(),
     'cancelReason': cancelReason?.wire,
   };

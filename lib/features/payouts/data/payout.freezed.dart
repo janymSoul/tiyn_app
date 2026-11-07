@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Payout {
 
- String get id; String get teenId; String get parentId; Money get amount; PayoutState get state; DateTime get requestedAt; DateTime get expiresAt; DateTime? get resolvedAt; CancelReason? get cancelReason;
+ String get id; String get teenId; String get parentId; Money get amount; PayoutState get state; DateTime get requestedAt; DateTime? get expiresAt; DateTime? get resolvedAt; CancelReason? get cancelReason;
 /// Create a copy of Payout
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -51,7 +51,7 @@ abstract mixin class $PayoutCopyWith<$Res>  {
   factory $PayoutCopyWith(Payout value, $Res Function(Payout) _then) = _$PayoutCopyWithImpl;
 @useResult
 $Res call({
- String id, String teenId, String parentId, Money amount, PayoutState state, DateTime requestedAt, DateTime expiresAt, DateTime? resolvedAt, CancelReason? cancelReason
+ String id, String teenId, String parentId, Money amount, PayoutState state, DateTime requestedAt, DateTime? expiresAt, DateTime? resolvedAt, CancelReason? cancelReason
 });
 
 
@@ -68,7 +68,7 @@ class _$PayoutCopyWithImpl<$Res>
 
 /// Create a copy of Payout
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? teenId = null,Object? parentId = null,Object? amount = null,Object? state = null,Object? requestedAt = null,Object? expiresAt = null,Object? resolvedAt = freezed,Object? cancelReason = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? teenId = null,Object? parentId = null,Object? amount = null,Object? state = null,Object? requestedAt = null,Object? expiresAt = freezed,Object? resolvedAt = freezed,Object? cancelReason = freezed,}) {
   return _then(Payout(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,teenId: null == teenId ? _self.teenId : teenId // ignore: cast_nullable_to_non_nullable
@@ -76,8 +76,8 @@ as String,parentId: null == parentId ? _self.parentId : parentId // ignore: cast
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as Money,state: null == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
 as PayoutState,requestedAt: null == requestedAt ? _self.requestedAt : requestedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
-as DateTime,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,expiresAt: freezed == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,cancelReason: freezed == cancelReason ? _self.cancelReason : cancelReason // ignore: cast_nullable_to_non_nullable
 as CancelReason?,
   ));
@@ -164,7 +164,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String teenId,  String parentId,  Money amount,  PayoutState state,  DateTime requestedAt,  DateTime expiresAt,  DateTime? resolvedAt,  CancelReason? cancelReason)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String teenId,  String parentId,  Money amount,  PayoutState state,  DateTime requestedAt,  DateTime? expiresAt,  DateTime? resolvedAt,  CancelReason? cancelReason)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Payout() when $default != null:
 return $default(_that.id,_that.teenId,_that.parentId,_that.amount,_that.state,_that.requestedAt,_that.expiresAt,_that.resolvedAt,_that.cancelReason);case _:
@@ -185,7 +185,7 @@ return $default(_that.id,_that.teenId,_that.parentId,_that.amount,_that.state,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String teenId,  String parentId,  Money amount,  PayoutState state,  DateTime requestedAt,  DateTime expiresAt,  DateTime? resolvedAt,  CancelReason? cancelReason)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String teenId,  String parentId,  Money amount,  PayoutState state,  DateTime requestedAt,  DateTime? expiresAt,  DateTime? resolvedAt,  CancelReason? cancelReason)  $default,) {final _that = this;
 switch (_that) {
 case _Payout():
 return $default(_that.id,_that.teenId,_that.parentId,_that.amount,_that.state,_that.requestedAt,_that.expiresAt,_that.resolvedAt,_that.cancelReason);case _:
@@ -205,7 +205,7 @@ return $default(_that.id,_that.teenId,_that.parentId,_that.amount,_that.state,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String teenId,  String parentId,  Money amount,  PayoutState state,  DateTime requestedAt,  DateTime expiresAt,  DateTime? resolvedAt,  CancelReason? cancelReason)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String teenId,  String parentId,  Money amount,  PayoutState state,  DateTime requestedAt,  DateTime? expiresAt,  DateTime? resolvedAt,  CancelReason? cancelReason)?  $default,) {final _that = this;
 switch (_that) {
 case _Payout() when $default != null:
 return $default(_that.id,_that.teenId,_that.parentId,_that.amount,_that.state,_that.requestedAt,_that.expiresAt,_that.resolvedAt,_that.cancelReason);case _:
@@ -220,7 +220,7 @@ return $default(_that.id,_that.teenId,_that.parentId,_that.amount,_that.state,_t
 
 
 class _Payout implements Payout {
-  const _Payout({required this.id, required this.teenId, required this.parentId, required this.amount, required this.state, required this.requestedAt, required this.expiresAt, this.resolvedAt, this.cancelReason});
+  const _Payout({required this.id, required this.teenId, required this.parentId, required this.amount, required this.state, required this.requestedAt, this.expiresAt, this.resolvedAt, this.cancelReason});
   
 
 @override final  String id;
@@ -229,7 +229,7 @@ class _Payout implements Payout {
 @override final  Money amount;
 @override final  PayoutState state;
 @override final  DateTime requestedAt;
-@override final  DateTime expiresAt;
+@override final  DateTime? expiresAt;
 @override final  DateTime? resolvedAt;
 @override final  CancelReason? cancelReason;
 
@@ -265,7 +265,7 @@ abstract mixin class _$PayoutCopyWith<$Res> implements $PayoutCopyWith<$Res> {
   factory _$PayoutCopyWith(_Payout value, $Res Function(_Payout) _then) = __$PayoutCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String teenId, String parentId, Money amount, PayoutState state, DateTime requestedAt, DateTime expiresAt, DateTime? resolvedAt, CancelReason? cancelReason
+ String id, String teenId, String parentId, Money amount, PayoutState state, DateTime requestedAt, DateTime? expiresAt, DateTime? resolvedAt, CancelReason? cancelReason
 });
 
 
@@ -282,7 +282,7 @@ class __$PayoutCopyWithImpl<$Res>
 
 /// Create a copy of Payout
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? teenId = null,Object? parentId = null,Object? amount = null,Object? state = null,Object? requestedAt = null,Object? expiresAt = null,Object? resolvedAt = freezed,Object? cancelReason = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? teenId = null,Object? parentId = null,Object? amount = null,Object? state = null,Object? requestedAt = null,Object? expiresAt = freezed,Object? resolvedAt = freezed,Object? cancelReason = freezed,}) {
   return _then(_Payout(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,teenId: null == teenId ? _self.teenId : teenId // ignore: cast_nullable_to_non_nullable
@@ -290,8 +290,8 @@ as String,parentId: null == parentId ? _self.parentId : parentId // ignore: cast
 as String,amount: null == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
 as Money,state: null == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
 as PayoutState,requestedAt: null == requestedAt ? _self.requestedAt : requestedAt // ignore: cast_nullable_to_non_nullable
-as DateTime,expiresAt: null == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
-as DateTime,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
+as DateTime,expiresAt: freezed == expiresAt ? _self.expiresAt : expiresAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,resolvedAt: freezed == resolvedAt ? _self.resolvedAt : resolvedAt // ignore: cast_nullable_to_non_nullable
 as DateTime?,cancelReason: freezed == cancelReason ? _self.cancelReason : cancelReason // ignore: cast_nullable_to_non_nullable
 as CancelReason?,
   ));
