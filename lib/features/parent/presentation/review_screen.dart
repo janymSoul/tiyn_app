@@ -15,6 +15,7 @@ import 'package:tiyn_app/design/widgets/state_chip.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
 import 'package:tiyn_app/features/parent/application/review_providers.dart';
+import 'package:tiyn_app/features/tasks/application/task_detail_provider.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/tasks/data/proof.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';

@@ -4,6 +4,8 @@ abstract final class Routes {
 
   static const teenJoin = '/teen/join';
   static const teenHome = '/teen/home';
+  static String teenTask(String id) => '$teenHome/task/$id';
+  static String teenMilestone(String id) => '$teenHome/milestone/$id';
 
   static const parentHome = '/parent/home';
   static String parentTeen(String id) => '$parentHome/teen/$id';

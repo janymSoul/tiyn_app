@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiyn_app/app/providers.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
+import 'package:tiyn_app/features/tasks/application/proof_upload.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
 import 'package:tiyn_app/features/tasks/data/task_repository.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
@@ -62,3 +63,11 @@ final taskListProvider =
     AsyncNotifierProvider.family<TaskListController, List<Task>, TaskQuery>(
       TaskListController.new,
     );
+
+final photoPickerProvider = Provider<PhotoPicker>(
+  (_) => ImagePickerPhotoPicker(),
+);
+
+final photoEncoderProvider = Provider<PhotoEncoder>(
+  (_) => FlutterPhotoEncoder(),
+);

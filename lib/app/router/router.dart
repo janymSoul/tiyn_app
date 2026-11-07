@@ -16,6 +16,8 @@ import 'package:tiyn_app/features/parent/presentation/review_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/teen_detail_screen.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_home_screen.dart';
+import 'package:tiyn_app/features/teen/presentation/teen_milestone_screen.dart';
+import 'package:tiyn_app/features/teen/presentation/teen_task_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final refresh = ValueNotifier<int>(0);
@@ -60,7 +62,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: Routes.signIn, builder: (_, _) => const SignInScreen()),
       GoRoute(path: Routes.teenJoin, builder: (_, _) => const JoinTeenScreen()),
-      GoRoute(path: Routes.teenHome, builder: (_, _) => const TeenHomeScreen()),
+      GoRoute(
+        path: Routes.teenHome,
+        builder: (_, _) => const TeenHomeScreen(),
+        routes: [
+          GoRoute(
+            path: 'task/:id',
+            builder: (_, state) =>
+                TeenTaskScreen(taskId: state.pathParameters['id']!),
+          ),
+          GoRoute(
+            path: 'milestone/:id',
+            builder: (_, state) =>
+                TeenMilestoneScreen(milestoneId: state.pathParameters['id']!),
+          ),
+        ],
+      ),
       // Outside the shell on purpose: the form covers the bottom bar.
       GoRoute(
         path: Routes.parentNew,

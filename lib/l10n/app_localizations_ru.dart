@@ -465,4 +465,84 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get reviewProofLabel => 'Подтверждение';
+
+  @override
+  String get teenSubmitProof => 'Отправить подтверждение';
+
+  @override
+  String get teenSubmitMilestone => 'Сдать этап';
+
+  @override
+  String get proofTakePhoto => 'Сделать фото';
+
+  @override
+  String get proofChoosePhoto => 'Выбрать из галереи';
+
+  @override
+  String get proofWriteNote => 'Написать заметку';
+
+  @override
+  String get proofNoteLabel => 'Твоя заметка';
+
+  @override
+  String get proofTooLarge =>
+      'Фото слишком большое, даже после сжатия. Попробуй другое.';
+
+  @override
+  String get proofUnreadable =>
+      'Не получилось прочитать фото. Попробуй другое.';
+
+  @override
+  String get teenWaiting => 'Ждёт проверки родителя';
+
+  @override
+  String get teenRejectedLine => 'Родитель отклонил эту задачу.';
+
+  @override
+  String get teenExpiredLine => 'Срок прошёл.';
+
+  @override
+  String get teenCancelledLine => 'Задача отменена.';
+
+  @override
+  String get teenRedoTitle => 'Родитель просит переделать';
+
+  @override
+  String get teenNoteFromParent => 'Комментарий родителя';
+
+  @override
+  String teenPenaltyLine(String amount) {
+    return 'Если не успеешь, спишется $amount.';
+  }
+
+  @override
+  String get milestoneStepsTitle => 'Шаги';
+
+  @override
+  String milestoneStepsApproved(int done, int total) {
+    return 'Принято шагов: $done из $total';
+  }
+
+  @override
+  String milestoneBlockedPending(int done, int total) {
+    return 'Сначала выполни все шаги. Принято $done из $total.';
+  }
+
+  @override
+  String get milestoneBlockedEmpty => 'В этом этапе пока нет шагов.';
+
+  @override
+  String get errorDeadlinePassed =>
+      'Срок прошёл, поэтому отправить уже нельзя.';
+
+  @override
+  String get errorUnsupportedProof =>
+      'Не удалось принять. Попробуй другое фото или более короткую заметку.';
+
+  @override
+  String get errorPayloadTooLarge => 'Фото слишком большое. Попробуй другое.';
+
+  @override
+  String get errorTaskChanged =>
+      'Задача только что изменилась. Вот актуальные данные.';
 }

@@ -135,6 +135,42 @@ class FakeTaskRepository implements TaskRepository {
   Future<Task> requestRedo(String id, {String? note, DateTime? deadlineAt}) =>
       _decide('redo', id, TaskState.assigned, note: note, deadline: deadlineAt);
 
+  /// Every proof sent, with the key it went under. `photo` is null for text.
+  final submissions =
+      <({String id, String? text, List<int>? photo, IdempotencyKey key})>[];
+
+  /// Runs before a submit takes effect; throw to make it fail.
+  Future<void> Function()? onSubmit;
+
+  Future<Task> _submit(
+    String id,
+    String? text,
+    List<int>? photo,
+    IdempotencyKey key,
+  ) async {
+    submissions.add((id: id, text: text, photo: photo, key: key));
+    await onSubmit?.call();
+    final i = tasks.indexWhere((t) => t.id == id);
+    tasks[i] = tasks[i].copyWith(state: TaskState.submitted);
+    return tasks[i];
+  }
+
+  @override
+  Future<Task> submitText(
+    String id,
+    String text, {
+    required IdempotencyKey key,
+  }) => _submit(id, text, null, key);
+
+  @override
+  Future<Task> submitPhoto(
+    String id, {
+    required List<int> bytes,
+    required String filename,
+    required String contentType,
+    required IdempotencyKey key,
+  }) => _submit(id, null, bytes, key);
+
   @override
   dynamic noSuchMethod(Invocation invocation) =>
       throw UnimplementedError('${invocation.memberName}');

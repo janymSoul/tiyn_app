@@ -463,4 +463,82 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get reviewProofLabel => 'Растама';
+
+  @override
+  String get teenSubmitProof => 'Растама жіберу';
+
+  @override
+  String get teenSubmitMilestone => 'Кезеңді тапсыру';
+
+  @override
+  String get proofTakePhoto => 'Фото түсіру';
+
+  @override
+  String get proofChoosePhoto => 'Галереядан таңдау';
+
+  @override
+  String get proofWriteNote => 'Ескертпе жазу';
+
+  @override
+  String get proofNoteLabel => 'Сенің ескертпең';
+
+  @override
+  String get proofTooLarge =>
+      'Фото тым үлкен, кішірейткеннен кейін де. Басқасын көр.';
+
+  @override
+  String get proofUnreadable => 'Фотоны оқи алмадық. Басқасын көр.';
+
+  @override
+  String get teenWaiting => 'Ата-ананың тексеруін күтуде';
+
+  @override
+  String get teenRejectedLine => 'Ата-анаң бұл тапсырманы қабылдамады.';
+
+  @override
+  String get teenExpiredLine => 'Мерзімі өтті.';
+
+  @override
+  String get teenCancelledLine => 'Тапсырма бас тартылды.';
+
+  @override
+  String get teenRedoTitle => 'Ата-анаң қайта жасауды сұрады';
+
+  @override
+  String get teenNoteFromParent => 'Ата-ананың ескертпесі';
+
+  @override
+  String teenPenaltyLine(String amount) {
+    return 'Мерзімді жіберіп алсаң, $amount алынады.';
+  }
+
+  @override
+  String get milestoneStepsTitle => 'Қадамдар';
+
+  @override
+  String milestoneStepsApproved(int done, int total) {
+    return '$total қадамның $done қабылданды';
+  }
+
+  @override
+  String milestoneBlockedPending(int done, int total) {
+    return 'Алдымен барлық қадамды орында. $total ішінен $done қабылданды.';
+  }
+
+  @override
+  String get milestoneBlockedEmpty => 'Бұл кезеңде әзірге қадам жоқ.';
+
+  @override
+  String get errorDeadlinePassed => 'Мерзім өтті, сондықтан жіберуге болмайды.';
+
+  @override
+  String get errorUnsupportedProof =>
+      'Қабылдай алмадық. Басқа фото немесе қысқа ескертпе көр.';
+
+  @override
+  String get errorPayloadTooLarge => 'Фото тым үлкен. Басқасын көр.';
+
+  @override
+  String get errorTaskChanged =>
+      'Тапсырма жаңа ғана өзгерді. Міне, соңғы нұсқасы.';
 }

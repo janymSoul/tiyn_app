@@ -284,5 +284,55 @@
   "reviewNoProof": "No proof was attached.",
   "reviewPhotoFailed": "Could not load the photo.",
   "reviewZoomHint": "Tap to zoom",
-  "reviewProofLabel": "Proof"
+  "reviewProofLabel": "Proof",
+  "teenSubmitProof": "Submit proof",
+  "teenSubmitMilestone": "Submit milestone",
+  "proofTakePhoto": "Take photo",
+  "proofChoosePhoto": "Choose from gallery",
+  "proofWriteNote": "Write a note",
+  "proofNoteLabel": "Your note",
+  "proofTooLarge": "That photo is too big, even after shrinking it. Try another one.",
+  "proofUnreadable": "We couldn't read that photo. Try another one.",
+  "teenWaiting": "Waiting for your parent",
+  "teenRejectedLine": "Your parent rejected this task.",
+  "teenExpiredLine": "The deadline passed.",
+  "teenCancelledLine": "This task was cancelled.",
+  "teenRedoTitle": "Your parent asked you to redo this",
+  "teenNoteFromParent": "Note from your parent",
+  "teenPenaltyLine": "Missing the deadline costs {amount}.",
+  "@teenPenaltyLine": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "milestoneStepsTitle": "Steps",
+  "milestoneStepsApproved": "{done} of {total} steps approved",
+  "@milestoneStepsApproved": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "milestoneBlockedPending": "Finish all steps first. {done} of {total} approved.",
+  "@milestoneBlockedPending": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "milestoneBlockedEmpty": "This milestone has no steps yet.",
+  "errorDeadlinePassed": "The deadline has passed, so this can't be sent anymore.",
+  "errorUnsupportedProof": "We couldn't accept that. Try a different photo, or a shorter note.",
+  "errorPayloadTooLarge": "That photo is too big. Try another one.",
+  "errorTaskChanged": "This task just changed. Here is the latest."
 }

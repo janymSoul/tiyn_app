@@ -492,6 +492,85 @@ void main() {
         expect(tester.takeException(), isNull);
       });
 
+      testWidgets('teen task, proof sheet and milestone screens', (
+        tester,
+      ) async {
+        _smallPhone(tester);
+        final tasks = FakeTaskRepository([
+          fakeTask(
+            id: 'c1',
+            title: 'Мектептен кейін ыдыс-аяқты жуып, орнына қою',
+          ).copyWith(
+            description: 'Өте ұзын сипаттама ' * 12,
+            decisionNote: 'Қайта жасаңыз, ' * 10,
+            penalty: const Money.kzt(50000),
+          ),
+        ]);
+        tasks.onSubmit = () async => throw const ApiException(code: 'timeout');
+        final dash = FakeDashboardRepository(
+          fakeDashboard(
+            milestones: [
+              fakeMilestone(id: 'm1', approvedTasks: 1, totalTasks: 3),
+            ],
+            chores: [
+              for (var i = 0; i < 3; i++)
+                fakeChore(
+                  id: 's$i',
+                  title: 'Өте ұзын қадамның атауы нөмір $i',
+                  milestoneId: 'm1',
+                  state: i == 0 ? TaskState.approved : TaskState.assigned,
+                ),
+            ],
+          ),
+        );
+        await pumpApp(
+          tester,
+          overrides: [
+            authControllerProvider.overrideWith(() => _Auth(_teenUser)),
+            familyControllerProvider.overrideWith(
+              () => _Family(() async => _parents),
+            ),
+            dashboardRepositoryProvider.overrideWithValue(dash),
+            taskRepositoryProvider.overrideWithValue(tasks),
+          ],
+          locale: Locale(locale),
+        );
+
+        unawaited(routerOf(tester).push(Routes.teenMilestone('m1')));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+        await tester.drag(find.byType(ListView).last, const Offset(0, -2000));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+        routerOf(tester).pop();
+        await tester.pumpAndSettle();
+
+        unawaited(routerOf(tester).push(Routes.teenTask('c1')));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        final submit = find.byType(FilledButton);
+        await tester.scrollUntilVisible(
+          submit,
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(submit);
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        // Note path, long text, then the failure line and "Try again".
+        final write = find.byType(TextButton).first;
+        await tester.tap(write);
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField), 'Ұзын жазба ' * 30);
+        await tester.pump();
+        await tester.tap(find.byType(FilledButton).last);
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+      });
+
       testWidgets('splash error with sign-out', (tester) async {
         _smallPhone(tester);
         await _pumpScreen(

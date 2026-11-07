@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tiyn_app/app/router/routes.dart';
 import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
@@ -133,7 +135,7 @@ class TeenHomeScreen extends ConsumerWidget {
         ),
       if (home.chores.isNotEmpty) ...[
         _SectionTitle(l10n.teenTasksTitle),
-        for (final chore in home.chores) _choreCard(chore),
+        for (final chore in home.chores) _choreCard(context, chore),
       ],
       if (home.milestones.isNotEmpty) ...[
         _SectionTitle(l10n.teenMilestonesTitle),
@@ -142,11 +144,12 @@ class TeenHomeScreen extends ConsumerWidget {
     ];
   }
 
-  Widget _choreCard(DashboardTask chore) => TaskCard(
+  Widget _choreCard(BuildContext context, DashboardTask chore) => TaskCard(
     title: chore.title,
     reward: chore.reward,
     deadlineAt: chore.deadlineAt,
     state: chore.state,
+    onTap: () => context.push(Routes.teenTask(chore.id)),
   );
 }
 
@@ -225,6 +228,7 @@ class _MilestoneCard extends StatelessWidget {
       reward: m.reward,
       deadlineAt: m.deadlineAt,
       state: m.state,
+      onTap: () => context.push(Routes.teenMilestone(m.id)),
       children: [
         const SizedBox(height: Space.s8),
         ClipRRect(

@@ -27,6 +27,10 @@ String apiErrorMessage(
     'invalid_deadline' => l10n.errorInvalidDeadline,
     'invalid_milestone' => l10n.errorInvalidMilestone,
     'teen_required' => l10n.errorTeenRequired,
+    'deadline_passed' => l10n.errorDeadlinePassed,
+    'unsupported_proof' => l10n.errorUnsupportedProof,
+    'payload_too_large' => l10n.errorPayloadTooLarge,
+    'invalid_transition' || 'concurrent_modification' => l10n.errorTaskChanged,
     'invalid_idempotency_key' => l10n.errorInvalidIdempotencyKey,
     _ => showCode ? '${l10n.errorUnknown} (${error.code})' : l10n.errorUnknown,
   };

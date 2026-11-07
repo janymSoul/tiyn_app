@@ -462,4 +462,83 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewProofLabel => 'Proof';
+
+  @override
+  String get teenSubmitProof => 'Submit proof';
+
+  @override
+  String get teenSubmitMilestone => 'Submit milestone';
+
+  @override
+  String get proofTakePhoto => 'Take photo';
+
+  @override
+  String get proofChoosePhoto => 'Choose from gallery';
+
+  @override
+  String get proofWriteNote => 'Write a note';
+
+  @override
+  String get proofNoteLabel => 'Your note';
+
+  @override
+  String get proofTooLarge =>
+      'That photo is too big, even after shrinking it. Try another one.';
+
+  @override
+  String get proofUnreadable =>
+      'We couldn\'t read that photo. Try another one.';
+
+  @override
+  String get teenWaiting => 'Waiting for your parent';
+
+  @override
+  String get teenRejectedLine => 'Your parent rejected this task.';
+
+  @override
+  String get teenExpiredLine => 'The deadline passed.';
+
+  @override
+  String get teenCancelledLine => 'This task was cancelled.';
+
+  @override
+  String get teenRedoTitle => 'Your parent asked you to redo this';
+
+  @override
+  String get teenNoteFromParent => 'Note from your parent';
+
+  @override
+  String teenPenaltyLine(String amount) {
+    return 'Missing the deadline costs $amount.';
+  }
+
+  @override
+  String get milestoneStepsTitle => 'Steps';
+
+  @override
+  String milestoneStepsApproved(int done, int total) {
+    return '$done of $total steps approved';
+  }
+
+  @override
+  String milestoneBlockedPending(int done, int total) {
+    return 'Finish all steps first. $done of $total approved.';
+  }
+
+  @override
+  String get milestoneBlockedEmpty => 'This milestone has no steps yet.';
+
+  @override
+  String get errorDeadlinePassed =>
+      'The deadline has passed, so this can\'t be sent anymore.';
+
+  @override
+  String get errorUnsupportedProof =>
+      'We couldn\'t accept that. Try a different photo, or a shorter note.';
+
+  @override
+  String get errorPayloadTooLarge => 'That photo is too big. Try another one.';
+
+  @override
+  String get errorTaskChanged => 'This task just changed. Here is the latest.';
 }

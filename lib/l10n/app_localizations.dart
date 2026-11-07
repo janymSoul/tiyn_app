@@ -891,6 +891,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Proof'**
   String get reviewProofLabel;
+
+  /// No description provided for @teenSubmitProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit proof'**
+  String get teenSubmitProof;
+
+  /// No description provided for @teenSubmitMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit milestone'**
+  String get teenSubmitMilestone;
+
+  /// No description provided for @proofTakePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take photo'**
+  String get proofTakePhoto;
+
+  /// No description provided for @proofChoosePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get proofChoosePhoto;
+
+  /// No description provided for @proofWriteNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a note'**
+  String get proofWriteNote;
+
+  /// No description provided for @proofNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your note'**
+  String get proofNoteLabel;
+
+  /// No description provided for @proofTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'That photo is too big, even after shrinking it. Try another one.'**
+  String get proofTooLarge;
+
+  /// No description provided for @proofUnreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t read that photo. Try another one.'**
+  String get proofUnreadable;
+
+  /// No description provided for @teenWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for your parent'**
+  String get teenWaiting;
+
+  /// No description provided for @teenRejectedLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Your parent rejected this task.'**
+  String get teenRejectedLine;
+
+  /// No description provided for @teenExpiredLine.
+  ///
+  /// In en, this message translates to:
+  /// **'The deadline passed.'**
+  String get teenExpiredLine;
+
+  /// No description provided for @teenCancelledLine.
+  ///
+  /// In en, this message translates to:
+  /// **'This task was cancelled.'**
+  String get teenCancelledLine;
+
+  /// No description provided for @teenRedoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your parent asked you to redo this'**
+  String get teenRedoTitle;
+
+  /// No description provided for @teenNoteFromParent.
+  ///
+  /// In en, this message translates to:
+  /// **'Note from your parent'**
+  String get teenNoteFromParent;
+
+  /// No description provided for @teenPenaltyLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing the deadline costs {amount}.'**
+  String teenPenaltyLine(String amount);
+
+  /// No description provided for @milestoneStepsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get milestoneStepsTitle;
+
+  /// No description provided for @milestoneStepsApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} steps approved'**
+  String milestoneStepsApproved(int done, int total);
+
+  /// No description provided for @milestoneBlockedPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish all steps first. {done} of {total} approved.'**
+  String milestoneBlockedPending(int done, int total);
+
+  /// No description provided for @milestoneBlockedEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'This milestone has no steps yet.'**
+  String get milestoneBlockedEmpty;
+
+  /// No description provided for @errorDeadlinePassed.
+  ///
+  /// In en, this message translates to:
+  /// **'The deadline has passed, so this can\'t be sent anymore.'**
+  String get errorDeadlinePassed;
+
+  /// No description provided for @errorUnsupportedProof.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t accept that. Try a different photo, or a shorter note.'**
+  String get errorUnsupportedProof;
+
+  /// No description provided for @errorPayloadTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'That photo is too big. Try another one.'**
+  String get errorPayloadTooLarge;
+
+  /// No description provided for @errorTaskChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'This task just changed. Here is the latest.'**
+  String get errorTaskChanged;
 }
 
 class _AppLocalizationsDelegate
