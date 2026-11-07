@@ -2,4 +2,6 @@
 <resources>
     <!-- Must match Palette.navy in lib/design/tokens.dart -->
     <color name="launch_navy">#10213A</color>
+    <!-- Must match Palette.navy in lib/design/tokens.dart -->
+    <color name="notification_navy">#10213A</color>
 </resources>
