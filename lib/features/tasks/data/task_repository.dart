@@ -1,6 +1,7 @@
 import 'package:tiyn_app/core/network/api_client.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
 import 'package:tiyn_app/core/network/json.dart';
+import 'package:tiyn_app/core/network/paged_list.dart';
 import 'package:tiyn_app/features/tasks/data/new_task.dart';
 import 'package:tiyn_app/features/tasks/data/proof.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
@@ -13,11 +14,12 @@ class TaskRepository {
 
   final ApiClient _api;
 
-  Future<List<Task>> list({String? teenId, TaskState? state}) => _api.get(
-    '/tasks',
-    query: {'teenId': ?teenId, 'state': ?state?.wire},
-    decode: (json) => asList(json).map(_task).toList(),
-  );
+  Future<List<Task>> list({String? teenId, TaskState? state}) =>
+      PagedListReader(_api).readAll(
+        '/tasks',
+        query: {'teenId': ?teenId, 'state': ?state?.wire},
+        decodeItem: _task,
+      );
 
   Future<Task> get(String id) => _api.get('/tasks/$id', decode: _task);
 

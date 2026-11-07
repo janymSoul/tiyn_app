@@ -64,19 +64,25 @@ void main() {
       final r = s.adapter.requests.single;
       expect(r.method, 'GET');
       expect(r.path, '/tasks');
-      expect(r.queryParameters, isEmpty);
+      expect(r.queryParameters, {'limit': 100});
     });
 
     test('state filter is sent as the wire value', () async {
       final s = _ok([]);
       await s.repository.list(state: TaskState.submitted);
-      expect(s.adapter.requests.single.queryParameters, {'state': 'SUBMITTED'});
+      expect(s.adapter.requests.single.queryParameters, {
+        'state': 'SUBMITTED',
+        'limit': 100,
+      });
     });
 
     test('teenId filter', () async {
       final s = _ok([]);
       await s.repository.list(teenId: 'teen-1');
-      expect(s.adapter.requests.single.queryParameters, {'teenId': 'teen-1'});
+      expect(s.adapter.requests.single.queryParameters, {
+        'teenId': 'teen-1',
+        'limit': 100,
+      });
     });
 
     test('both filters', () async {
@@ -85,6 +91,7 @@ void main() {
       expect(s.adapter.requests.single.queryParameters, {
         'teenId': 'teen-1',
         'state': 'ASSIGNED',
+        'limit': 100,
       });
     });
 
@@ -96,6 +103,38 @@ void main() {
           isA<ApiException>().having((e) => e.code, 'code', 'invalid_response'),
         ),
       );
+    });
+
+    test('envelope shape: items are parsed', () async {
+      final s = _ok({
+        'items': [_taskJson(id: 'a'), _taskJson(id: 'b')],
+      });
+      final tasks = await s.repository.list();
+      expect(tasks.map((t) => t.id), ['a', 'b']);
+      expect(s.adapter.requests, hasLength(1));
+    });
+
+    test('envelope with nextCursor: follows to the last page', () async {
+      final s = _setup((o, _) async {
+        final first = o.queryParameters['cursor'] == null;
+        return jsonBody(
+          first
+              ? {
+                  'items': [_taskJson(id: 'a')],
+                  'nextCursor': 'c1',
+                }
+              : {
+                  'items': [_taskJson(id: 'b')],
+                },
+        );
+      });
+      final tasks = await s.repository.list(state: TaskState.assigned);
+      expect(tasks.map((t) => t.id), ['a', 'b']);
+      expect(s.adapter.requests.last.queryParameters, {
+        'state': 'ASSIGNED',
+        'limit': 100,
+        'cursor': 'c1',
+      });
     });
 
     test('a non-list body is invalid_response', () async {
