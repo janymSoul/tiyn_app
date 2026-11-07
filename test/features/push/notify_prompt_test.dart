@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tiyn_app/core/push/notification_settings_opener.dart';
@@ -10,6 +11,8 @@ import 'package:tiyn_app/features/auth/data/user.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 import 'package:tiyn_app/features/push/application/device_registration.dart';
+import 'package:tiyn_app/features/push/application/push_prompt.dart';
+import 'package:tiyn_app/features/push/presentation/notify_prompt_sheet.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 
 import '../../helpers/fake_dashboard.dart';
@@ -64,6 +67,7 @@ const _askTitle = 'Get notified about new tasks and money';
 const _deniedTitle = 'Notifications are off';
 
 void main() {
+  notifyPromptOrderingTests();
   group('teen home', () {
     testWidgets('asks once with a bottom sheet, when never asked', (
       tester,
@@ -318,5 +322,48 @@ void main() {
 
       expect(find.text(_deniedTitle), findsOneWidget);
     });
+  });
+}
+
+void notifyPromptOrderingTests() {
+  testWidgets('"explained" is not saved when the sheet never shows', (
+    tester,
+  ) async {
+    final phone = _Phone();
+    final push = FakePushMessaging(permission: PushPermission.notDetermined);
+    late BuildContext captured;
+    final container = ProviderContainer(
+      retry: (_, _) => null,
+      overrides: [
+        authControllerProvider.overrideWith(() => _TeenAuth('teen1')),
+        pushMessagingProvider.overrideWithValue(push),
+        pushStoreProvider.overrideWithValue(phone.store),
+      ],
+    );
+    addTearDown(container.dispose);
+    container.listen(authControllerProvider, (_, _) {});
+    await container.read(authControllerProvider.future);
+    container.listen(pushPromptProvider, (_, _) {});
+    await tester.runAsync(() => Future<void>.delayed(Duration.zero));
+
+    await tester.pumpWidget(
+      Builder(
+        builder: (context) {
+          captured = context;
+          return const SizedBox();
+        },
+      ),
+    );
+    await tester.pumpWidget(const SizedBox());
+
+    final asking = askTeenForNotifications(
+      navigatorContext: captured,
+      container: container,
+    );
+    await tester.pump();
+    await tester.pump();
+    await asking;
+
+    expect(phone.store.flags, isEmpty);
   });
 }

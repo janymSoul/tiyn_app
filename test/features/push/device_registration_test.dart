@@ -274,6 +274,31 @@ void main() {
     );
 
     test(
+      'a sign-in waits for the cleanup, then registers a fresh token',
+      () async {
+        final s = _Setup();
+        await s.start();
+        final tokenCallsBefore = s.push.tokenCalls;
+        s.push.deleteTokenBlocker = Completer<void>();
+
+        await s.registration.beginSignOut();
+        // The sign-out fell through (still signed in): sync must not read the
+        // token that is being deleted.
+        s.registration.signOutFailed();
+        await s.settle();
+        expect(s.push.tokenCalls, tokenCallsBefore);
+        expect(s.repo.registered, hasLength(1));
+
+        s.push.deleteTokenBlocker!.complete();
+        await s.settle();
+        expect(
+          s.repo.registered.last.token,
+          startsWith('fcm-token-after-delete'),
+        );
+      },
+    );
+
+    test(
       'a pending delete is finished before the next user registers',
       () async {
         final s = _Setup();
