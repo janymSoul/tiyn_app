@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -40,8 +41,30 @@ jobs:
           path: coverage/lcov.info
           if-no-files-found: ignore
 
+  # The APK build is slow, so a PR only runs it when something native changed.
+  # Pushes to main and manual runs always build it.
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      android: ${{ steps.filter.outputs.android }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "android=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only "origin/${{ github.base_ref }}...HEAD" \
+            | grep -qE '^(android/|pubspec\.(yaml|lock)$|\.github/workflows/ci\.yml$)'; then
+            echo "android=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "android=false" >> "$GITHUB_OUTPUT"
+          fi
+
   android:
-    needs: checks
+    needs: [checks, changes]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,13 +77,6 @@ jobs:
           flutter-version-file: pubspec.yaml
           cache: true
       - run: flutter pub get
-      # env/*.json is gitignored; build it from the repo secret.
-      - name: Write env/staging.json
-        env:
-          GOOGLE_SERVER_CLIENT_ID: ${{ secrets.GOOGLE_SERVER_CLIENT_ID }}
-        run: |
-          mkdir -p env
-          printf '{"FLAVOR":"staging","API_BASE_URL":"https://api-staging.tiyn.dev","GOOGLE_SERVER_CLIENT_ID":"%s"}' "$GOOGLE_SERVER_CLIENT_ID" > env/staging.json
       - name: Build staging APK
         run: flutter build apk --debug --flavor staging --dart-define-from-file=env/staging.json
       - uses: actions/upload-artifact@v4
