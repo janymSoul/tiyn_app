@@ -362,5 +362,6 @@
   "notifyDeniedTitle": "Notifications are off",
   "notifyDeniedBody": "You won't hear about updates until you turn them on in settings.",
   "notifyOpenSettings": "Open settings",
-  "notifyDismiss": "Dismiss"
+  "notifyDismiss": "Dismiss",
+  "notifyTeenSheetBody": "We'll let you know the moment a task arrives or a parent decides."
 }

@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiyn_app/core/push/notification_settings_opener.dart';
-import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/app_card.dart';
 import 'package:tiyn_app/features/push/application/push_prompt.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
-/// At most one card on a home screen: the teen's soft "get notified" ask, or,
-/// for either role, the single "notifications are off" card after the system
-/// dialog was refused. Neither comes back once it has been answered.
+/// The single "notifications are off" card on a home screen, for either role,
+/// after the system dialog was refused. It never comes back once dismissed.
+/// (The first ask is a bottom sheet, not a card: see `notify_prompt_sheet`.)
 class NotifyCards extends ConsumerWidget {
-  const NotifyCards({super.key, required this.role});
-
-  final Role role;
+  const NotifyCards({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,17 +18,6 @@ class NotifyCards extends ConsumerWidget {
     final l10n = AppLocalizations.of(context);
     final controller = ref.read(pushPromptProvider.notifier);
 
-    if (role == Role.teen && prompt.shouldAsk) {
-      return _CardFrame(
-        child: _CardBody(
-          title: l10n.notifyAskTitleTeen,
-          primaryLabel: l10n.notifyTurnOn,
-          onPrimary: controller.turnOn,
-          secondaryLabel: l10n.notifyNotNow,
-          onSecondary: controller.markExplained,
-        ),
-      );
-    }
     if (prompt.showDeniedCard) {
       return _CardFrame(
         child: _CardBody(

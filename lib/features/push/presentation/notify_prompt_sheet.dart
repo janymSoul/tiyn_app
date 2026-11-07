@@ -17,6 +17,30 @@ Future<void> askForNotificationsAfterCreate({
   required BuildContext navigatorContext,
   required ProviderContainer container,
   String? teenName,
+}) => _ask(
+  navigatorContext: navigatorContext,
+  container: container,
+  title: (l10n) =>
+      l10n.notifyParentSheetTitle(teenName ?? l10n.notifyFallbackName),
+  body: (l10n) => l10n.notifyParentSheetBody,
+);
+
+/// The teen's one-time ask, shown on home once they are linked.
+Future<void> askTeenForNotifications({
+  required BuildContext navigatorContext,
+  required ProviderContainer container,
+}) => _ask(
+  navigatorContext: navigatorContext,
+  container: container,
+  title: (l10n) => l10n.notifyAskTitleTeen,
+  body: (l10n) => l10n.notifyTeenSheetBody,
+);
+
+Future<void> _ask({
+  required BuildContext navigatorContext,
+  required ProviderContainer container,
+  required String Function(AppLocalizations) title,
+  required String Function(AppLocalizations) body,
 }) async {
   if (!container.read(pushPromptProvider).shouldAsk) return;
   final controller = container.read(pushPromptProvider.notifier);
@@ -27,15 +51,53 @@ Future<void> askForNotificationsAfterCreate({
     context: navigatorContext,
     isScrollControlled: true,
     showDragHandle: true,
-    builder: (_) => _NotifySheet(teenName: teenName),
+    builder: (_) => _NotifySheet(title: title, body: body),
   );
   if (accepted ?? false) await controller.turnOn();
 }
 
-class _NotifySheet extends StatelessWidget {
-  const _NotifySheet({this.teenName});
+/// Put on the teen home: asks once, when the prompt state says it is time.
+class TeenNotifyPrompt extends ConsumerStatefulWidget {
+  const TeenNotifyPrompt({super.key});
 
-  final String? teenName;
+  @override
+  ConsumerState<TeenNotifyPrompt> createState() => _TeenNotifyPromptState();
+}
+
+class _TeenNotifyPromptState extends ConsumerState<TeenNotifyPrompt> {
+  bool _asked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeAsk());
+  }
+
+  void _maybeAsk() {
+    if (!mounted || _asked || !ref.read(pushPromptProvider).shouldAsk) return;
+    _asked = true;
+    unawaited(
+      askTeenForNotifications(
+        navigatorContext: Navigator.of(context, rootNavigator: true).context,
+        container: ProviderScope.containerOf(context),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen(pushPromptProvider, (_, next) {
+      if (next.shouldAsk) _maybeAsk();
+    });
+    return const SizedBox.shrink();
+  }
+}
+
+class _NotifySheet extends StatelessWidget {
+  const _NotifySheet({required this.title, required this.body});
+
+  final String Function(AppLocalizations) title;
+  final String Function(AppLocalizations) body;
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +118,13 @@ class _NotifySheet extends StatelessWidget {
             Semantics(
               header: true,
               child: Text(
-                l10n.notifyParentSheetTitle(
-                  teenName ?? l10n.notifyFallbackName,
-                ),
+                title(l10n),
                 style: text.titleLarge?.copyWith(fontWeight: FontWeight.w600),
               ),
             ),
             const SizedBox(height: Space.s8),
             Text(
-              l10n.notifyParentSheetBody,
+              body(l10n),
               style: text.bodyMedium?.copyWith(color: Palette.muted),
             ),
             const SizedBox(height: Space.s24),

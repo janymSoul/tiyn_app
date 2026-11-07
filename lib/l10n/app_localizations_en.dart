@@ -609,4 +609,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifyDismiss => 'Dismiss';
+
+  @override
+  String get notifyTeenSheetBody =>
+      'We\'ll let you know the moment a task arrives or a parent decides.';
 }

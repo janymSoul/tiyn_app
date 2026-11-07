@@ -610,4 +610,8 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get notifyDismiss => 'Жабу';
+
+  @override
+  String get notifyTeenSheetBody =>
+      'Тапсырма келгенде немесе ата-ана шешім қабылдағанда бірден хабарлаймыз.';
 }

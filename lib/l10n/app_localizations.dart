@@ -1155,6 +1155,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dismiss'**
   String get notifyDismiss;
+
+  /// No description provided for @notifyTeenSheetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll let you know the moment a task arrives or a parent decides.'**
+  String get notifyTeenSheetBody;
 }
 
 class _AppLocalizationsDelegate

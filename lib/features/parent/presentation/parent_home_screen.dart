@@ -108,7 +108,7 @@ class ParentHomeScreen extends ConsumerWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(24, 32, 24, 32),
               children: [
-                const NotifyCards(role: Role.parent),
+                const NotifyCards(),
                 ...body,
                 const SizedBox(height: Space.s24),
                 TextButton(

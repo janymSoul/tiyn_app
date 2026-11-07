@@ -613,4 +613,8 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get notifyDismiss => 'Закрыть';
+
+  @override
+  String get notifyTeenSheetBody =>
+      'Сразу скажем, когда придёт задача или родитель примет решение.';
 }

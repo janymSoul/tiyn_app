@@ -6,7 +6,6 @@ import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
-import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/coin_badge.dart';
 import 'package:tiyn_app/design/widgets/error_card.dart';
@@ -16,6 +15,7 @@ import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 import 'package:tiyn_app/features/push/presentation/notify_cards.dart';
+import 'package:tiyn_app/features/push/presentation/notify_prompt_sheet.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 import 'package:tiyn_app/features/teen/application/teen_home_model.dart';
 import 'package:tiyn_app/features/teen/data/dashboard.dart';
@@ -87,7 +87,8 @@ class TeenHomeScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: Space.s16),
-                const NotifyCards(role: Role.teen),
+                const NotifyCards(),
+                const TeenNotifyPrompt(),
                 ...body,
                 const SizedBox(height: Space.s32),
                 if (parents.isNotEmpty)

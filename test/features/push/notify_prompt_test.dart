@@ -65,18 +65,19 @@ const _deniedTitle = 'Notifications are off';
 
 void main() {
   group('teen home', () {
-    testWidgets('shows the soft card once, when never asked', (tester) async {
+    testWidgets('asks once with a bottom sheet, when never asked', (
+      tester,
+    ) async {
       final phone = _Phone();
       final push = FakePushMessaging(permission: PushPermission.notDetermined);
       await pumpApp(tester, overrides: _teen(phone, push));
 
       expect(find.text(_askTitle), findsOneWidget);
-      expect(push.requestPermissionCalls, 0, reason: 'never at launch');
+      expect(find.byType(BottomSheet), findsOneWidget);
+      expect(push.requestPermissionCalls, 0, reason: 'explanation first');
     });
 
-    testWidgets('Turn on asks the system and the card goes away', (
-      tester,
-    ) async {
+    testWidgets('Turn on asks the system and the sheet closes', (tester) async {
       final phone = _Phone();
       final push = FakePushMessaging(permission: PushPermission.notDetermined);
       await pumpApp(tester, overrides: _teen(phone, push));

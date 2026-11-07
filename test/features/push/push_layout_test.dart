@@ -85,14 +85,14 @@ void main() {
         await tester.pump(const Duration(seconds: 6));
       });
 
-      testWidgets('the soft card and the denied card on the teen home', (
+      testWidgets('the teen sheet and the denied card on the teen home', (
         tester,
       ) async {
         _smallPhone(tester);
         final push = FakePushMessaging(permission: PushPermission.notDetermined)
           ..permissionAfterRequest = PushPermission.denied;
         await pumpApp(tester, overrides: _teen(push), locale: Locale(locale));
-        expect(find.byType(FilledButton), findsOneWidget, reason: 'ask card');
+        expect(find.byType(FilledButton), findsOneWidget, reason: 'ask sheet');
         expect(tester.takeException(), isNull);
 
         await tester.tap(find.byType(FilledButton));
@@ -179,25 +179,28 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('the cards have a header and reachable actions', (
-      tester,
-    ) async {
-      final handle = tester.ensureSemantics();
-      final push = FakePushMessaging(permission: PushPermission.notDetermined);
-      await pumpApp(tester, overrides: _teen(push));
+    testWidgets(
+      'the sheet and the sheet and the cards have a header and reachable actions',
+      (tester) async {
+        final handle = tester.ensureSemantics();
+        final push = FakePushMessaging(
+          permission: PushPermission.notDetermined,
+        );
+        await pumpApp(tester, overrides: _teen(push));
 
-      expect(
-        tester.getSemantics(
-          find.bySemanticsLabel('Get notified about new tasks and money'),
-        ),
-        isSemantics(
-          label: 'Get notified about new tasks and money',
-          isHeader: true,
-        ),
-      );
-      expect(find.bySemanticsLabel('Turn on'), findsOneWidget);
-      expect(find.bySemanticsLabel('Not now'), findsOneWidget);
-      handle.dispose();
-    });
+        expect(
+          tester.getSemantics(
+            find.bySemanticsLabel('Get notified about new tasks and money'),
+          ),
+          isSemantics(
+            label: 'Get notified about new tasks and money',
+            isHeader: true,
+          ),
+        );
+        expect(find.bySemanticsLabel('Turn on'), findsOneWidget);
+        expect(find.bySemanticsLabel('Not now'), findsOneWidget);
+        handle.dispose();
+      },
+    );
   });
 }
