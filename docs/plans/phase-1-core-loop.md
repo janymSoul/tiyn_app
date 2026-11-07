@@ -84,7 +84,7 @@ From the milestone detail, the same form opens with the milestone fixed and the 
 │        ( 12 500 ₸ )          │  ← CoinBadge with real "available"
 │   ( ⏳ 1 500 ₸ waiting )     │  ← small chip, pendingAmount, hidden when 0
 │                              │
-│ Today                        │
+│ Tasks                        │
 │ ┌ Wash dishes     1 500 ₸  ┐ │
 │ │ Due 18:00        [Do it] │ │
 │ Milestones                   │
@@ -95,7 +95,7 @@ From the milestone detail, the same form opens with the milestone fixed and the 
 ```
 One call: `GET /dashboard`. Pull to refresh. Empty chores: a friendly line, not a blank page. "Connected to <parents>" moves to a small footer line. **No bottom navigation** in Phase 1: Progress, Goals and Activity are hidden until they exist, so the teen has Home only.
 The chip is a short label with an icon ("1 500 ₸ waiting for check"), not a sentence. It is a chip, not a button.
-**Grouping:** a chore whose `milestoneId` matches a milestone in the same response is shown under that milestone, not in "Today". `milestoneId` is optional in the model; when the field is missing (older backend) or points to a milestone that is not in the response, the chore stays in the ungrouped list. Nothing is hidden because of a missing field.
+**Grouping:** a chore whose `milestoneId` matches a milestone in the same response is shown under that milestone, not in "Tasks". (The section is called "Tasks", not "Today": the dashboard also returns work due later this week.) `milestoneId` is optional in the model; when the field is missing (older backend) or points to a milestone that is not in the response, the chore stays in the ungrouped list. Nothing is hidden because of a missing field.
 
 **Teen · Milestone** (opens from a milestone card): title, description, reward, deadline, state chip, progress "2 of 5 steps approved", then the **steps** (the chores with this `milestoneId`) as rows with title, reward and state chip; tapping a step opens that task's detail. If the milestone is `ASSIGNED`, the primary action is "Submit milestone", opening the same proof sheet as a task.
 ```
@@ -143,7 +143,7 @@ Tests: status priority; grouping; sort; empty state shows the code; sheet shows 
 Commit: `feat(parent): teen list home with add-teen sheet`.
 
 ## P3. Teen detail
-Route `/parent/home/teen/:id` (nested under the home branch so the bottom bar stays). Loads the full history with `GET /tasks?teenId=<id>` (the only place that does) and refetches on resume. Segmented Tasks | Milestones, counts, "Finished" group, state chip widget (`design/widgets/state_chip.dart`, one colour per state, with a text label, never colour only). Milestone progress counted client-side.
+Route `/parent/home/teen/:id` (nested under the home branch so the bottom bar stays). Loads the full history with `GET /tasks?teenId=<id>` (the only place that does) and refetches on resume. Segmented Tasks | Milestones, with counts of **open** items (the Finished group is not counted), "Finished" group, state chip widget (`design/widgets/state_chip.dart`, one colour per state, with a text label, never colour only). Milestone progress counted client-side.
 Tests: grouping into tasks vs milestones; finished group; progress counts; empty tab text.
 Commit: `feat(parent): teen detail with tasks and milestones`.
 
@@ -167,7 +167,7 @@ Tests: a failed image triggers exactly one proofs refetch; actions call the righ
 Commit: `feat(parent): review submitted tasks`.
 
 ## P7. Teen home
-`dashboard.dart` models (+ tests), `GET /dashboard` controller, screen per 1.2, remove `TeenHomePlaceholder`. Show **available** amount in the badge, not balance. "Waiting for check" is a small chip under the coin. Chores are grouped under their milestone by `milestoneId`, which is **optional** in the model: when it is missing, chores show ungrouped. The teen has **no bottom navigation** (remove `TeenShell` and the Progress, Goals and Activity branches; Home is a plain route). Refetch on resume. Cards are display-only until P8 adds the detail screens.
+`dashboard.dart` models (+ tests), `GET /dashboard` controller, screen per 1.2, remove `TeenHomePlaceholder`. Show **available** amount in the badge, not balance. "Waiting for check" is a small chip under the coin. Chores are grouped under their milestone by `milestoneId`, which is **optional** in the model: when it is missing, chores show ungrouped. The teen has **no bottom navigation** (remove `TeenShell` and the Progress, Goals and Activity branches; Home is a plain route). Refetch on resume. Cards are display-only until P8 adds the detail screens. Parent home rows open the teen detail (P3).
 Tests: renders balance, pending chip hidden at 0, chores and milestones, grouping by `milestoneId`, ungrouped fallback when the field is missing or the milestone is absent, empty state, error + retry, no navigation bar, refetch on resume.
 Commit: `feat(teen): home dashboard`.
 
