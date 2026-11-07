@@ -37,3 +37,30 @@ Future<void> pumpApp(
 GoRouter routerOf(WidgetTester tester) =>
     ProviderScope.containerOf(tester.element(find.byType(TiynApp)))
         .read(routerProvider);
+
+/// Like [pumpApp] but one frame only, for screens that show a spinner (which
+/// never settles) while a fake call is held open.
+Future<void> pumpAppNoSettle(
+  WidgetTester tester, {
+  List<Override> overrides = const [],
+  Locale locale = const Locale('en'),
+}) async {
+  GoogleFonts.config.allowRuntimeFetching = false;
+  await tester.pumpWidget(
+    ProviderScope(
+      retry: (_, _) => null,
+      overrides: [
+        appConfigProvider.overrideWithValue(
+          AppConfig(
+            flavor: Flavor.staging,
+            apiBaseUrl: Uri.parse('https://api.test'),
+            googleServerClientId: null,
+          ),
+        ),
+        ...overrides,
+      ],
+      child: TiynApp(locale: locale),
+    ),
+  );
+  await tester.pump();
+}

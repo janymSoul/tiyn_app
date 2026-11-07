@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiyn_app/core/money/money_format.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
+import 'package:tiyn_app/core/network/idempotent_submit_controller.dart';
 import 'package:tiyn_app/design/tokens.dart';
 import 'package:tiyn_app/design/widgets/busy_button.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
@@ -124,7 +125,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final container = ProviderScope.containerOf(context);
     final pending = _create.pending;
     final NewTask task;
-    if (_create.phase == CreatePhase.ambiguous && pending != null) {
+    if (_create.phase == SubmitPhase.ambiguous && pending != null) {
       task = pending; // resend exactly what the server may have seen
     } else {
       setState(() => _showErrors = true);
@@ -148,7 +149,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       return;
     }
     final error = _create.error;
-    if (_create.phase == CreatePhase.rejected && error != null) {
+    if (_create.phase == SubmitPhase.rejected && error != null) {
       setState(() {
         _serverErrors[fieldForServerCode(error.code)] = apiErrorMessage(
           AppLocalizations.of(context),
@@ -231,7 +232,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
     final text = Theme.of(context).textTheme;
     final material = MaterialLocalizations.of(context);
     final locked = _create.isLocked;
-    final ambiguous = _create.phase == CreatePhase.ambiguous;
+    final ambiguous = _create.phase == SubmitPhase.ambiguous;
     final teenName = ref.watch(
       familyControllerProvider.select(
         (s) =>
@@ -252,160 +253,164 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
     final formError = _serverErrors[TaskField.form];
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Palette.background,
-        surfaceTintColor: Colors.transparent,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          tooltip: l10n.actionClose,
-          onPressed: () => context.pop(),
+    final sending = _create.phase == SubmitPhase.sending;
+    return PopScope(
+      canPop: !sending,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Palette.background,
+          surfaceTintColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.close),
+            tooltip: l10n.actionClose,
+            onPressed: sending ? null : () => context.pop(),
+          ),
+          title: Text(
+            _isMilestone ? l10n.createMilestoneTitle : l10n.createTaskTitle,
+            style: text.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+          ),
         ),
-        title: Text(
-          _isMilestone ? l10n.createMilestoneTitle : l10n.createTaskTitle,
-          style: text.titleLarge?.copyWith(fontWeight: FontWeight.w600),
-        ),
-      ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
-          children: [
-            if (teenName.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: Space.s16),
-                child: Text(
-                  l10n.createFor(teenName),
-                  style: text.bodyMedium?.copyWith(color: Palette.muted),
-                ),
-              ),
-            if (ambiguous) ...[
-              _Banner(l10n.createUnsure),
-              const SizedBox(height: Space.s16),
-            ],
-            TextField(
-              controller: _title,
-              enabled: !locked,
-              textCapitalization: TextCapitalization.sentences,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                labelText: l10n.fieldTitle,
-                errorText: errorFor(TaskField.title),
-                errorMaxLines: 3,
-              ),
-              onChanged: (_) => _edited(TaskField.title),
-            ),
-            const SizedBox(height: Space.s16),
-            TextField(
-              controller: _reward,
-              enabled: !locked,
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[\d\s,.]')),
-              ],
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                labelText: l10n.fieldReward,
-                errorText: errorFor(TaskField.reward),
-                errorMaxLines: 3,
-              ),
-              onChanged: (_) => _edited(TaskField.reward),
-            ),
-            const SizedBox(height: Space.s16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _PickerField(
-                    label: l10n.fieldDeadlineDate,
-                    value: material.formatMediumDate(_deadline),
-                    onTap: locked ? null : _pickDate,
+        body: SafeArea(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
+            children: [
+              if (teenName.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: Space.s16),
+                  child: Text(
+                    l10n.createFor(teenName),
+                    style: text.bodyMedium?.copyWith(color: Palette.muted),
                   ),
                 ),
-                const SizedBox(width: Space.s12),
-                Expanded(
-                  child: _PickerField(
-                    label: l10n.fieldDeadlineTime,
-                    value: material.formatTimeOfDay(
-                      TimeOfDay.fromDateTime(_deadline),
-                      alwaysUse24HourFormat: true,
+              if (ambiguous) ...[
+                _Banner(l10n.createUnsure),
+                const SizedBox(height: Space.s16),
+              ],
+              TextField(
+                controller: _title,
+                enabled: !locked,
+                textCapitalization: TextCapitalization.sentences,
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: l10n.fieldTitle,
+                  errorText: errorFor(TaskField.title),
+                  errorMaxLines: 3,
+                ),
+                onChanged: (_) => _edited(TaskField.title),
+              ),
+              const SizedBox(height: Space.s16),
+              TextField(
+                controller: _reward,
+                enabled: !locked,
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[\d\s,.]')),
+                ],
+                textInputAction: TextInputAction.next,
+                decoration: InputDecoration(
+                  labelText: l10n.fieldReward,
+                  errorText: errorFor(TaskField.reward),
+                  errorMaxLines: 3,
+                ),
+                onChanged: (_) => _edited(TaskField.reward),
+              ),
+              const SizedBox(height: Space.s16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _PickerField(
+                      label: l10n.fieldDeadlineDate,
+                      value: material.formatMediumDate(_deadline),
+                      onTap: locked ? null : _pickDate,
                     ),
-                    onTap: locked ? null : _pickTime,
                   ),
-                ),
-              ],
-            ),
-            if (errorFor(TaskField.deadline) case final message?)
-              _FieldError(message),
-            const SizedBox(height: Space.s16),
-            TextField(
-              controller: _description,
-              enabled: !locked,
-              minLines: 2,
-              maxLines: 5,
-              textCapitalization: TextCapitalization.sentences,
-              decoration: InputDecoration(labelText: l10n.fieldDescription),
-              onChanged: (_) => _edited(TaskField.form),
-            ),
-            if (!_isMilestone) ...[
-              const SizedBox(height: Space.s8),
-              _PenaltyToggle(
-                label: l10n.penaltyToggle,
-                open: _penaltyOpen,
-                onTap: locked
-                    ? null
-                    : () => setState(() => _penaltyOpen = !_penaltyOpen),
+                  const SizedBox(width: Space.s12),
+                  Expanded(
+                    child: _PickerField(
+                      label: l10n.fieldDeadlineTime,
+                      value: material.formatTimeOfDay(
+                        TimeOfDay.fromDateTime(_deadline),
+                        alwaysUse24HourFormat: true,
+                      ),
+                      onTap: locked ? null : _pickTime,
+                    ),
+                  ),
+                ],
               ),
-              if (_penaltyOpen) ...[
-                const SizedBox(height: Space.s8),
-                TextField(
-                  controller: _penalty,
-                  enabled: !locked,
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
-                  ),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[\d\s,.]')),
-                  ],
-                  decoration: InputDecoration(
-                    labelText: l10n.fieldPenalty,
-                    errorText: errorFor(TaskField.penalty),
-                    errorMaxLines: 3,
-                  ),
-                  onChanged: (_) => _edited(TaskField.penalty),
-                ),
-              ],
-            ],
-            if (formError != null) ...[
+              if (errorFor(TaskField.deadline) case final message?)
+                _FieldError(message),
               const SizedBox(height: Space.s16),
-              Text(
-                formError,
-                style: text.bodyMedium?.copyWith(
-                  color: Palette.warn,
-                  height: 1.5,
+              TextField(
+                controller: _description,
+                enabled: !locked,
+                minLines: 2,
+                maxLines: 5,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(labelText: l10n.fieldDescription),
+                onChanged: (_) => _edited(TaskField.form),
+              ),
+              if (!_isMilestone) ...[
+                const SizedBox(height: Space.s8),
+                _PenaltyToggle(
+                  label: l10n.penaltyToggle,
+                  open: _penaltyOpen,
+                  onTap: locked
+                      ? null
+                      : () => setState(() => _penaltyOpen = !_penaltyOpen),
+                ),
+                if (_penaltyOpen) ...[
+                  const SizedBox(height: Space.s8),
+                  TextField(
+                    controller: _penalty,
+                    enabled: !locked,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[\d\s,.]')),
+                    ],
+                    decoration: InputDecoration(
+                      labelText: l10n.fieldPenalty,
+                      errorText: errorFor(TaskField.penalty),
+                      errorMaxLines: 3,
+                    ),
+                    onChanged: (_) => _edited(TaskField.penalty),
+                  ),
+                ],
+              ],
+              if (formError != null) ...[
+                const SizedBox(height: Space.s16),
+                Text(
+                  formError,
+                  style: text.bodyMedium?.copyWith(
+                    color: Palette.warn,
+                    height: 1.5,
+                  ),
+                ),
+              ],
+              const SizedBox(height: Space.s24),
+              BusyButton(
+                busy: _create.phase == SubmitPhase.sending,
+                onPressed: _submit,
+                child: Text(
+                  ambiguous
+                      ? l10n.actionTryAgain
+                      : _isMilestone
+                      ? l10n.createAddMilestone
+                      : l10n.createAddTask,
                 ),
               ),
+              if (ambiguous)
+                TextButton(
+                  onPressed: _confirmEdit,
+                  child: Text(l10n.createEditDetails),
+                ),
             ],
-            const SizedBox(height: Space.s24),
-            BusyButton(
-              busy: _create.phase == CreatePhase.sending,
-              onPressed: _submit,
-              child: Text(
-                ambiguous
-                    ? l10n.actionTryAgain
-                    : _isMilestone
-                    ? l10n.createAddMilestone
-                    : l10n.createAddTask,
-              ),
-            ),
-            if (ambiguous)
-              TextButton(
-                onPressed: _confirmEdit,
-                child: Text(l10n.createEditDetails),
-              ),
-          ],
+          ),
         ),
       ),
     );

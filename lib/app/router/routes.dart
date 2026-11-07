@@ -4,6 +4,9 @@ abstract final class Routes {
 
   static const teenJoin = '/teen/join';
   static const teenHome = '/teen/home';
+  static const teenCashOut = '$teenHome/cash-out';
+  static const teenCashOutPattern = 'cash-out';
+  static String teenPayout(String id) => '$teenHome/payout/$id';
   static String teenTask(String id) => '$teenHome/task/$id';
   static String teenMilestone(String id) => '$teenHome/milestone/$id';
 
@@ -34,6 +37,8 @@ abstract final class Routes {
   ).toString();
 
   static const parentReview = '/parent/review';
+  static String parentPayout(String id) => '$parentReview/payout/$id';
+  static const parentPayoutPattern = 'payout/:id';
   static String parentReviewTask(String id) => '$parentReview/$id';
   static const parentReviewTaskPattern = ':id';
 }

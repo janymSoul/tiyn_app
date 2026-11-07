@@ -5,11 +5,12 @@ import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/auth/data/user.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
-
+import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
 
 import '../helpers/fake_dashboard.dart';
+import '../helpers/fake_payouts.dart';
 import '../helpers/fake_tasks.dart';
 import '../helpers/pump_app.dart';
 
@@ -55,6 +56,7 @@ Future<String> _pump(
     overrides: [
       authControllerProvider.overrideWith(() => _Auth(user)),
       familyControllerProvider.overrideWith(() => _Family(family)),
+      payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
       taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
       dashboardRepositoryProvider.overrideWithValue(FakeDashboardRepository()),
     ],

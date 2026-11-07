@@ -27,5 +27,14 @@ class MainActivity : FlutterActivity() {
                     result.notImplemented()
                 }
             }
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, BankApps.CHANNEL)
+            .setMethodCallHandler { call, result ->
+                val pkg = call.argument<String>("package")
+                if (call.method == "open" && !pkg.isNullOrBlank()) {
+                    result.success(BankApps.open(this, pkg))
+                } else {
+                    result.notImplemented()
+                }
+            }
     }
 }

@@ -617,4 +617,316 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get notifyTeenSheetBody =>
       'Сразу скажем, когда придёт задача или родитель примет решение.';
+
+  @override
+  String get payoutCashOut => 'Запросить выплату';
+
+  @override
+  String payoutAvailable(String amount) {
+    return 'Доступно: $amount';
+  }
+
+  @override
+  String get fieldPayoutAmount => 'Сумма (₸)';
+
+  @override
+  String payoutMinHint(String min) {
+    return 'Минимальная сумма: $min';
+  }
+
+  @override
+  String get payoutAsk => 'Кого попросить';
+
+  @override
+  String payoutTo(String name) {
+    return 'Кому: $name';
+  }
+
+  @override
+  String get payoutSend => 'Отправить запрос';
+
+  @override
+  String get payoutBackHome => 'На главную';
+
+  @override
+  String payoutSent(String name) {
+    return 'Запрос отправлен: $name';
+  }
+
+  @override
+  String get errPayoutAmountPositive => 'Введи сумму больше нуля.';
+
+  @override
+  String errPayoutBelowMin(String min) {
+    return 'Минимальная сумма выплаты — $min.';
+  }
+
+  @override
+  String errPayoutAboveAvailable(String available) {
+    return 'Тебе доступно $available.';
+  }
+
+  @override
+  String get errPayoutChooseParent => 'Выбери, кого попросить.';
+
+  @override
+  String get errPayoutTooSmall => 'Это меньше минимальной суммы выплаты.';
+
+  @override
+  String get errPayoutInsufficient =>
+      'Столько уже недоступно. Деньги, занятые запросом или отложенные на цель, недоступны.';
+
+  @override
+  String get errPayoutAlreadyOpen =>
+      'У тебя уже есть открытый запрос. Дождись ответа родителя или отмени его.';
+
+  @override
+  String get errPayoutNotLinked => 'Связь с этим родителем разорвана.';
+
+  @override
+  String get payoutUnsure =>
+      'Не удалось понять, отправился ли запрос. Повтори: он не отправится дважды.';
+
+  @override
+  String get payoutEditWarnBody =>
+      'Первая попытка могла уже пройти. Если изменишь данные и отправишь, запрос могут отклонить, потому что один уже открыт.';
+
+  @override
+  String cashOutDebt(String owed) {
+    return 'За пропущенное задание накопился долг $owed. Новые награды сначала погасят его, потом можно будет запросить выплату.';
+  }
+
+  @override
+  String cashOutBelowMin(String min) {
+    return 'Для выплаты нужно не меньше $min в доступных.';
+  }
+
+  @override
+  String get cashOutLockedNote => 'Деньги, отложенные на цели, не учитываются.';
+
+  @override
+  String payoutWaitingFor(String name) {
+    return 'Ждём ответа: $name';
+  }
+
+  @override
+  String get payoutWaitingForParent => 'Ждём ответа родителя';
+
+  @override
+  String payoutHeld(String amount) {
+    return '$amount отложено под этот запрос';
+  }
+
+  @override
+  String payoutDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'осталось $count дня',
+      many: 'осталось $count дней',
+      few: 'осталось $count дня',
+      one: 'остался $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String payoutHoursLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'осталось $count часа',
+      many: 'осталось $count часов',
+      few: 'осталось $count часа',
+      one: 'остался $count час',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutLessThanHour => 'Остался меньше часа';
+
+  @override
+  String get payoutAnyMoment => 'Срок истекает с минуты на минуту';
+
+  @override
+  String get payoutCancelRequest => 'Отменить запрос';
+
+  @override
+  String get payoutCancelTitle => 'Отменить запрос?';
+
+  @override
+  String payoutCancelBody(String amount) {
+    return 'Запрос на $amount будет отозван, а деньги снова станут доступны.';
+  }
+
+  @override
+  String get payoutConfirmCancel => 'Да, отменить запрос';
+
+  @override
+  String get payoutChanged =>
+      'Запрос только что изменился. Вот актуальные данные.';
+
+  @override
+  String get payoutUnavailable => 'Этого запроса больше нет.';
+
+  @override
+  String payoutFulfilledTitle(String amount) {
+    return 'Выплата $amount подтверждена';
+  }
+
+  @override
+  String get payoutFulfilledBody =>
+      'Родитель подтвердил, что отправил деньги. Проверь банк. Если денег нет, поговори с родителем.';
+
+  @override
+  String get payoutDeclinedTitle => 'Запрос отклонён';
+
+  @override
+  String payoutDeclinedBody(String amount) {
+    return 'Родитель отклонил запрос. $amount снова доступны.';
+  }
+
+  @override
+  String get payoutExpiredTitle => 'Срок запроса истёк';
+
+  @override
+  String payoutExpiredBody(String amount) {
+    return 'Родитель не ответил вовремя. $amount снова доступны, можно попросить ещё раз.';
+  }
+
+  @override
+  String get payoutCancelledTitle => 'Запрос отменён';
+
+  @override
+  String payoutCancelledBody(String amount) {
+    return '$amount снова доступны.';
+  }
+
+  @override
+  String get payoutUnlinkedTitle => 'Связь с родителем разорвана';
+
+  @override
+  String payoutUnlinkedBody(String amount) {
+    return 'Связь с родителем разорвана, поэтому запрос отменён. $amount снова доступны.';
+  }
+
+  @override
+  String payoutSectionTitle(int count) {
+    return 'Запросы на выплату ($count)';
+  }
+
+  @override
+  String proofsSectionTitle(int count) {
+    return 'Подтверждения ($count)';
+  }
+
+  @override
+  String get payoutRowTitle => 'Запрос на выплату';
+
+  @override
+  String payoutAsksForTitle(String name) {
+    return '$name просит';
+  }
+
+  @override
+  String get payoutStepSend => '1. Отправьте деньги';
+
+  @override
+  String get payoutStepConfirm => '2. Затем подтвердите';
+
+  @override
+  String payoutSendHint(String amount) {
+    return 'Отправьте $amount через приложение банка или передайте наличными. Tiyn сам деньги не переводит.';
+  }
+
+  @override
+  String get payoutCopyAmount => 'Скопировать сумму';
+
+  @override
+  String get payoutCopied => 'Сумма скопирована';
+
+  @override
+  String get payoutISentIt => 'Деньги отправлены';
+
+  @override
+  String get payoutDecline => 'Отклонить';
+
+  @override
+  String payoutConfirmSentTitle(String amount) {
+    return 'Подтвердить отправку $amount?';
+  }
+
+  @override
+  String payoutConfirmSentBody(String amount) {
+    return 'Tiyn не видит перевод. После подтверждения $amount будут списаны с баланса подростка.';
+  }
+
+  @override
+  String get payoutYesSent => 'Да, деньги отправлены';
+
+  @override
+  String get payoutNotYet => 'Ещё нет';
+
+  @override
+  String payoutDeclineTitle(String amount) {
+    return 'Отклонить запрос на $amount?';
+  }
+
+  @override
+  String get payoutDeclineBody =>
+      'Подросток сохранит свои деньги и сможет попросить снова.';
+
+  @override
+  String get payoutKeepOpen => 'Оставить';
+
+  @override
+  String get payoutConfirmDecline => 'Да, отклонить';
+
+  @override
+  String payoutNoCover(String amount) {
+    return 'Баланса подростка больше не хватает на $amount. Часть денег списана как штраф за пропущенное задание или отложена на цель. Вы можете отклонить запрос, а подросток сможет попросить меньшую сумму.';
+  }
+
+  @override
+  String get payoutSentDone => 'Выплата подтверждена';
+
+  @override
+  String get payoutDeclinedDone => 'Запрос отклонён';
+
+  @override
+  String get payoutParentFulfilledTitle => 'Выплата подтверждена';
+
+  @override
+  String payoutParentFulfilledBody(String amount) {
+    return '$amount списаны с баланса подростка.';
+  }
+
+  @override
+  String get payoutParentTeenCancelled => 'Подросток отменил запрос';
+
+  @override
+  String get payoutParentDeclined => 'Вы отклонили этот запрос';
+
+  @override
+  String get payoutParentExpired => 'Срок запроса истёк';
+
+  @override
+  String get payoutParentUnlinked =>
+      'Вы больше не связаны с этим подростком. Запрос отменён.';
+
+  @override
+  String payoutOpenBank(String bank) {
+    return 'Открыть $bank';
+  }
+
+  @override
+  String payoutBankStore(String bank) {
+    return '$bank не установлен. Мы открыли страницу приложения в магазине.';
+  }
+
+  @override
+  String payoutBankUnavailable(String bank) {
+    return 'Не удалось открыть $bank. Откройте приложение сами, затем вернитесь и подтвердите.';
+  }
 }

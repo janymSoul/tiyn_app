@@ -614,4 +614,311 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get notifyTeenSheetBody =>
       'Тапсырма келгенде немесе ата-ана шешім қабылдағанда бірден хабарлаймыз.';
+
+  @override
+  String get payoutCashOut => 'Төлем сұрау';
+
+  @override
+  String payoutAvailable(String amount) {
+    return 'Қолжетімді: $amount';
+  }
+
+  @override
+  String get fieldPayoutAmount => 'Сома (₸)';
+
+  @override
+  String payoutMinHint(String min) {
+    return 'Ең аз сома: $min';
+  }
+
+  @override
+  String get payoutAsk => 'Кімнен сұрау';
+
+  @override
+  String payoutTo(String name) {
+    return 'Кімге: $name';
+  }
+
+  @override
+  String get payoutSend => 'Сұрау жіберу';
+
+  @override
+  String get payoutBackHome => 'Басты бетке';
+
+  @override
+  String payoutSent(String name) {
+    return 'Сұрау жіберілді: $name';
+  }
+
+  @override
+  String get errPayoutAmountPositive => 'Нөлден үлкен сома енгіз.';
+
+  @override
+  String errPayoutBelowMin(String min) {
+    return 'Төлемнің ең аз сомасы — $min.';
+  }
+
+  @override
+  String errPayoutAboveAvailable(String available) {
+    return 'Саған $available қолжетімді.';
+  }
+
+  @override
+  String get errPayoutChooseParent => 'Кімнен сұрайтыныңды таңда.';
+
+  @override
+  String get errPayoutTooSmall => 'Бұл төлемнің ең аз сомасынан кем.';
+
+  @override
+  String get errPayoutInsufficient =>
+      'Мұншама сома енді қолжетімді емес. Сұрауға бекітілген немесе мақсатқа бөлінген ақша қолжетімсіз.';
+
+  @override
+  String get errPayoutAlreadyOpen =>
+      'Саған ашық сұрау бар. Ата-анаңның жауабын күт немесе оны болдырма.';
+
+  @override
+  String get errPayoutNotLinked => 'Бұл ата-анамен байланыс үзілген.';
+
+  @override
+  String get payoutUnsure =>
+      'Сұраудың жіберілгені белгісіз. Қайтала: ол екі рет жіберілмейді.';
+
+  @override
+  String get payoutEditWarnBody =>
+      'Бірінші әрекет өтіп кеткен болуы мүмкін. Деректерді өзгертіп жіберсең, ашық сұрау бар болғандықтан, қабылданбауы мүмкін.';
+
+  @override
+  String cashOutDebt(String owed) {
+    return 'Өткізіп алған тапсырма үшін $owed қарыз жиналды. Жаңа сыйақылар алдымен қарызды жабады, содан кейін төлем сұрай аласың.';
+  }
+
+  @override
+  String cashOutBelowMin(String min) {
+    return 'Төлем сұрау үшін кемінде $min қолжетімді болуы керек.';
+  }
+
+  @override
+  String get cashOutLockedNote => 'Мақсатқа бөлінген ақша есепке алынбайды.';
+
+  @override
+  String payoutWaitingFor(String name) {
+    return 'Жауап күтілуде: $name';
+  }
+
+  @override
+  String get payoutWaitingForParent => 'Ата-анаңның жауабы күтілуде';
+
+  @override
+  String payoutHeld(String amount) {
+    return '$amount осы сұрауға бекітілді';
+  }
+
+  @override
+  String payoutDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн қалды',
+      one: '$count күн қалды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String payoutHoursLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сағат қалды',
+      one: '$count сағат қалды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutLessThanHour => 'Бір сағаттан аз қалды';
+
+  @override
+  String get payoutAnyMoment => 'Мерзімі кез келген минутта аяқталады';
+
+  @override
+  String get payoutCancelRequest => 'Сұрауды болдырмау';
+
+  @override
+  String get payoutCancelTitle => 'Сұрауды болдырмау керек пе?';
+
+  @override
+  String payoutCancelBody(String amount) {
+    return '$amount сұрауы кері қайтарылады, ақша қайтадан қолжетімді болады.';
+  }
+
+  @override
+  String get payoutConfirmCancel => 'Иә, сұрауды болдырмау';
+
+  @override
+  String get payoutChanged => 'Сұрау жаңа ғана өзгерді. Міне, соңғы нұсқасы.';
+
+  @override
+  String get payoutUnavailable => 'Бұл сұрау енді жоқ.';
+
+  @override
+  String payoutFulfilledTitle(String amount) {
+    return '$amount төлемі расталды';
+  }
+
+  @override
+  String get payoutFulfilledBody =>
+      'Ата-анаң ақшаны жібергенін растады. Банкіңді тексер. Ақша келмесе, онымен сөйлес.';
+
+  @override
+  String get payoutDeclinedTitle => 'Сұрау қабылданбады';
+
+  @override
+  String payoutDeclinedBody(String amount) {
+    return 'Ата-анаң сұрауды қабылдамады. $amount қайтадан қолжетімді.';
+  }
+
+  @override
+  String get payoutExpiredTitle => 'Сұраудың мерзімі өтті';
+
+  @override
+  String payoutExpiredBody(String amount) {
+    return 'Ата-анаң уақытында жауап бермеді. $amount қайтадан қолжетімді, қайта сұрай аласың.';
+  }
+
+  @override
+  String get payoutCancelledTitle => 'Сұрау кері қайтарылды';
+
+  @override
+  String payoutCancelledBody(String amount) {
+    return '$amount қайтадан қолжетімді.';
+  }
+
+  @override
+  String get payoutUnlinkedTitle => 'Байланыс үзілді';
+
+  @override
+  String payoutUnlinkedBody(String amount) {
+    return 'Ата-анаңмен байланыс үзілгендіктен, сұрау жойылды. $amount қайтадан қолжетімді.';
+  }
+
+  @override
+  String payoutSectionTitle(int count) {
+    return 'Төлем сұраулары ($count)';
+  }
+
+  @override
+  String proofsSectionTitle(int count) {
+    return 'Растаулар ($count)';
+  }
+
+  @override
+  String get payoutRowTitle => 'Төлем сұрауы';
+
+  @override
+  String payoutAsksForTitle(String name) {
+    return '$name сұрайды';
+  }
+
+  @override
+  String get payoutStepSend => '1. Ақшаны жіберіңіз';
+
+  @override
+  String get payoutStepConfirm => '2. Содан кейін растаңыз';
+
+  @override
+  String payoutSendHint(String amount) {
+    return '$amount сомасын банк қосымшасы арқылы жіберіңіз немесе қолма-қол беріңіз. Tiyn ақшаны өзі аудармайды.';
+  }
+
+  @override
+  String get payoutCopyAmount => 'Соманы көшіру';
+
+  @override
+  String get payoutCopied => 'Сома көшірілді';
+
+  @override
+  String get payoutISentIt => 'Ақша жіберілді';
+
+  @override
+  String get payoutDecline => 'Қабылдамау';
+
+  @override
+  String payoutConfirmSentTitle(String amount) {
+    return '$amount жіберілгенін растау керек пе?';
+  }
+
+  @override
+  String payoutConfirmSentBody(String amount) {
+    return 'Tiyn аударымды көрмейді. Растағаннан кейін $amount жасөспірімнің балансынан шегеріледі.';
+  }
+
+  @override
+  String get payoutYesSent => 'Иә, ақша жіберілді';
+
+  @override
+  String get payoutNotYet => 'Әлі жоқ';
+
+  @override
+  String payoutDeclineTitle(String amount) {
+    return '$amount сұрауын қабылдамау керек пе?';
+  }
+
+  @override
+  String get payoutDeclineBody =>
+      'Жасөспірім ақшасын сақтайды және қайта сұрай алады.';
+
+  @override
+  String get payoutKeepOpen => 'Ашық қалдыру';
+
+  @override
+  String get payoutConfirmDecline => 'Иә, қабылдамау';
+
+  @override
+  String payoutNoCover(String amount) {
+    return 'Жасөспірімнің балансы енді $amount сомасына жетпейді. Бір бөлігін өткізіп алған тапсырма үшін айыппұл алды немесе ол мақсатқа бөлінді. Сұрауды қабылдамауға болады, жасөспірім аз сома сұрай алады.';
+  }
+
+  @override
+  String get payoutSentDone => 'Төлем расталды';
+
+  @override
+  String get payoutDeclinedDone => 'Сұрау қабылданбады';
+
+  @override
+  String get payoutParentFulfilledTitle => 'Төлем расталды';
+
+  @override
+  String payoutParentFulfilledBody(String amount) {
+    return '$amount жасөспірімнің балансынан шегерілді.';
+  }
+
+  @override
+  String get payoutParentTeenCancelled => 'Жасөспірім сұрауды кері қайтарды';
+
+  @override
+  String get payoutParentDeclined => 'Сіз бұл сұрауды қабылдамадыңыз';
+
+  @override
+  String get payoutParentExpired => 'Сұраудың мерзімі өтті';
+
+  @override
+  String get payoutParentUnlinked =>
+      'Сіз бұл жасөспіріммен енді байланыспайсыз. Сұрау жойылды.';
+
+  @override
+  String payoutOpenBank(String bank) {
+    return '$bank ашу';
+  }
+
+  @override
+  String payoutBankStore(String bank) {
+    return '$bank орнатылмаған. Қосымшаның дүкендегі беті ашылды.';
+  }
+
+  @override
+  String payoutBankUnavailable(String bank) {
+    return '$bank ашу мүмкін болмады. Қосымшаны өзіңіз ашып, қайтып келіп растаңыз.';
+  }
 }

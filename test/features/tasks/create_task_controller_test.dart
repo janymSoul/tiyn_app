@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/network/idempotency_key.dart';
+import 'package:tiyn_app/core/network/idempotent_submit_controller.dart';
 import 'package:tiyn_app/features/tasks/application/create_task_controller.dart';
 import 'package:tiyn_app/features/tasks/data/new_task.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
@@ -38,7 +39,7 @@ void main() {
   test('the key exists as soon as the form opens', () {
     final c = _make((_) async => fakeTask()).controller;
     expect(c.key.value, 'key-1');
-    expect(c.phase, CreatePhase.editing);
+    expect(c.phase, SubmitPhase.editing);
   });
 
   test('success: sent once under the opening key', () async {
@@ -46,14 +47,14 @@ void main() {
     expect(await s.controller.submit(_task()), isTrue);
     expect(s.sent.map((e) => e.key), ['key-1']);
     expect(s.controller.created!.id, 'made');
-    expect(s.controller.phase, CreatePhase.editing);
+    expect(s.controller.phase, SubmitPhase.editing);
   });
 
   test('a second tap while the first is in flight sends nothing', () async {
     final gate = Completer<Task>();
     final s = _make((_) => gate.future);
     final first = s.controller.submit(_task());
-    expect(s.controller.phase, CreatePhase.sending);
+    expect(s.controller.phase, SubmitPhase.sending);
     expect(await s.controller.submit(_task()), isFalse);
     expect(await s.controller.submit(_task()), isFalse);
     gate.complete(fakeTask());
@@ -65,7 +66,7 @@ void main() {
     test('fields stay editable and the key is kept until an edit', () async {
       final s = _make((_) async => throw _status(422, 'invalid_reward'));
       expect(await s.controller.submit(_task()), isFalse);
-      expect(s.controller.phase, CreatePhase.rejected);
+      expect(s.controller.phase, SubmitPhase.rejected);
       expect(s.controller.isLocked, isFalse);
       expect(s.controller.error!.code, 'invalid_reward');
       expect(s.controller.key.value, 'key-1');
@@ -108,7 +109,7 @@ void main() {
       for (final status in [400, 403, 409, 422]) {
         final s = _make((_) async => throw _status(status));
         await s.controller.submit(_task());
-        expect(s.controller.phase, CreatePhase.rejected, reason: '$status');
+        expect(s.controller.phase, SubmitPhase.rejected, reason: '$status');
       }
     });
   });
@@ -127,7 +128,7 @@ void main() {
       test('${entry.key} locks the form', () async {
         final s = _make((_) async => throw entry.value);
         await s.controller.submit(_task());
-        expect(s.controller.phase, CreatePhase.ambiguous);
+        expect(s.controller.phase, SubmitPhase.ambiguous);
         expect(s.controller.isLocked, isTrue);
         expect(s.controller.pending, _task());
       });
@@ -163,7 +164,7 @@ void main() {
         final s = _make((_) async => throw const ApiException(code: 'timeout'));
         await s.controller.submit(_task());
         s.controller.unlockToEdit();
-        expect(s.controller.phase, CreatePhase.editing);
+        expect(s.controller.phase, SubmitPhase.editing);
         expect(s.controller.isLocked, isFalse);
         expect(s.controller.key.value, 'key-2');
         expect(s.controller.pending, isNull);
@@ -178,7 +179,7 @@ void main() {
       );
       await s.controller.submit(_task());
       await s.controller.submit(_task());
-      expect(s.controller.phase, CreatePhase.rejected);
+      expect(s.controller.phase, SubmitPhase.rejected);
       expect(s.controller.isLocked, isFalse);
     });
 

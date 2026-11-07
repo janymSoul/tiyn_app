@@ -6,10 +6,13 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tiyn_app/app/router/routes.dart';
+import 'package:tiyn_app/core/bank/bank_launcher.dart';
+import 'package:tiyn_app/core/bank/bank_providers.dart';
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/design/theme.dart';
+import 'package:tiyn_app/design/widgets/busy_button.dart';
 import 'package:tiyn_app/features/auth/application/auth_controller.dart';
 import 'package:tiyn_app/features/auth/application/sign_in_controller.dart';
 import 'package:tiyn_app/features/auth/data/user.dart';
@@ -17,14 +20,21 @@ import 'package:tiyn_app/features/auth/presentation/splash_screen.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/data/family_member.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
+import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
+import 'package:tiyn_app/features/payouts/data/cancel_reason.dart';
+import 'package:tiyn_app/features/payouts/data/payout.dart';
+import 'package:tiyn_app/features/payouts/data/payout_state.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/tasks/data/proof.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/tasks/data/task_state.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
+import 'package:tiyn_app/features/teen/data/dashboard.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
+import '../helpers/fake_bank_launcher.dart';
 import '../helpers/fake_dashboard.dart';
+import '../helpers/fake_payouts.dart';
 import '../helpers/fake_tasks.dart';
 import '../helpers/pump_app.dart';
 
@@ -194,6 +204,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(
               FakeTaskRepository([
                 fakeTask(id: 's', teenId: '4', state: TaskState.submitted),
@@ -214,6 +225,7 @@ void main() {
           locale,
           const ParentHomeScreen(),
           overrides: [
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
             authControllerProvider.overrideWith(() => _Auth(_parentUser)),
             familyControllerProvider.overrideWith(
@@ -241,6 +253,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -309,6 +322,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -380,6 +394,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -531,6 +546,7 @@ void main() {
               () => _Family(() async => _parents),
             ),
             dashboardRepositoryProvider.overrideWithValue(dash),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -602,6 +618,7 @@ void main() {
             familyControllerProvider.overrideWith(
               () => _Family(() async => _teens),
             ),
+            payoutRepositoryProvider.overrideWithValue(FakePayoutRepository()),
             taskRepositoryProvider.overrideWithValue(tasks),
           ],
           locale: Locale(locale),
@@ -624,6 +641,411 @@ void main() {
         await tester.tap(cancel);
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
+      });
+
+      group('payouts:', () {
+        List<Override> teen({
+          Dashboard? dashboard,
+          List<FamilyMember> parents = const [
+            FamilyMember(
+              id: '1',
+              role: Role.parent,
+              displayName: 'Айгерім Нұрланқызы',
+            ),
+          ],
+          FakePayoutRepository? payouts,
+          FakeDashboardRepository? dashboardRepo,
+        }) => [
+          authControllerProvider.overrideWith(() => _Auth(_teenUser)),
+          familyControllerProvider.overrideWith(
+            () => _Family(() async => parents),
+          ),
+          dashboardRepositoryProvider.overrideWithValue(
+            dashboardRepo ?? FakeDashboardRepository(dashboard),
+          ),
+          payoutRepositoryProvider.overrideWithValue(
+            payouts ?? FakePayoutRepository(),
+          ),
+        ];
+
+        List<Override> parent(FakePayoutRepository payouts) => [
+          authControllerProvider.overrideWith(() => _Auth(_parentUser)),
+          familyControllerProvider.overrideWith(
+            () => _Family(() async => _teens),
+          ),
+          payoutRepositoryProvider.overrideWithValue(payouts),
+          taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
+        ];
+
+        Payout longPayout({
+          String id = 'po1',
+          String teenId = '4',
+          PayoutState state = PayoutState.requested,
+          CancelReason? reason,
+        }) => fakePayout(
+          id: id,
+          teenId: teenId,
+          parentId: '1',
+          amount: const Money.kzt(1250000050),
+          state: state,
+          cancelReason: reason,
+          requestedAt: DateTime.now().subtract(const Duration(hours: 2)),
+          expiresAt: DateTime.now().add(const Duration(days: 6, hours: 22)),
+        );
+
+        OpenPayout open() => OpenPayout(
+          id: 'po1',
+          parentId: '1',
+          amount: const Money.kzt(1250000050),
+          requestedAt: DateTime.now().subtract(const Duration(hours: 1)),
+          expiresAt: DateTime.now().add(const Duration(days: 6, hours: 4)),
+        );
+
+        Balance bal(int balance, int locked, int available) => Balance(
+          balance: Money.kzt(balance),
+          locked: Money.kzt(locked),
+          available: Money.kzt(available),
+        );
+
+        Future<void> go(WidgetTester tester, String route) async {
+          unawaited(routerOf(tester).push(route));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        }
+
+        Future<Finder> reach(
+          WidgetTester tester,
+          String Function(AppLocalizations l10n) label,
+        ) async {
+          final l10n = AppLocalizations.of(
+            tester.element(find.byType(Scaffold).last),
+          );
+          final button = find.widgetWithText(BusyButton, label(l10n));
+          await tester.scrollUntilVisible(
+            button,
+            200,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.pumpAndSettle();
+          return button;
+        }
+
+        testWidgets('teen home: every cash-out state', (tester) async {
+          _smallPhone(tester);
+          final states = <Dashboard>[
+            fakeDashboard(
+              balance: const Money.kzt(1250000050),
+              available: const Money.kzt(1250000050),
+            ),
+            fakeDashboard(
+              balance: const Money.kzt(3000),
+              available: const Money.kzt(3000),
+            ),
+            fakeDashboard(
+              balance: const Money.kzt(1500000),
+              locked: const Money.kzt(1400000),
+              available: const Money.kzt(100000),
+            ),
+            Dashboard(
+              balance: bal(-250000, 0, -250000),
+              pending: Money.zero,
+              chores: const [],
+              milestones: const [],
+            ),
+            fakeDashboard(openPayout: open()),
+          ];
+          final dashboard = FakeDashboardRepository(states.first);
+          await pumpApp(
+            tester,
+            overrides: teen(dashboardRepo: dashboard),
+            locale: Locale(locale),
+          );
+          for (final state in states) {
+            dashboard.dashboard = state;
+            await tester.drag(
+              find.byType(Scrollable).first,
+              const Offset(0, 400),
+            );
+            await tester.pump();
+            await tester.pumpAndSettle();
+            expect(tester.takeException(), isNull);
+          }
+        });
+
+        testWidgets('request form, one parent: inputs and explanations', (
+          tester,
+        ) async {
+          _smallPhone(tester);
+          await pumpApp(
+            tester,
+            overrides: teen(
+              dashboard: fakeDashboard(available: const Money.kzt(1250000)),
+            ),
+            locale: Locale(locale),
+          );
+          await go(tester, Routes.teenCashOut);
+          final field = find.byType(TextField);
+          for (final text in ['0', '10', '99999999', '5000']) {
+            await tester.enterText(field, text);
+            await tester.pumpAndSettle();
+            expect(tester.takeException(), isNull);
+          }
+        });
+
+        testWidgets('request form, several parents: picker, ambiguous lock', (
+          tester,
+        ) async {
+          _smallPhone(tester);
+          final payouts = FakePayoutRepository()
+            ..createError = const ApiException(code: 'timeout');
+          await pumpApp(
+            tester,
+            overrides: teen(parents: _parents, payouts: payouts),
+            locale: Locale(locale),
+          );
+          await go(tester, Routes.teenCashOut);
+          expect(find.byType(RadioListTile<String>), findsNWidgets(2));
+          await tester.enterText(find.byType(TextField), '5000');
+          await tester.pumpAndSettle();
+          await tester.tap(find.byType(RadioListTile<String>).last);
+          await tester.pumpAndSettle();
+          final send = find.byType(BusyButton);
+          await tester.ensureVisible(send);
+          await tester.pumpAndSettle();
+          await tester.tap(send);
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+          expect(find.byType(TextButton), findsWidgets, reason: 'Edit details');
+        });
+
+        testWidgets('request form: already open and blocked', (tester) async {
+          _smallPhone(tester);
+          final payouts = FakePayoutRepository()
+            ..createError = const ApiException(
+              code: 'payout_already_open',
+              statusCode: 409,
+            );
+          await pumpApp(
+            tester,
+            overrides: teen(payouts: payouts),
+            locale: Locale(locale),
+          );
+          await go(tester, Routes.teenCashOut);
+          await tester.enterText(find.byType(TextField), '5000');
+          await tester.pumpAndSettle();
+          final send = find.byType(BusyButton);
+          await tester.ensureVisible(send);
+          await tester.tap(send);
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        });
+
+        testWidgets('teen payout screen: open card and cancel sheet', (
+          tester,
+        ) async {
+          _smallPhone(tester);
+          final payouts = FakePayoutRepository([longPayout(teenId: '2')]);
+          await pumpApp(
+            tester,
+            overrides: teen(
+              dashboard: fakeDashboard(openPayout: open()),
+              payouts: payouts,
+            ),
+            locale: Locale(locale),
+          );
+          await go(tester, Routes.teenPayout('po1'));
+          final cancel = find.byType(BusyButton);
+          await tester.ensureVisible(cancel);
+          await tester.tap(cancel);
+          await tester.pumpAndSettle();
+          expect(find.byType(BottomSheet), findsOneWidget);
+          expect(tester.takeException(), isNull);
+        });
+
+        testWidgets('teen payout screen: every outcome, missing, error', (
+          tester,
+        ) async {
+          _smallPhone(tester);
+          final payouts = FakePayoutRepository([
+            longPayout(id: 'f', teenId: '2', state: PayoutState.fulfilled),
+            longPayout(
+              id: 'd',
+              teenId: '2',
+              state: PayoutState.cancelled,
+              reason: CancelReason.declined,
+            ),
+            longPayout(
+              id: 'e',
+              teenId: '2',
+              state: PayoutState.cancelled,
+              reason: CancelReason.expired,
+            ),
+            longPayout(
+              id: 'c',
+              teenId: '2',
+              state: PayoutState.cancelled,
+              reason: CancelReason.teenCancelled,
+            ),
+            longPayout(
+              id: 'u',
+              teenId: '2',
+              state: PayoutState.cancelled,
+              reason: CancelReason.unlinked,
+            ),
+          ]);
+          await pumpApp(
+            tester,
+            overrides: teen(payouts: payouts),
+            locale: Locale(locale),
+          );
+          for (final id in ['f', 'd', 'e', 'c', 'u', 'missing']) {
+            await go(tester, Routes.teenPayout(id));
+            routerOf(tester).pop();
+            await tester.pumpAndSettle();
+          }
+          payouts.getError = const ApiException(code: 'network_error');
+          await go(tester, Routes.teenPayout('f'));
+        });
+
+        testWidgets('parent: requests section with long names', (tester) async {
+          _smallPhone(tester);
+          final payouts = FakePayoutRepository([
+            longPayout(id: 'a', teenId: '2'),
+            longPayout(id: 'b', teenId: '3'),
+            longPayout(id: 'c', teenId: '4'),
+          ]);
+          await pumpApp(
+            tester,
+            overrides: parent(payouts),
+            locale: Locale(locale),
+          );
+          await tester.tap(find.byIcon(Icons.task_alt));
+          await tester.pumpAndSettle();
+          expect(find.byType(Badge), findsOneWidget);
+          expect(tester.takeException(), isNull);
+        });
+
+        testWidgets('parent: requests section loading and error', (
+          tester,
+        ) async {
+          _smallPhone(tester);
+          final payouts = FakePayoutRepository()
+            ..listError = const ApiException(code: 'network_error');
+          await pumpApp(
+            tester,
+            overrides: parent(payouts),
+            locale: Locale(locale),
+          );
+          await tester.tap(find.byIcon(Icons.task_alt));
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        });
+
+        testWidgets('parent payout screen: sheets and every state', (
+          tester,
+        ) async {
+          _smallPhone(tester);
+          final payouts = FakePayoutRepository([longPayout()])
+            ..fulfilError = const ApiException(
+              code: 'insufficient_funds',
+              statusCode: 422,
+            );
+          await pumpApp(
+            tester,
+            overrides: parent(payouts),
+            locale: Locale(locale),
+          );
+          await go(tester, Routes.parentPayout('po1'));
+
+          // Decline sheet, then close it without declining.
+          await tester.tap(await reach(tester, (l) => l.payoutDecline));
+          await tester.pumpAndSettle();
+          expect(find.byType(BottomSheet), findsOneWidget);
+          expect(tester.takeException(), isNull);
+          await tester.tap(
+            find.descendant(
+              of: find.byType(BottomSheet),
+              matching: find.byType(FilledButton),
+            ),
+          );
+          await tester.pumpAndSettle();
+
+          // Confirm-sent sheet, confirm, then the insufficient-funds card.
+          await tester.tap(await reach(tester, (l) => l.payoutISentIt));
+          await tester.pumpAndSettle();
+          expect(find.byType(BottomSheet), findsOneWidget);
+          expect(tester.takeException(), isNull);
+          await tester.tap(
+            find.descendant(
+              of: find.byType(BottomSheet),
+              matching: find.byType(FilledButton),
+            ),
+          );
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+
+          // Outcomes, missing and a failed load.
+          payouts.payouts = [
+            longPayout(id: 'f', state: PayoutState.fulfilled),
+            longPayout(
+              id: 'd',
+              state: PayoutState.cancelled,
+              reason: CancelReason.declined,
+            ),
+            longPayout(
+              id: 'c',
+              state: PayoutState.cancelled,
+              reason: CancelReason.teenCancelled,
+            ),
+          ];
+          routerOf(tester).pop();
+          await tester.pumpAndSettle();
+          for (final id in ['f', 'd', 'c', 'missing']) {
+            await go(tester, Routes.parentPayout(id));
+            routerOf(tester).pop();
+            await tester.pumpAndSettle();
+          }
+          payouts.getError = const ApiException(code: 'network_error');
+          await go(tester, Routes.parentPayout('f'));
+        });
+
+        testWidgets('parent payout screen: not linked and bank notes', (
+          tester,
+        ) async {
+          _smallPhone(tester);
+          final payouts = FakePayoutRepository([longPayout()])
+            ..fulfilError = const ApiException(
+              code: 'forbidden',
+              statusCode: 403,
+            );
+          await pumpApp(
+            tester,
+            overrides: [
+              ...parent(payouts),
+              bankLauncherProvider.overrideWithValue(
+                FakeBankLauncher(BankLaunchResult.unavailable),
+              ),
+            ],
+            locale: Locale(locale),
+          );
+          await go(tester, Routes.parentPayout('po1'));
+          final bank = find.byType(FilledButton).first;
+          await tester.ensureVisible(bank);
+          await tester.tap(bank);
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+
+          await tester.tap(await reach(tester, (l) => l.payoutISentIt));
+          await tester.pumpAndSettle();
+          await tester.tap(
+            find.descendant(
+              of: find.byType(BottomSheet),
+              matching: find.byType(FilledButton),
+            ),
+          );
+          await tester.pumpAndSettle();
+          expect(tester.takeException(), isNull);
+        });
       });
 
       testWidgets('splash error with sign-out', (tester) async {

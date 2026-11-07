@@ -92,15 +92,25 @@ void main() {
         final push = FakePushMessaging(permission: PushPermission.notDetermined)
           ..permissionAfterRequest = PushPermission.denied;
         await pumpApp(tester, overrides: _teen(push), locale: Locale(locale));
-        expect(find.byType(FilledButton), findsOneWidget, reason: 'ask sheet');
+        // The sheet's button and the home's "Cash out" button.
+        expect(
+          find.byType(FilledButton),
+          findsNWidgets(2),
+          reason: 'ask sheet',
+        );
         expect(tester.takeException(), isNull);
 
-        await tester.tap(find.byType(FilledButton));
+        await tester.tap(
+          find.descendant(
+            of: find.byType(BottomSheet),
+            matching: find.byType(FilledButton),
+          ),
+        );
         await tester.pumpAndSettle();
         expect(
           find.byType(FilledButton),
-          findsOneWidget,
-          reason: 'denied card',
+          findsNWidgets(2),
+          reason: 'denied card and the Cash out button',
         );
         expect(find.byType(TextButton), findsWidgets);
         expect(tester.takeException(), isNull);

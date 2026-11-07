@@ -262,6 +262,33 @@ void main() {
       expect(_at(tester), '/teen/home/task/t1');
     });
 
+    testWidgets('a teen link is dropped when the family fails to load', (
+      tester,
+    ) async {
+      final push = FakePushMessaging()..initial = _tap('TASK_ASSIGNED', 't1');
+      final h = _Teen();
+      var fail = true;
+      await _pumpAppNoSettle(tester, [
+        ...h.overrides(),
+        familyControllerProvider.overrideWith(
+          () => _Family(() async {
+            if (fail) throw StateError('offline');
+            return h.family.members();
+          }),
+        ),
+        ..._push(push),
+      ]);
+      await tester.pumpAndSettle();
+
+      fail = false;
+      await _containerOf(tester)
+          .read(familyControllerProvider.notifier)
+          .refresh();
+      await tester.pumpAndSettle();
+
+      expect(_at(tester), '/teen/home', reason: 'the old tap is not replayed');
+    });
+
     testWidgets(
       'with no session the link is dropped, not kept for the next sign-in',
       (tester) async {

@@ -1,4 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiyn_app/core/money/money.dart';
+
+/// The smallest payout the backend accepts by default (`LEDGER_MIN_PAYOUT_AMOUNT`,
+/// 100 KZT). The API does not expose it, so this is only for the inline hint
+/// and the disabled button; the server's 422 `amount_too_small` is the truth.
+const kMinPayout = Money.kzt(10000);
 
 enum Flavor { dev, staging, prod }
 

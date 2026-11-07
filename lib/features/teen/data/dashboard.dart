@@ -63,8 +63,32 @@ abstract class Balance with _$Balance {
   }
 }
 
-/// The teen home in one call. Goals and the open payout are in the response
-/// too, but nothing in Phase 1 shows them, so they are not decoded.
+/// The teen's open cash-out request as `GET /dashboard` sends it. Every field
+/// is required: a malformed one fails the whole dashboard loudly.
+@freezed
+abstract class OpenPayout with _$OpenPayout {
+  const factory OpenPayout({
+    required String id,
+    required String parentId,
+    required Money amount,
+    required DateTime requestedAt,
+    required DateTime expiresAt,
+  }) = _OpenPayout;
+
+  factory OpenPayout.fromJson(Map<String, Object?> json) {
+    final currency = json['currency'];
+    return OpenPayout(
+      id: reqString(json, 'id'),
+      parentId: reqString(json, 'parentId'),
+      amount: Money.fromJson(json['amount'], currency),
+      requestedAt: reqTime(json, 'requestedAt'),
+      expiresAt: reqTime(json, 'expiresAt'),
+    );
+  }
+}
+
+/// The teen home in one call. Goals are in the response too, but nothing
+/// shows them yet, so they are not decoded.
 @freezed
 abstract class Dashboard with _$Dashboard {
   const factory Dashboard({
@@ -72,6 +96,7 @@ abstract class Dashboard with _$Dashboard {
     required Money pending,
     required List<DashboardTask> chores,
     required List<DashboardTask> milestones,
+    OpenPayout? openPayout,
   }) = _Dashboard;
 
   factory Dashboard.fromJson(Map<String, Object?> json) {
@@ -86,6 +111,9 @@ abstract class Dashboard with _$Dashboard {
       pending: Money(pending, balance.available.currency),
       chores: tasks('chores'),
       milestones: tasks('milestones'),
+      openPayout: json['openPayout'] == null
+          ? null
+          : OpenPayout.fromJson(asMap(json['openPayout'])),
     );
   }
 }

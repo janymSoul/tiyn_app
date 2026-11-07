@@ -6,6 +6,7 @@ import 'package:tiyn_app/core/push/push_type.dart';
 import 'package:tiyn_app/core/session/role.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
+import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
 import 'package:tiyn_app/features/tasks/application/task_detail_provider.dart';
 import 'package:tiyn_app/features/tasks/application/task_providers.dart';
 import 'package:tiyn_app/features/teen/application/dashboard_controller.dart';
@@ -17,6 +18,8 @@ enum RefreshTarget {
   assignedTasks,
   teenTaskLists,
   taskDetail,
+  requestedPayouts,
+  payoutDetail,
 }
 
 /// Which data a push makes stale. A push for the other role, or of a type
@@ -38,11 +41,14 @@ Set<RefreshTarget> refreshTargets(PushType? type, Role role) {
         RefreshTarget.dashboard,
         RefreshTarget.taskDetail,
       },
-      PushType.penaltyApplied ||
       PushType.payoutFulfilled ||
       PushType.payoutDeclined ||
       PushType.payoutExpired ||
-      PushType.payoutUnlinked => {RefreshTarget.dashboard},
+      PushType.payoutUnlinked => {
+        RefreshTarget.dashboard,
+        RefreshTarget.payoutDetail,
+      },
+      PushType.penaltyApplied => {RefreshTarget.dashboard},
       PushType.familyLinkedTeen || PushType.familyUnlinked => {
         RefreshTarget.family,
         RefreshTarget.dashboard,
@@ -56,13 +62,17 @@ Set<RefreshTarget> refreshTargets(PushType? type, Role role) {
       RefreshTarget.teenTaskLists,
       RefreshTarget.taskDetail,
     },
-    PushType.payoutRequested || PushType.payoutCancelledByTeen => {},
+    PushType.payoutRequested || PushType.payoutCancelledByTeen => {
+      RefreshTarget.requestedPayouts,
+      RefreshTarget.payoutDetail,
+    },
     PushType.familyLinkedParent || PushType.familyUnlinked => {
       RefreshTarget.family,
       ...parentLists,
       RefreshTarget.teenTaskLists,
+      RefreshTarget.requestedPayouts,
     },
-    _ => parentLists,
+    _ => {...parentLists, RefreshTarget.requestedPayouts},
   };
 }
 
@@ -93,6 +103,15 @@ class PushRefresher {
           final id = payload.taskId;
           if (id == null) break;
           final detail = taskDetailProvider(id);
+          if (_ref.exists(detail)) {
+            unawaited(_ref.read(detail.notifier).refresh());
+          }
+        case RefreshTarget.requestedPayouts:
+          unawaited(_ref.read(requestedPayoutsProvider.notifier).refresh());
+        case RefreshTarget.payoutDetail:
+          final id = payload.payoutId;
+          if (id == null) break;
+          final detail = payoutDetailProvider(id);
           if (_ref.exists(detail)) {
             unawaited(_ref.read(detail.notifier).refresh());
           }

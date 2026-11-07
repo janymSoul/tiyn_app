@@ -123,6 +123,24 @@ void main() {
     expect(find.text('Task approved'), findsNothing);
   });
 
+  testWidgets('a MediaQuery change does not restart the timer', (tester) async {
+    final push = FakePushMessaging();
+    final h = _TeenHarness();
+    await pumpApp(tester, overrides: [...h.overrides, ..._push(push)]);
+
+    push.emitForeground(_approved);
+    await tester.pump();
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 4));
+
+    tester.view.viewInsets = const FakeViewPadding(bottom: 300);
+    addTearDown(tester.view.resetViewInsets);
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 2));
+
+    expect(find.text('Task approved'), findsNothing);
+  });
+
   testWidgets('a replacing banner restarts the timer', (tester) async {
     final push = FakePushMessaging();
     final h = _TeenHarness();

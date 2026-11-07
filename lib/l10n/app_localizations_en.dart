@@ -613,4 +613,312 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get notifyTeenSheetBody =>
       'We\'ll let you know the moment a task arrives or a parent decides.';
+
+  @override
+  String get payoutCashOut => 'Cash out';
+
+  @override
+  String payoutAvailable(String amount) {
+    return 'Available: $amount';
+  }
+
+  @override
+  String get fieldPayoutAmount => 'Amount (₸)';
+
+  @override
+  String payoutMinHint(String min) {
+    return 'Smallest cash-out: $min';
+  }
+
+  @override
+  String get payoutAsk => 'Ask';
+
+  @override
+  String payoutTo(String name) {
+    return 'To: $name';
+  }
+
+  @override
+  String get payoutSend => 'Send request';
+
+  @override
+  String get payoutBackHome => 'Back to home';
+
+  @override
+  String payoutSent(String name) {
+    return 'Request sent to $name';
+  }
+
+  @override
+  String get errPayoutAmountPositive => 'Enter an amount greater than zero.';
+
+  @override
+  String errPayoutBelowMin(String min) {
+    return 'The smallest cash-out is $min.';
+  }
+
+  @override
+  String errPayoutAboveAvailable(String available) {
+    return 'You have $available available.';
+  }
+
+  @override
+  String get errPayoutChooseParent => 'Choose who to ask.';
+
+  @override
+  String get errPayoutTooSmall =>
+      'That is below the smallest amount you can cash out.';
+
+  @override
+  String get errPayoutInsufficient =>
+      'You don\'t have that much available any more. Money already held for a request or saved for a goal is not available.';
+
+  @override
+  String get errPayoutAlreadyOpen =>
+      'You already have a cash-out request open. Wait for your parent to answer, or cancel it first.';
+
+  @override
+  String get errPayoutNotLinked => 'You are no longer linked to this parent.';
+
+  @override
+  String get payoutUnsure =>
+      'We could not tell if the request was sent. Try again: it will not be sent twice.';
+
+  @override
+  String get payoutEditWarnBody =>
+      'The first attempt may already have gone through. If you change something and send it, it may be refused because a request is already open.';
+
+  @override
+  String cashOutDebt(String owed) {
+    return 'You owe $owed for a missed task. New rewards pay it off first, then you can cash out.';
+  }
+
+  @override
+  String cashOutBelowMin(String min) {
+    return 'You need at least $min available to cash out.';
+  }
+
+  @override
+  String get cashOutLockedNote => 'Money set aside for goals is not included.';
+
+  @override
+  String payoutWaitingFor(String name) {
+    return 'Waiting for $name';
+  }
+
+  @override
+  String get payoutWaitingForParent => 'Waiting for your parent';
+
+  @override
+  String payoutHeld(String amount) {
+    return '$amount held for this request';
+  }
+
+  @override
+  String payoutDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days left',
+      one: '1 day left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String payoutHoursLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours left',
+      one: '1 hour left',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutLessThanHour => 'Less than an hour left';
+
+  @override
+  String get payoutAnyMoment => 'Expires any moment';
+
+  @override
+  String get payoutCancelRequest => 'Cancel request';
+
+  @override
+  String get payoutCancelTitle => 'Cancel this request?';
+
+  @override
+  String payoutCancelBody(String amount) {
+    return 'Your $amount request will be withdrawn and the money is available again.';
+  }
+
+  @override
+  String get payoutConfirmCancel => 'Yes, cancel the request';
+
+  @override
+  String get payoutChanged => 'This request just changed. Here is the latest.';
+
+  @override
+  String get payoutUnavailable => 'This request is no longer available.';
+
+  @override
+  String payoutFulfilledTitle(String amount) {
+    return 'Payout of $amount confirmed';
+  }
+
+  @override
+  String get payoutFulfilledBody =>
+      'Your parent confirmed sending the money. Check your bank. If it hasn\'t arrived, talk to them.';
+
+  @override
+  String get payoutDeclinedTitle => 'Request declined';
+
+  @override
+  String payoutDeclinedBody(String amount) {
+    return 'Your parent declined the request. $amount is available again.';
+  }
+
+  @override
+  String get payoutExpiredTitle => 'Request expired';
+
+  @override
+  String payoutExpiredBody(String amount) {
+    return 'Your parent didn\'t answer in time. $amount is available again, and you can ask again.';
+  }
+
+  @override
+  String get payoutCancelledTitle => 'Request cancelled';
+
+  @override
+  String payoutCancelledBody(String amount) {
+    return '$amount is available again.';
+  }
+
+  @override
+  String get payoutUnlinkedTitle => 'No longer linked';
+
+  @override
+  String payoutUnlinkedBody(String amount) {
+    return 'You are no longer linked to this parent, so the request was cancelled. $amount is available again.';
+  }
+
+  @override
+  String payoutSectionTitle(int count) {
+    return 'Payout requests ($count)';
+  }
+
+  @override
+  String proofsSectionTitle(int count) {
+    return 'Proofs ($count)';
+  }
+
+  @override
+  String get payoutRowTitle => 'Cash-out request';
+
+  @override
+  String payoutAsksForTitle(String name) {
+    return '$name asks for';
+  }
+
+  @override
+  String get payoutStepSend => '1. Send the money';
+
+  @override
+  String get payoutStepConfirm => '2. Then confirm';
+
+  @override
+  String payoutSendHint(String amount) {
+    return 'Send $amount in your bank app, or hand over cash. Tiyn does not move money itself.';
+  }
+
+  @override
+  String get payoutCopyAmount => 'Copy amount';
+
+  @override
+  String get payoutCopied => 'Amount copied';
+
+  @override
+  String get payoutISentIt => 'I sent it';
+
+  @override
+  String get payoutDecline => 'Decline';
+
+  @override
+  String payoutConfirmSentTitle(String amount) {
+    return 'Confirm you sent $amount?';
+  }
+
+  @override
+  String payoutConfirmSentBody(String amount) {
+    return 'Tiyn can\'t see the transfer. Confirming takes $amount off the teen\'s balance.';
+  }
+
+  @override
+  String get payoutYesSent => 'Yes, I sent it';
+
+  @override
+  String get payoutNotYet => 'Not yet';
+
+  @override
+  String payoutDeclineTitle(String amount) {
+    return 'Decline the $amount request?';
+  }
+
+  @override
+  String get payoutDeclineBody =>
+      'The teen keeps their money and can ask again.';
+
+  @override
+  String get payoutKeepOpen => 'Keep it open';
+
+  @override
+  String get payoutConfirmDecline => 'Yes, decline';
+
+  @override
+  String payoutNoCover(String amount) {
+    return 'The teen\'s balance no longer covers $amount. A missed-task penalty or a goal saving took part of it. You can decline this request, and the teen can ask again for a smaller amount.';
+  }
+
+  @override
+  String get payoutSentDone => 'Payout confirmed';
+
+  @override
+  String get payoutDeclinedDone => 'Request declined';
+
+  @override
+  String get payoutParentFulfilledTitle => 'Payout confirmed';
+
+  @override
+  String payoutParentFulfilledBody(String amount) {
+    return '$amount was taken off the teen\'s balance.';
+  }
+
+  @override
+  String get payoutParentTeenCancelled => 'The teen cancelled this request';
+
+  @override
+  String get payoutParentDeclined => 'You declined this request';
+
+  @override
+  String get payoutParentExpired => 'This request expired';
+
+  @override
+  String get payoutParentUnlinked =>
+      'You are no longer linked to this teen. The request was cancelled.';
+
+  @override
+  String payoutOpenBank(String bank) {
+    return 'Open $bank';
+  }
+
+  @override
+  String payoutBankStore(String bank) {
+    return '$bank isn\'t installed. We opened its store page.';
+  }
+
+  @override
+  String payoutBankUnavailable(String bank) {
+    return 'Could not open $bank. Open it yourself, then come back and confirm.';
+  }
 }

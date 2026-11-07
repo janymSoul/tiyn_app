@@ -1161,6 +1161,462 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We\'ll let you know the moment a task arrives or a parent decides.'**
   String get notifyTeenSheetBody;
+
+  /// No description provided for @payoutCashOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash out'**
+  String get payoutCashOut;
+
+  /// No description provided for @payoutAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available: {amount}'**
+  String payoutAvailable(String amount);
+
+  /// No description provided for @fieldPayoutAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (₸)'**
+  String get fieldPayoutAmount;
+
+  /// No description provided for @payoutMinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Smallest cash-out: {min}'**
+  String payoutMinHint(String min);
+
+  /// No description provided for @payoutAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask'**
+  String get payoutAsk;
+
+  /// No description provided for @payoutTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To: {name}'**
+  String payoutTo(String name);
+
+  /// No description provided for @payoutSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send request'**
+  String get payoutSend;
+
+  /// No description provided for @payoutBackHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to home'**
+  String get payoutBackHome;
+
+  /// No description provided for @payoutSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Request sent to {name}'**
+  String payoutSent(String name);
+
+  /// No description provided for @errPayoutAmountPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount greater than zero.'**
+  String get errPayoutAmountPositive;
+
+  /// No description provided for @errPayoutBelowMin.
+  ///
+  /// In en, this message translates to:
+  /// **'The smallest cash-out is {min}.'**
+  String errPayoutBelowMin(String min);
+
+  /// No description provided for @errPayoutAboveAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {available} available.'**
+  String errPayoutAboveAvailable(String available);
+
+  /// No description provided for @errPayoutChooseParent.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose who to ask.'**
+  String get errPayoutChooseParent;
+
+  /// No description provided for @errPayoutTooSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'That is below the smallest amount you can cash out.'**
+  String get errPayoutTooSmall;
+
+  /// No description provided for @errPayoutInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have that much available any more. Money already held for a request or saved for a goal is not available.'**
+  String get errPayoutInsufficient;
+
+  /// No description provided for @errPayoutAlreadyOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have a cash-out request open. Wait for your parent to answer, or cancel it first.'**
+  String get errPayoutAlreadyOpen;
+
+  /// No description provided for @errPayoutNotLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'You are no longer linked to this parent.'**
+  String get errPayoutNotLinked;
+
+  /// No description provided for @payoutUnsure.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not tell if the request was sent. Try again: it will not be sent twice.'**
+  String get payoutUnsure;
+
+  /// No description provided for @payoutEditWarnBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The first attempt may already have gone through. If you change something and send it, it may be refused because a request is already open.'**
+  String get payoutEditWarnBody;
+
+  /// No description provided for @cashOutDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'You owe {owed} for a missed task. New rewards pay it off first, then you can cash out.'**
+  String cashOutDebt(String owed);
+
+  /// No description provided for @cashOutBelowMin.
+  ///
+  /// In en, this message translates to:
+  /// **'You need at least {min} available to cash out.'**
+  String cashOutBelowMin(String min);
+
+  /// No description provided for @cashOutLockedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Money set aside for goals is not included.'**
+  String get cashOutLockedNote;
+
+  /// No description provided for @payoutWaitingFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for {name}'**
+  String payoutWaitingFor(String name);
+
+  /// No description provided for @payoutWaitingForParent.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for your parent'**
+  String get payoutWaitingForParent;
+
+  /// No description provided for @payoutHeld.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} held for this request'**
+  String payoutHeld(String amount);
+
+  /// No description provided for @payoutDaysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 day left} other{{count} days left}}'**
+  String payoutDaysLeft(int count);
+
+  /// No description provided for @payoutHoursLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 hour left} other{{count} hours left}}'**
+  String payoutHoursLeft(int count);
+
+  /// No description provided for @payoutLessThanHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Less than an hour left'**
+  String get payoutLessThanHour;
+
+  /// No description provided for @payoutAnyMoment.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires any moment'**
+  String get payoutAnyMoment;
+
+  /// No description provided for @payoutCancelRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel request'**
+  String get payoutCancelRequest;
+
+  /// No description provided for @payoutCancelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this request?'**
+  String get payoutCancelTitle;
+
+  /// No description provided for @payoutCancelBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your {amount} request will be withdrawn and the money is available again.'**
+  String payoutCancelBody(String amount);
+
+  /// No description provided for @payoutConfirmCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, cancel the request'**
+  String get payoutConfirmCancel;
+
+  /// No description provided for @payoutChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'This request just changed. Here is the latest.'**
+  String get payoutChanged;
+
+  /// No description provided for @payoutUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This request is no longer available.'**
+  String get payoutUnavailable;
+
+  /// No description provided for @payoutFulfilledTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout of {amount} confirmed'**
+  String payoutFulfilledTitle(String amount);
+
+  /// No description provided for @payoutFulfilledBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your parent confirmed sending the money. Check your bank. If it hasn\'t arrived, talk to them.'**
+  String get payoutFulfilledBody;
+
+  /// No description provided for @payoutDeclinedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request declined'**
+  String get payoutDeclinedTitle;
+
+  /// No description provided for @payoutDeclinedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your parent declined the request. {amount} is available again.'**
+  String payoutDeclinedBody(String amount);
+
+  /// No description provided for @payoutExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request expired'**
+  String get payoutExpiredTitle;
+
+  /// No description provided for @payoutExpiredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your parent didn\'t answer in time. {amount} is available again, and you can ask again.'**
+  String payoutExpiredBody(String amount);
+
+  /// No description provided for @payoutCancelledTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request cancelled'**
+  String get payoutCancelledTitle;
+
+  /// No description provided for @payoutCancelledBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} is available again.'**
+  String payoutCancelledBody(String amount);
+
+  /// No description provided for @payoutUnlinkedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No longer linked'**
+  String get payoutUnlinkedTitle;
+
+  /// No description provided for @payoutUnlinkedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You are no longer linked to this parent, so the request was cancelled. {amount} is available again.'**
+  String payoutUnlinkedBody(String amount);
+
+  /// No description provided for @payoutSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout requests ({count})'**
+  String payoutSectionTitle(int count);
+
+  /// No description provided for @proofsSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Proofs ({count})'**
+  String proofsSectionTitle(int count);
+
+  /// No description provided for @payoutRowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash-out request'**
+  String get payoutRowTitle;
+
+  /// No description provided for @payoutAsksForTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} asks for'**
+  String payoutAsksForTitle(String name);
+
+  /// No description provided for @payoutStepSend.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Send the money'**
+  String get payoutStepSend;
+
+  /// No description provided for @payoutStepConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Then confirm'**
+  String get payoutStepConfirm;
+
+  /// No description provided for @payoutSendHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Send {amount} in your bank app, or hand over cash. Tiyn does not move money itself.'**
+  String payoutSendHint(String amount);
+
+  /// No description provided for @payoutCopyAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy amount'**
+  String get payoutCopyAmount;
+
+  /// No description provided for @payoutCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount copied'**
+  String get payoutCopied;
+
+  /// No description provided for @payoutISentIt.
+  ///
+  /// In en, this message translates to:
+  /// **'I sent it'**
+  String get payoutISentIt;
+
+  /// No description provided for @payoutDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get payoutDecline;
+
+  /// No description provided for @payoutConfirmSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm you sent {amount}?'**
+  String payoutConfirmSentTitle(String amount);
+
+  /// No description provided for @payoutConfirmSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tiyn can\'t see the transfer. Confirming takes {amount} off the teen\'s balance.'**
+  String payoutConfirmSentBody(String amount);
+
+  /// No description provided for @payoutYesSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, I sent it'**
+  String get payoutYesSent;
+
+  /// No description provided for @payoutNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet'**
+  String get payoutNotYet;
+
+  /// No description provided for @payoutDeclineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline the {amount} request?'**
+  String payoutDeclineTitle(String amount);
+
+  /// No description provided for @payoutDeclineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The teen keeps their money and can ask again.'**
+  String get payoutDeclineBody;
+
+  /// No description provided for @payoutKeepOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it open'**
+  String get payoutKeepOpen;
+
+  /// No description provided for @payoutConfirmDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, decline'**
+  String get payoutConfirmDecline;
+
+  /// No description provided for @payoutNoCover.
+  ///
+  /// In en, this message translates to:
+  /// **'The teen\'s balance no longer covers {amount}. A missed-task penalty or a goal saving took part of it. You can decline this request, and the teen can ask again for a smaller amount.'**
+  String payoutNoCover(String amount);
+
+  /// No description provided for @payoutSentDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout confirmed'**
+  String get payoutSentDone;
+
+  /// No description provided for @payoutDeclinedDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Request declined'**
+  String get payoutDeclinedDone;
+
+  /// No description provided for @payoutParentFulfilledTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout confirmed'**
+  String get payoutParentFulfilledTitle;
+
+  /// No description provided for @payoutParentFulfilledBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} was taken off the teen\'s balance.'**
+  String payoutParentFulfilledBody(String amount);
+
+  /// No description provided for @payoutParentTeenCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'The teen cancelled this request'**
+  String get payoutParentTeenCancelled;
+
+  /// No description provided for @payoutParentDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'You declined this request'**
+  String get payoutParentDeclined;
+
+  /// No description provided for @payoutParentExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'This request expired'**
+  String get payoutParentExpired;
+
+  /// No description provided for @payoutParentUnlinked.
+  ///
+  /// In en, this message translates to:
+  /// **'You are no longer linked to this teen. The request was cancelled.'**
+  String get payoutParentUnlinked;
+
+  /// No description provided for @payoutOpenBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Open {bank}'**
+  String payoutOpenBank(String bank);
+
+  /// No description provided for @payoutBankStore.
+  ///
+  /// In en, this message translates to:
+  /// **'{bank} isn\'t installed. We opened its store page.'**
+  String payoutBankStore(String bank);
+
+  /// No description provided for @payoutBankUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open {bank}. Open it yourself, then come back and confirm.'**
+  String payoutBankUnavailable(String bank);
 }
 
 class _AppLocalizationsDelegate

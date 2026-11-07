@@ -11,6 +11,8 @@ import 'package:tiyn_app/design/widgets/money_text.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/parent/application/parent_tabs.dart';
 import 'package:tiyn_app/features/parent/application/review_providers.dart';
+import 'package:tiyn_app/features/payouts/application/payout_providers.dart';
+import 'package:tiyn_app/features/payouts/presentation/payout_requests_section.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
 /// "To check": every `SUBMITTED` task of every teen, oldest first.
@@ -23,8 +25,12 @@ class ReviewListScreen extends ConsumerWidget {
     final text = Theme.of(context).textTheme;
     final submitted = ref.watch(submittedTasksProvider);
     final names = ref.watch(familyNamesProvider);
-    Future<void> refresh() =>
-        ref.read(submittedTasksProvider.notifier).refresh();
+    final payouts = ref.watch(requestedPayoutsProvider);
+    final payoutsShown = payoutSectionVisible(payouts);
+    Future<void> refresh() => Future.wait([
+      ref.read(submittedTasksProvider.notifier).refresh(),
+      ref.read(requestedPayoutsProvider.notifier).refresh(),
+    ]);
 
     final body = submitted.when(
       loading: () => const <Widget>[
@@ -41,6 +47,7 @@ class ReviewListScreen extends ConsumerWidget {
       ],
       data: (tasks) {
         if (tasks.isEmpty) {
+          if (payoutsShown) return const <Widget>[];
           return [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: Space.s32),
@@ -117,6 +124,20 @@ class ReviewListScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: Space.s16),
+                const PayoutRequestsSection(),
+                if (payoutsShown && (submitted.value?.isNotEmpty ?? false))
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: Space.s8),
+                    child: Semantics(
+                      header: true,
+                      child: Text(
+                        l10n.proofsSectionTitle(submitted.value!.length),
+                        style: text.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
                 ...body,
               ],
             ),
