@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tiyn_app/app/router/routes.dart';
 import 'package:tiyn_app/core/money/money.dart';
 import 'package:tiyn_app/core/network/api_exception.dart';
 import 'package:tiyn_app/core/session/role.dart';
@@ -220,6 +223,59 @@ void main() {
           ],
         );
         expect(find.byType(ParentHomeScreen), findsOneWidget);
+        expect(tester.takeException(), isNull);
+      });
+
+      testWidgets('create form: errors, penalty and the locked retry state', (
+        tester,
+      ) async {
+        _smallPhone(tester);
+        final tasks = FakeTaskRepository()
+          ..onCreate = (_, _) async =>
+              throw const ApiException(code: 'timeout');
+        await pumpApp(
+          tester,
+          overrides: [
+            authControllerProvider.overrideWith(() => _Auth(_parentUser)),
+            familyControllerProvider.overrideWith(
+              () => _Family(() async => _teens),
+            ),
+            taskRepositoryProvider.overrideWithValue(tasks),
+          ],
+          locale: Locale(locale),
+        );
+        unawaited(routerOf(tester).push(Routes.parentNewFor('2')));
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        // Submit empty: every inline error at once.
+        final submit = find.byType(FilledButton);
+        await tester.ensureVisible(submit);
+        await tester.pumpAndSettle();
+        await tester.tap(submit);
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+
+        // Open the penalty row, fill in long text, then fail with a timeout.
+        await tester.tap(find.byIcon(Icons.expand_more));
+        await tester.pumpAndSettle();
+        final fields = find.byType(TextField);
+        await tester.enterText(
+          fields.at(0),
+          'Вымыть всю посуду после большого семейного ужина и протереть',
+        );
+        await tester.enterText(fields.at(1), '1500');
+        await tester.pump();
+        await tester.ensureVisible(submit);
+        await tester.pumpAndSettle();
+        await tester.tap(submit);
+        await tester.pumpAndSettle();
+        // "Edit details" sits under the button, below the fold.
+        await tester.scrollUntilVisible(
+          find.byType(TextButton),
+          200,
+          scrollable: find.byType(Scrollable).first,
+        );
         expect(tester.takeException(), isNull);
       });
 

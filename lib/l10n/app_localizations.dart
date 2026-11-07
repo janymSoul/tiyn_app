@@ -573,6 +573,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{amount} waiting for check'**
   String teenPendingChip(String amount);
+
+  /// No description provided for @actionCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get actionCancel;
+
+  /// No description provided for @actionClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get actionClose;
+
+  /// No description provided for @createTaskTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get createTaskTitle;
+
+  /// No description provided for @createMilestoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New milestone'**
+  String get createMilestoneTitle;
+
+  /// No description provided for @createFor.
+  ///
+  /// In en, this message translates to:
+  /// **'For {name}'**
+  String createFor(String name);
+
+  /// No description provided for @fieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get fieldTitle;
+
+  /// No description provided for @fieldReward.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward (₸)'**
+  String get fieldReward;
+
+  /// No description provided for @fieldPenalty.
+  ///
+  /// In en, this message translates to:
+  /// **'Penalty (₸)'**
+  String get fieldPenalty;
+
+  /// No description provided for @fieldDeadlineDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get fieldDeadlineDate;
+
+  /// No description provided for @fieldDeadlineTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get fieldDeadlineTime;
+
+  /// No description provided for @fieldDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get fieldDescription;
+
+  /// No description provided for @penaltyToggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a penalty if it\'s missed'**
+  String get penaltyToggle;
+
+  /// No description provided for @createAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get createAddTask;
+
+  /// No description provided for @createAddMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'Add milestone'**
+  String get createAddMilestone;
+
+  /// No description provided for @errTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a title.'**
+  String get errTitleRequired;
+
+  /// No description provided for @errTitleTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'The title is too long (200 characters at most).'**
+  String get errTitleTooLong;
+
+  /// No description provided for @errAmountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount, like 1 500.'**
+  String get errAmountInvalid;
+
+  /// No description provided for @errRewardRange.
+  ///
+  /// In en, this message translates to:
+  /// **'The reward must be more than 0 and at most {max}.'**
+  String errRewardRange(String max);
+
+  /// No description provided for @errPenaltyRange.
+  ///
+  /// In en, this message translates to:
+  /// **'The penalty can be at most {max}.'**
+  String errPenaltyRange(String max);
+
+  /// No description provided for @errDeadlinePast.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time in the future.'**
+  String get errDeadlinePast;
+
+  /// No description provided for @errDeadlineAfterMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'It must end before the milestone does.'**
+  String get errDeadlineAfterMilestone;
+
+  /// No description provided for @errorInvalidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The server did not accept this title.'**
+  String get errorInvalidTitle;
+
+  /// No description provided for @errorInvalidReward.
+  ///
+  /// In en, this message translates to:
+  /// **'The server did not accept this reward.'**
+  String get errorInvalidReward;
+
+  /// No description provided for @errorInvalidPenalty.
+  ///
+  /// In en, this message translates to:
+  /// **'The server did not accept this penalty.'**
+  String get errorInvalidPenalty;
+
+  /// No description provided for @errorInvalidDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'The server did not accept this deadline.'**
+  String get errorInvalidDeadline;
+
+  /// No description provided for @errorInvalidMilestone.
+  ///
+  /// In en, this message translates to:
+  /// **'That milestone is no longer open.'**
+  String get errorInvalidMilestone;
+
+  /// No description provided for @errorTeenRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'That teen is not linked to you.'**
+  String get errorTeenRequired;
+
+  /// No description provided for @errorInvalidIdempotencyKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong while sending. Close the form and try again.'**
+  String get errorInvalidIdempotencyKey;
+
+  /// No description provided for @createUnsure.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not tell if the task was saved. Try again: it will not be added twice.'**
+  String get createUnsure;
+
+  /// No description provided for @createEditDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit details'**
+  String get createEditDetails;
+
+  /// No description provided for @createEditWarnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the details?'**
+  String get createEditWarnTitle;
+
+  /// No description provided for @createEditWarnBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The first attempt may already have gone through. If you change something and send it, a second task could be created.'**
+  String get createEditWarnBody;
+
+  /// No description provided for @createEditAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Change anyway'**
+  String get createEditAnyway;
+
+  /// No description provided for @createNewTaskTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get createNewTaskTooltip;
+
+  /// No description provided for @createNewMilestoneTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'New milestone'**
+  String get createNewMilestoneTooltip;
 }
 
 class _AppLocalizationsDelegate

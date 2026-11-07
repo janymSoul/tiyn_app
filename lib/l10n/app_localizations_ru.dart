@@ -288,4 +288,120 @@ class AppLocalizationsRu extends AppLocalizations {
   String teenPendingChip(String amount) {
     return '$amount ждёт проверки';
   }
+
+  @override
+  String get actionCancel => 'Отмена';
+
+  @override
+  String get actionClose => 'Закрыть';
+
+  @override
+  String get createTaskTitle => 'Новая задача';
+
+  @override
+  String get createMilestoneTitle => 'Новый этап';
+
+  @override
+  String createFor(String name) {
+    return 'Для: $name';
+  }
+
+  @override
+  String get fieldTitle => 'Название';
+
+  @override
+  String get fieldReward => 'Награда (₸)';
+
+  @override
+  String get fieldPenalty => 'Штраф (₸)';
+
+  @override
+  String get fieldDeadlineDate => 'Дата';
+
+  @override
+  String get fieldDeadlineTime => 'Время';
+
+  @override
+  String get fieldDescription => 'Описание (необязательно)';
+
+  @override
+  String get penaltyToggle => 'Добавить штраф за невыполнение';
+
+  @override
+  String get createAddTask => 'Добавить задачу';
+
+  @override
+  String get createAddMilestone => 'Добавить этап';
+
+  @override
+  String get errTitleRequired => 'Введите название.';
+
+  @override
+  String get errTitleTooLong =>
+      'Название слишком длинное (не более 200 символов).';
+
+  @override
+  String get errAmountInvalid => 'Введите сумму, например 1 500.';
+
+  @override
+  String errRewardRange(String max) {
+    return 'Награда должна быть больше 0 и не более $max.';
+  }
+
+  @override
+  String errPenaltyRange(String max) {
+    return 'Штраф не может быть больше $max.';
+  }
+
+  @override
+  String get errDeadlinePast => 'Выберите время в будущем.';
+
+  @override
+  String get errDeadlineAfterMilestone =>
+      'Срок должен заканчиваться раньше этапа.';
+
+  @override
+  String get errorInvalidTitle => 'Сервер не принял это название.';
+
+  @override
+  String get errorInvalidReward => 'Сервер не принял эту награду.';
+
+  @override
+  String get errorInvalidPenalty => 'Сервер не принял этот штраф.';
+
+  @override
+  String get errorInvalidDeadline => 'Сервер не принял этот срок.';
+
+  @override
+  String get errorInvalidMilestone => 'Этот этап уже закрыт.';
+
+  @override
+  String get errorTeenRequired => 'Этот подросток не подключён к вам.';
+
+  @override
+  String get errorInvalidIdempotencyKey =>
+      'Не удалось отправить. Закройте форму и попробуйте снова.';
+
+  @override
+  String get createUnsure =>
+      'Не удалось понять, сохранилась ли задача. Повторите: она не добавится дважды.';
+
+  @override
+  String get createEditDetails => 'Изменить данные';
+
+  @override
+  String get createEditWarnTitle => 'Изменить данные?';
+
+  @override
+  String get createEditWarnBody =>
+      'Первая попытка могла уже пройти. Если вы измените данные и отправите, может появиться вторая задача.';
+
+  @override
+  String get createEditAnyway => 'Всё равно изменить';
+
+  @override
+  String get createNewTaskTooltip => 'Новая задача';
+
+  @override
+  String get createNewMilestoneTooltip => 'Новый этап';
 }

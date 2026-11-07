@@ -1,4 +1,6 @@
 import 'package:tiyn_app/core/money/money.dart';
+import 'package:tiyn_app/core/network/idempotency_key.dart';
+import 'package:tiyn_app/features/tasks/data/new_task.dart';
 import 'package:tiyn_app/features/tasks/data/task.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/tasks/data/task_repository.dart';
@@ -55,6 +57,28 @@ class FakeTaskRepository implements TaskRepository {
             (state == null || t.state == state))
           t,
     ];
+  }
+
+  /// Every `create`, with the key it was sent under.
+  final created = <({NewTask task, IdempotencyKey key})>[];
+
+  /// What `create` does; by default it succeeds.
+  Future<Task> Function(NewTask task, IdempotencyKey key)? onCreate;
+
+  @override
+  Future<Task> create(NewTask task, {required IdempotencyKey key}) async {
+    created.add((task: task, key: key));
+    final handler = onCreate;
+    if (handler != null) return handler(task, key);
+    return fakeTask(
+      id: 'new${created.length}',
+      teenId: task.teenId,
+      kind: task.kind,
+      title: task.title,
+      reward: task.reward,
+      deadlineAt: task.deadlineAt,
+      milestoneId: task.milestoneId,
+    );
   }
 
   @override

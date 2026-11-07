@@ -21,6 +21,13 @@ String apiErrorMessage(
     'identity_provider_unavailable' => l10n.errorIdentityUnavailable,
     'invalid_join_code' => l10n.errorInvalidJoinCode,
     'conflict' => l10n.errorConflict,
+    'invalid_title' => l10n.errorInvalidTitle,
+    'invalid_reward' => l10n.errorInvalidReward,
+    'invalid_penalty' => l10n.errorInvalidPenalty,
+    'invalid_deadline' => l10n.errorInvalidDeadline,
+    'invalid_milestone' => l10n.errorInvalidMilestone,
+    'teen_required' => l10n.errorTeenRequired,
+    'invalid_idempotency_key' => l10n.errorInvalidIdempotencyKey,
     _ => showCode ? '${l10n.errorUnknown} (${error.code})' : l10n.errorUnknown,
   };
 }

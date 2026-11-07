@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tiyn_app/app/router/routes.dart';
 import 'package:tiyn_app/core/lifecycle/refresh_on_foreground.dart';
 import 'package:tiyn_app/core/network/error_messages.dart';
 import 'package:tiyn_app/design/tokens.dart';
@@ -65,6 +67,20 @@ class _TeenDetailScreenState extends ConsumerState<TeenDetailScreen> {
           leading: BackButton(
             onPressed: () => Navigator.of(context).maybePop(),
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: _section == _Section.milestones
+                  ? l10n.createNewMilestoneTooltip
+                  : l10n.createNewTaskTooltip,
+              onPressed: () => context.push(
+                Routes.parentNewFor(
+                  widget.teenId,
+                  milestone: _section == _Section.milestones,
+                ),
+              ),
+            ),
+          ],
           title: Text(
             name,
             style: Theme.of(context).textTheme.titleLarge

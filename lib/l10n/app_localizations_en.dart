@@ -286,4 +286,120 @@ class AppLocalizationsEn extends AppLocalizations {
   String teenPendingChip(String amount) {
     return '$amount waiting for check';
   }
+
+  @override
+  String get actionCancel => 'Cancel';
+
+  @override
+  String get actionClose => 'Close';
+
+  @override
+  String get createTaskTitle => 'New task';
+
+  @override
+  String get createMilestoneTitle => 'New milestone';
+
+  @override
+  String createFor(String name) {
+    return 'For $name';
+  }
+
+  @override
+  String get fieldTitle => 'Title';
+
+  @override
+  String get fieldReward => 'Reward (₸)';
+
+  @override
+  String get fieldPenalty => 'Penalty (₸)';
+
+  @override
+  String get fieldDeadlineDate => 'Date';
+
+  @override
+  String get fieldDeadlineTime => 'Time';
+
+  @override
+  String get fieldDescription => 'Description (optional)';
+
+  @override
+  String get penaltyToggle => 'Add a penalty if it\'s missed';
+
+  @override
+  String get createAddTask => 'Add task';
+
+  @override
+  String get createAddMilestone => 'Add milestone';
+
+  @override
+  String get errTitleRequired => 'Enter a title.';
+
+  @override
+  String get errTitleTooLong =>
+      'The title is too long (200 characters at most).';
+
+  @override
+  String get errAmountInvalid => 'Enter an amount, like 1 500.';
+
+  @override
+  String errRewardRange(String max) {
+    return 'The reward must be more than 0 and at most $max.';
+  }
+
+  @override
+  String errPenaltyRange(String max) {
+    return 'The penalty can be at most $max.';
+  }
+
+  @override
+  String get errDeadlinePast => 'Pick a time in the future.';
+
+  @override
+  String get errDeadlineAfterMilestone =>
+      'It must end before the milestone does.';
+
+  @override
+  String get errorInvalidTitle => 'The server did not accept this title.';
+
+  @override
+  String get errorInvalidReward => 'The server did not accept this reward.';
+
+  @override
+  String get errorInvalidPenalty => 'The server did not accept this penalty.';
+
+  @override
+  String get errorInvalidDeadline => 'The server did not accept this deadline.';
+
+  @override
+  String get errorInvalidMilestone => 'That milestone is no longer open.';
+
+  @override
+  String get errorTeenRequired => 'That teen is not linked to you.';
+
+  @override
+  String get errorInvalidIdempotencyKey =>
+      'Something went wrong while sending. Close the form and try again.';
+
+  @override
+  String get createUnsure =>
+      'We could not tell if the task was saved. Try again: it will not be added twice.';
+
+  @override
+  String get createEditDetails => 'Edit details';
+
+  @override
+  String get createEditWarnTitle => 'Change the details?';
+
+  @override
+  String get createEditWarnBody =>
+      'The first attempt may already have gone through. If you change something and send it, a second task could be created.';
+
+  @override
+  String get createEditAnyway => 'Change anyway';
+
+  @override
+  String get createNewTaskTooltip => 'New task';
+
+  @override
+  String get createNewMilestoneTooltip => 'New milestone';
 }

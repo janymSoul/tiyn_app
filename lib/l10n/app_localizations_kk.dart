@@ -287,4 +287,119 @@ class AppLocalizationsKk extends AppLocalizations {
   String teenPendingChip(String amount) {
     return '$amount тексеруді күтуде';
   }
+
+  @override
+  String get actionCancel => 'Бас тарту';
+
+  @override
+  String get actionClose => 'Жабу';
+
+  @override
+  String get createTaskTitle => 'Жаңа тапсырма';
+
+  @override
+  String get createMilestoneTitle => 'Жаңа кезең';
+
+  @override
+  String createFor(String name) {
+    return 'Кімге: $name';
+  }
+
+  @override
+  String get fieldTitle => 'Атауы';
+
+  @override
+  String get fieldReward => 'Сыйақы (₸)';
+
+  @override
+  String get fieldPenalty => 'Айыппұл (₸)';
+
+  @override
+  String get fieldDeadlineDate => 'Күні';
+
+  @override
+  String get fieldDeadlineTime => 'Уақыты';
+
+  @override
+  String get fieldDescription => 'Сипаттама (міндетті емес)';
+
+  @override
+  String get penaltyToggle => 'Орындалмаса айыппұл қосу';
+
+  @override
+  String get createAddTask => 'Тапсырма қосу';
+
+  @override
+  String get createAddMilestone => 'Кезең қосу';
+
+  @override
+  String get errTitleRequired => 'Атауын енгізіңіз.';
+
+  @override
+  String get errTitleTooLong => 'Атауы тым ұзын (ең көбі 200 таңба).';
+
+  @override
+  String get errAmountInvalid => 'Соманы енгізіңіз, мысалы 1 500.';
+
+  @override
+  String errRewardRange(String max) {
+    return 'Сыйақы 0-ден көп және ең көбі $max болуы керек.';
+  }
+
+  @override
+  String errPenaltyRange(String max) {
+    return 'Айыппұл $max-ден аспауы керек.';
+  }
+
+  @override
+  String get errDeadlinePast => 'Болашақтағы уақытты таңдаңыз.';
+
+  @override
+  String get errDeadlineAfterMilestone =>
+      'Мерзім кезеңнен бұрын аяқталуы керек.';
+
+  @override
+  String get errorInvalidTitle => 'Сервер бұл атауды қабылдамады.';
+
+  @override
+  String get errorInvalidReward => 'Сервер бұл сыйақыны қабылдамады.';
+
+  @override
+  String get errorInvalidPenalty => 'Сервер бұл айыппұлды қабылдамады.';
+
+  @override
+  String get errorInvalidDeadline => 'Сервер бұл мерзімді қабылдамады.';
+
+  @override
+  String get errorInvalidMilestone => 'Бұл кезең енді ашық емес.';
+
+  @override
+  String get errorTeenRequired => 'Бұл жасөспірім сізбен байланыспаған.';
+
+  @override
+  String get errorInvalidIdempotencyKey =>
+      'Жіберу кезінде қате кетті. Форманы жауып, қайта көріңіз.';
+
+  @override
+  String get createUnsure =>
+      'Тапсырма сақталғаны белгісіз. Қайталаңыз: ол екі рет қосылмайды.';
+
+  @override
+  String get createEditDetails => 'Деректерді өзгерту';
+
+  @override
+  String get createEditWarnTitle => 'Деректерді өзгерту керек пе?';
+
+  @override
+  String get createEditWarnBody =>
+      'Бірінші әрекет өтіп кеткен болуы мүмкін. Деректерді өзгертіп жіберсеңіз, екінші тапсырма пайда болуы мүмкін.';
+
+  @override
+  String get createEditAnyway => 'Бәрібір өзгерту';
+
+  @override
+  String get createNewTaskTooltip => 'Жаңа тапсырма';
+
+  @override
+  String get createNewMilestoneTooltip => 'Жаңа кезең';
 }

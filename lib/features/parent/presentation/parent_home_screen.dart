@@ -88,6 +88,7 @@ class ParentHomeScreen extends ConsumerWidget {
                 row: row,
                 loading: !tasksFailed,
                 onTap: () => context.push(Routes.parentTeen(row.teen.id)),
+                onNewTask: () => context.push(Routes.parentNewFor(row.teen.id)),
               ),
             ),
         ];
@@ -188,10 +189,12 @@ class _TeenRow extends StatelessWidget {
     required this.row,
     required this.loading,
     required this.onTap,
+    required this.onNewTask,
   });
 
   final TeenOverview row;
   final VoidCallback onTap;
+  final VoidCallback onNewTask;
 
   /// True while the status is not known yet (as opposed to failed).
   final bool loading;
@@ -200,45 +203,57 @@ class _TeenRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final name = row.teen.displayName;
-    return MergeSemantics(
-      child: AppCard(
-        onTap: onTap,
-        child: Row(
-          children: [
-            ExcludeSemantics(
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Palette.gold,
-                child: Text(
-                  name.isEmpty ? '?' : name[0].toUpperCase(),
-                  style: text.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: Space.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: text.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
+    final l10n = AppLocalizations.of(context);
+    return AppCard(
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MergeSemantics(
+            child: Row(
+              children: [
+                ExcludeSemantics(
+                  child: CircleAvatar(
+                    radius: 22,
+                    backgroundColor: Palette.gold,
+                    child: Text(
+                      name.isEmpty ? '?' : name[0].toUpperCase(),
+                      style: text.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: Space.s4),
-                  _StatusLine(status: row.status, loading: loading),
-                ],
-              ),
+                ),
+                const SizedBox(width: Space.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: text.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: Space.s4),
+                      _StatusLine(status: row.status, loading: loading),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: Space.s8),
+                const ExcludeSemantics(
+                  child: Icon(Icons.chevron_right, color: Palette.muted),
+                ),
+              ],
             ),
-            const SizedBox(width: Space.s8),
-            const ExcludeSemantics(
-              child: Icon(Icons.chevron_right, color: Palette.muted),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: Space.s4),
+          TextButton.icon(
+            onPressed: onNewTask,
+            icon: const Icon(Icons.add),
+            label: Text(l10n.createNewTaskTooltip),
+          ),
+        ],
       ),
     );
   }

@@ -9,9 +9,11 @@ import 'package:tiyn_app/features/auth/presentation/sign_in_screen.dart';
 import 'package:tiyn_app/features/auth/presentation/splash_screen.dart';
 import 'package:tiyn_app/features/family/application/family_controller.dart';
 import 'package:tiyn_app/features/family/presentation/join_teen_screen.dart';
+import 'package:tiyn_app/features/parent/presentation/create_task_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_home_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/parent_shell.dart';
 import 'package:tiyn_app/features/parent/presentation/teen_detail_screen.dart';
+import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_home_screen.dart';
 import 'package:tiyn_app/l10n/app_localizations.dart';
 
@@ -62,6 +64,25 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: Routes.signIn, builder: (_, _) => const SignInScreen()),
       GoRoute(path: Routes.teenJoin, builder: (_, _) => const JoinTeenScreen()),
       GoRoute(path: Routes.teenHome, builder: (_, _) => const TeenHomeScreen()),
+      // Outside the shell on purpose: the form covers the bottom bar.
+      GoRoute(
+        path: Routes.parentNew,
+        builder: (_, state) {
+          final q = state.uri.queryParameters;
+          return CreateTaskScreen(
+            args: CreateTaskArgs(
+              teenId: q['teenId'] ?? '',
+              kind: q['kind'] == 'milestone'
+                  ? TaskKind.milestone
+                  : TaskKind.task,
+              milestoneId: q['milestoneId'],
+              milestoneDeadline: DateTime.tryParse(
+                q['milestoneDeadline'] ?? '',
+              ),
+            ),
+          );
+        },
+      ),
       StatefulShellRoute.indexedStack(
         builder: (_, _, shell) => ParentShell(navigationShell: shell),
         branches: [

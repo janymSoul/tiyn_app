@@ -189,5 +189,61 @@
         "type": "String"
       }
     }
-  }
+  },
+  "actionCancel": "Cancel",
+  "actionClose": "Close",
+  "createTaskTitle": "New task",
+  "createMilestoneTitle": "New milestone",
+  "createFor": "For {name}",
+  "@createFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldTitle": "Title",
+  "fieldReward": "Reward (₸)",
+  "fieldPenalty": "Penalty (₸)",
+  "fieldDeadlineDate": "Date",
+  "fieldDeadlineTime": "Time",
+  "fieldDescription": "Description (optional)",
+  "penaltyToggle": "Add a penalty if it's missed",
+  "createAddTask": "Add task",
+  "createAddMilestone": "Add milestone",
+  "errTitleRequired": "Enter a title.",
+  "errTitleTooLong": "The title is too long (200 characters at most).",
+  "errAmountInvalid": "Enter an amount, like 1 500.",
+  "errRewardRange": "The reward must be more than 0 and at most {max}.",
+  "@errRewardRange": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "errPenaltyRange": "The penalty can be at most {max}.",
+  "@errPenaltyRange": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "errDeadlinePast": "Pick a time in the future.",
+  "errDeadlineAfterMilestone": "It must end before the milestone does.",
+  "errorInvalidTitle": "The server did not accept this title.",
+  "errorInvalidReward": "The server did not accept this reward.",
+  "errorInvalidPenalty": "The server did not accept this penalty.",
+  "errorInvalidDeadline": "The server did not accept this deadline.",
+  "errorInvalidMilestone": "That milestone is no longer open.",
+  "errorTeenRequired": "That teen is not linked to you.",
+  "errorInvalidIdempotencyKey": "Something went wrong while sending. Close the form and try again.",
+  "createUnsure": "We could not tell if the task was saved. Try again: it will not be added twice.",
+  "createEditDetails": "Edit details",
+  "createEditWarnTitle": "Change the details?",
+  "createEditWarnBody": "The first attempt may already have gone through. If you change something and send it, a second task could be created.",
+  "createEditAnyway": "Change anyway",
+  "createNewTaskTooltip": "New task",
+  "createNewMilestoneTooltip": "New milestone"
 }
