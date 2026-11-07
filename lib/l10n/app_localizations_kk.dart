@@ -614,4 +614,90 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get notifyTeenSheetBody =>
       'Тапсырма келгенде немесе ата-ана шешім қабылдағанда бірден хабарлаймыз.';
+
+  @override
+  String get payoutCashOut => 'Төлем сұрау';
+
+  @override
+  String payoutAvailable(String amount) {
+    return 'Қолжетімді: $amount';
+  }
+
+  @override
+  String get fieldPayoutAmount => 'Сома (₸)';
+
+  @override
+  String payoutMinHint(String min) {
+    return 'Ең аз сома: $min';
+  }
+
+  @override
+  String get payoutAsk => 'Кімнен сұрау';
+
+  @override
+  String payoutTo(String name) {
+    return 'Кімге: $name';
+  }
+
+  @override
+  String get payoutSend => 'Сұрау жіберу';
+
+  @override
+  String get payoutBackHome => 'Басты бетке';
+
+  @override
+  String payoutSent(String name) {
+    return 'Сұрау жіберілді: $name';
+  }
+
+  @override
+  String get errPayoutAmountPositive => 'Нөлден үлкен сома енгіз.';
+
+  @override
+  String errPayoutBelowMin(String min) {
+    return 'Төлемнің ең аз сомасы — $min.';
+  }
+
+  @override
+  String errPayoutAboveAvailable(String available) {
+    return 'Саған $available қолжетімді.';
+  }
+
+  @override
+  String get errPayoutChooseParent => 'Кімнен сұрайтыныңды таңда.';
+
+  @override
+  String get errPayoutTooSmall => 'Бұл төлемнің ең аз сомасынан кем.';
+
+  @override
+  String get errPayoutInsufficient =>
+      'Мұншама сома енді қолжетімді емес. Сұрауға бекітілген немесе мақсатқа бөлінген ақша қолжетімсіз.';
+
+  @override
+  String get errPayoutAlreadyOpen =>
+      'Саған ашық сұрау бар. Ата-анаңның жауабын күт немесе оны болдырма.';
+
+  @override
+  String get errPayoutNotLinked => 'Бұл ата-анамен байланыс үзілген.';
+
+  @override
+  String get payoutUnsure =>
+      'Сұраудың жіберілгені белгісіз. Қайтала: ол екі рет жіберілмейді.';
+
+  @override
+  String get payoutEditWarnBody =>
+      'Бірінші әрекет өтіп кеткен болуы мүмкін. Деректерді өзгертіп жіберсең, ашық сұрау бар болғандықтан, қабылданбауы мүмкін.';
+
+  @override
+  String cashOutDebt(String owed) {
+    return 'Өткізіп алған тапсырма үшін $owed қарыз жиналды. Жаңа сыйақылар алдымен қарызды жабады, содан кейін төлем сұрай аласың.';
+  }
+
+  @override
+  String cashOutBelowMin(String min) {
+    return 'Төлем сұрау үшін кемінде $min қолжетімді болуы керек.';
+  }
+
+  @override
+  String get cashOutLockedNote => 'Мақсатқа бөлінген ақша есепке алынбайды.';
 }

@@ -363,5 +363,83 @@
   "notifyDeniedBody": "You won't hear about updates until you turn them on in settings.",
   "notifyOpenSettings": "Open settings",
   "notifyDismiss": "Dismiss",
-  "notifyTeenSheetBody": "We'll let you know the moment a task arrives or a parent decides."
+  "notifyTeenSheetBody": "We'll let you know the moment a task arrives or a parent decides.",
+  "payoutCashOut": "Cash out",
+  "payoutAvailable": "Available: {amount}",
+  "@payoutAvailable": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "fieldPayoutAmount": "Amount (₸)",
+  "payoutMinHint": "Smallest cash-out: {min}",
+  "@payoutMinHint": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutAsk": "Ask",
+  "payoutTo": "To: {name}",
+  "@payoutTo": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutSend": "Send request",
+  "payoutBackHome": "Back to home",
+  "payoutSent": "Request sent to {name}",
+  "@payoutSent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "errPayoutAmountPositive": "Enter an amount greater than zero.",
+  "errPayoutBelowMin": "The smallest cash-out is {min}.",
+  "@errPayoutBelowMin": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      }
+    }
+  },
+  "errPayoutAboveAvailable": "You have {available} available.",
+  "@errPayoutAboveAvailable": {
+    "placeholders": {
+      "available": {
+        "type": "String"
+      }
+    }
+  },
+  "errPayoutChooseParent": "Choose who to ask.",
+  "errPayoutTooSmall": "That is below the smallest amount you can cash out.",
+  "errPayoutInsufficient": "You don't have that much available any more. Money already held for a request or saved for a goal is not available.",
+  "errPayoutAlreadyOpen": "You already have a cash-out request open. Wait for your parent to answer, or cancel it first.",
+  "errPayoutNotLinked": "You are no longer linked to this parent.",
+  "payoutUnsure": "We could not tell if the request was sent. Try again: it will not be sent twice.",
+  "payoutEditWarnBody": "The first attempt may already have gone through. If you change something and send it, it may be refused because a request is already open.",
+  "cashOutDebt": "You owe {owed} for a missed task. New rewards pay it off first, then you can cash out.",
+  "@cashOutDebt": {
+    "placeholders": {
+      "owed": {
+        "type": "String"
+      }
+    }
+  },
+  "cashOutBelowMin": "You need at least {min} available to cash out.",
+  "@cashOutBelowMin": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      }
+    }
+  },
+  "cashOutLockedNote": "Money set aside for goals is not included."
 }

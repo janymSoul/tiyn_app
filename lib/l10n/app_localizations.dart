@@ -1161,6 +1161,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We\'ll let you know the moment a task arrives or a parent decides.'**
   String get notifyTeenSheetBody;
+
+  /// No description provided for @payoutCashOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash out'**
+  String get payoutCashOut;
+
+  /// No description provided for @payoutAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available: {amount}'**
+  String payoutAvailable(String amount);
+
+  /// No description provided for @fieldPayoutAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (₸)'**
+  String get fieldPayoutAmount;
+
+  /// No description provided for @payoutMinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Smallest cash-out: {min}'**
+  String payoutMinHint(String min);
+
+  /// No description provided for @payoutAsk.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask'**
+  String get payoutAsk;
+
+  /// No description provided for @payoutTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To: {name}'**
+  String payoutTo(String name);
+
+  /// No description provided for @payoutSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send request'**
+  String get payoutSend;
+
+  /// No description provided for @payoutBackHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to home'**
+  String get payoutBackHome;
+
+  /// No description provided for @payoutSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Request sent to {name}'**
+  String payoutSent(String name);
+
+  /// No description provided for @errPayoutAmountPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount greater than zero.'**
+  String get errPayoutAmountPositive;
+
+  /// No description provided for @errPayoutBelowMin.
+  ///
+  /// In en, this message translates to:
+  /// **'The smallest cash-out is {min}.'**
+  String errPayoutBelowMin(String min);
+
+  /// No description provided for @errPayoutAboveAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {available} available.'**
+  String errPayoutAboveAvailable(String available);
+
+  /// No description provided for @errPayoutChooseParent.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose who to ask.'**
+  String get errPayoutChooseParent;
+
+  /// No description provided for @errPayoutTooSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'That is below the smallest amount you can cash out.'**
+  String get errPayoutTooSmall;
+
+  /// No description provided for @errPayoutInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have that much available any more. Money already held for a request or saved for a goal is not available.'**
+  String get errPayoutInsufficient;
+
+  /// No description provided for @errPayoutAlreadyOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have a cash-out request open. Wait for your parent to answer, or cancel it first.'**
+  String get errPayoutAlreadyOpen;
+
+  /// No description provided for @errPayoutNotLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'You are no longer linked to this parent.'**
+  String get errPayoutNotLinked;
+
+  /// No description provided for @payoutUnsure.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not tell if the request was sent. Try again: it will not be sent twice.'**
+  String get payoutUnsure;
+
+  /// No description provided for @payoutEditWarnBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The first attempt may already have gone through. If you change something and send it, it may be refused because a request is already open.'**
+  String get payoutEditWarnBody;
+
+  /// No description provided for @cashOutDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'You owe {owed} for a missed task. New rewards pay it off first, then you can cash out.'**
+  String cashOutDebt(String owed);
+
+  /// No description provided for @cashOutBelowMin.
+  ///
+  /// In en, this message translates to:
+  /// **'You need at least {min} available to cash out.'**
+  String cashOutBelowMin(String min);
+
+  /// No description provided for @cashOutLockedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Money set aside for goals is not included.'**
+  String get cashOutLockedNote;
 }
 
 class _AppLocalizationsDelegate

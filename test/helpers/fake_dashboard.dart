@@ -50,6 +50,7 @@ Dashboard fakeDashboard({
   Money pending = Money.zero,
   List<DashboardTask> chores = const [],
   List<DashboardTask> milestones = const [],
+  OpenPayout? openPayout,
 }) => Dashboard(
   balance: Balance(
     balance: balance,
@@ -59,6 +60,7 @@ Dashboard fakeDashboard({
   pending: pending,
   chores: chores,
   milestones: milestones,
+  openPayout: openPayout,
 );
 
 class FakeDashboardRepository implements DashboardRepository {

@@ -617,4 +617,90 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get notifyTeenSheetBody =>
       'Сразу скажем, когда придёт задача или родитель примет решение.';
+
+  @override
+  String get payoutCashOut => 'Запросить выплату';
+
+  @override
+  String payoutAvailable(String amount) {
+    return 'Доступно: $amount';
+  }
+
+  @override
+  String get fieldPayoutAmount => 'Сумма (₸)';
+
+  @override
+  String payoutMinHint(String min) {
+    return 'Минимальная сумма: $min';
+  }
+
+  @override
+  String get payoutAsk => 'Кого попросить';
+
+  @override
+  String payoutTo(String name) {
+    return 'Кому: $name';
+  }
+
+  @override
+  String get payoutSend => 'Отправить запрос';
+
+  @override
+  String get payoutBackHome => 'На главную';
+
+  @override
+  String payoutSent(String name) {
+    return 'Запрос отправлен: $name';
+  }
+
+  @override
+  String get errPayoutAmountPositive => 'Введи сумму больше нуля.';
+
+  @override
+  String errPayoutBelowMin(String min) {
+    return 'Минимальная сумма выплаты — $min.';
+  }
+
+  @override
+  String errPayoutAboveAvailable(String available) {
+    return 'Тебе доступно $available.';
+  }
+
+  @override
+  String get errPayoutChooseParent => 'Выбери, кого попросить.';
+
+  @override
+  String get errPayoutTooSmall => 'Это меньше минимальной суммы выплаты.';
+
+  @override
+  String get errPayoutInsufficient =>
+      'Столько уже недоступно. Деньги, занятые запросом или отложенные на цель, недоступны.';
+
+  @override
+  String get errPayoutAlreadyOpen =>
+      'У тебя уже есть открытый запрос. Дождись ответа родителя или отмени его.';
+
+  @override
+  String get errPayoutNotLinked => 'Связь с этим родителем разорвана.';
+
+  @override
+  String get payoutUnsure =>
+      'Не удалось понять, отправился ли запрос. Повтори: он не отправится дважды.';
+
+  @override
+  String get payoutEditWarnBody =>
+      'Первая попытка могла уже пройти. Если изменишь данные и отправишь, запрос могут отклонить, потому что один уже открыт.';
+
+  @override
+  String cashOutDebt(String owed) {
+    return 'За пропущенное задание накопился долг $owed. Новые награды сначала погасят его, потом можно будет запросить выплату.';
+  }
+
+  @override
+  String cashOutBelowMin(String min) {
+    return 'Для выплаты нужно не меньше $min в доступных.';
+  }
+
+  @override
+  String get cashOutLockedNote => 'Деньги, отложенные на цели, не учитываются.';
 }

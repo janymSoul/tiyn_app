@@ -173,6 +173,7 @@ void main() {
       expect(find.text('Tasks'), findsOneWidget);
       expect(find.text('Read chapter 1'), findsOneWidget);
       expect(find.text('Read chapter 2'), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('School term'), 100);
       expect(find.text('School term'), findsOneWidget);
     });
 

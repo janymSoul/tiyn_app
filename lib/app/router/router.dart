@@ -15,6 +15,7 @@ import 'package:tiyn_app/features/parent/presentation/parent_task_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/review_list_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/review_screen.dart';
 import 'package:tiyn_app/features/parent/presentation/teen_detail_screen.dart';
+import 'package:tiyn_app/features/payouts/presentation/request_payout_screen.dart';
 import 'package:tiyn_app/features/tasks/data/task_kind.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_home_screen.dart';
 import 'package:tiyn_app/features/teen/presentation/teen_milestone_screen.dart';
@@ -67,6 +68,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.teenHome,
         builder: (_, _) => const TeenHomeScreen(),
         routes: [
+          GoRoute(
+            path: Routes.teenCashOutPattern,
+            builder: (_, _) => const RequestPayoutScreen(),
+          ),
           GoRoute(
             path: 'task/:id',
             builder: (_, state) =>
